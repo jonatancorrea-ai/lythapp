@@ -1,0 +1,6 @@
+{
+  "name": "LYTH AI ⚡",
+  "description": "Una plataforma de estrategia de contenido impulsada por IA con estética Neo Brutalista.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
