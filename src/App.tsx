@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, Fragment } from 'react';
 import { 
   Zap, 
   TrendingUp, 
@@ -24,11 +24,14 @@ import {
   Check,
   CheckCircle,
   Download,
-  Sliders
+  Sliders,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import StrategyLoader from './components/StrategyLoader';
 
 // Interactive & Premium Vector Logo recreation of the "LYTH Ai" brand image
 function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg"; showText?: boolean }) {
@@ -404,6 +407,7 @@ export default function App() {
   const [activeNiche, setActiveNiche] = useState('ia');
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
   const [isUpdatingStrategy, setIsUpdatingStrategy] = useState(false);
+  const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({});
 
   // Custom AI Topic State
   const [customTopic, setCustomTopic] = useState('');
@@ -495,6 +499,7 @@ export default function App() {
 
   const fetchGeminiStrategy = async (nicheId: string, topic?: string) => {
     setIsUpdatingStrategy(true);
+    setExpandedRows({});
     const nicheName = NICHES.find(n => n.id === nicheId)?.name || nicheId;
     addToast(topic ? `Modelando estrategia IA para "${topic}"...` : `Consultando tendencias de IA para ${nicheName}...`, 'info');
     
@@ -535,16 +540,16 @@ export default function App() {
     }
   };
 
-  const handleSelectNiche = (nicheId: string) => {
-    if (isUpdatingStrategy || nicheId === activeNiche) return;
-    setIsUpdatingStrategy(true);
-    const nicheName = NICHES.find(n => n.id === nicheId)?.name || '';
-    addToast(`Cargando estructura para: ${nicheName}`, 'info');
-    setTimeout(() => {
-      setActiveNiche(nicheId);
-      setIsUpdatingStrategy(false);
-    }, 400);
+  const handleSelectNiche = async (nicheId: string) => {
+    if (isUpdatingStrategy) return;
+    setActiveNiche(nicheId);
+    await fetchGeminiStrategy(nicheId, customTopic);
   };
+
+  // Fetch initial dynamic trends on mount for the default 'ia' niche
+  useEffect(() => {
+    fetchGeminiStrategy('ia');
+  }, []);
 
   const handleDownloadPDF = () => {
     try {
@@ -990,25 +995,32 @@ export default function App() {
               <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Tendencias</h3>
             </div>
             <div className="space-y-3">
-              {currentRows.map((row, index) => (
-                <motion.div 
-                  key={index} 
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1 bg-white/[0.01] hover:bg-white/[0.05] transition-all duration-300 cursor-default"
-                >
-                  <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px]">
-                    {row.tendencia}
-                  </span>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] font-bold text-brand-accent/80 group-hover:text-brand-accent transition-colors px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10">
-                      +{Math.floor(Math.random() * 25) + 75}%
+              {isUpdatingStrategy ? (
+                <StrategyLoader 
+                  mode="sidebar" 
+                  nicheName={NICHES.find(n => n.id === activeNiche)?.name || 'Estrategia'} 
+                />
+              ) : (
+                currentRows.map((row, index) => (
+                  <motion.div 
+                    key={index} 
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1 bg-white/[0.01] hover:bg-white/[0.05] transition-all duration-300 cursor-default"
+                  >
+                    <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px]">
+                      {row.tendencia}
                     </span>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[10px] font-bold text-brand-accent/80 group-hover:text-brand-accent transition-colors px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 font-mono">
+                        +{row.percentage || 75}%
+                      </span>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </div>
           </div>
 
@@ -1205,15 +1217,11 @@ export default function App() {
               </div>
 
               {isUpdatingStrategy ? (
-                /* Premium shimmer screen scanner animation skeleton */
-                <div className="p-5 space-y-4 flex-1 flex flex-col justify-center">
-                  <div className="h-4 bg-white/10 rounded w-1/4 animate-pulse" />
-                  <div className="space-y-3 flex-1 flex flex-col justify-center">
-                    {[1, 2, 3].map(n => (
-                      <div key={n} className="h-14 bg-white/[0.03] border border-white/5 rounded-xl w-full animate-pulse" style={{ animationDelay: `${n * 100}ms` }} />
-                    ))}
-                  </div>
-                </div>
+                <StrategyLoader 
+                  mode="visualizer" 
+                  nicheName={NICHES.find(n => n.id === activeNiche)?.name || 'Estrategia'} 
+                  customTopic={customTopic}
+                />
               ) : viewMode === 'cards' ? (
                 /* Premium Adaptive Cards View: Highly Optimized for Smartphones & Touch inputs */
                 <div className="p-4 md:p-5 grid gap-4 grid-cols-1 md:grid-cols-2 overflow-y-auto max-h-[500px]">
@@ -1245,6 +1253,25 @@ export default function App() {
                           <span className="absolute left-2 top-2 text-xl text-brand-accent/30 font-serif leading-none">“</span>
                           {row.hook}
                         </div>
+                        
+                        {/* Dynamic Percentage Visualization (Interés/Tracción Indicator) */}
+                        <div className="mt-2.5 pt-1.5 flex flex-col gap-1.5">
+                          <div className="flex items-center justify-between text-[10px] font-medium text-zinc-400">
+                            <span className="flex items-center gap-1">
+                              <TrendingUp size={11} className="text-emerald-400 shrink-0" />
+                              <span>Interés de Búsqueda / Tracción</span>
+                            </span>
+                            <span className="text-emerald-400 font-mono font-bold">+{row.percentage || 75}%</span>
+                          </div>
+                          <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${row.percentage || 75}%` }}
+                              transition={{ duration: 1, ease: "easeOut" }}
+                              className="h-full bg-gradient-to-r from-teal-500/80 via-emerald-400 to-[#2997ff] rounded-full"
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
@@ -1264,79 +1291,185 @@ export default function App() {
                   ))}
                 </div>
               ) : (
-                /* Native Horizontal Scrolling Table view for Desktop screens & detailed inspection */
+                /* Responsive Neo-Brutalist Table view for all screen sizes with expandable rows */
                 <div className="p-1 md:p-4 overflow-x-auto select-none">
-                  <table className="w-full text-left border-collapse min-w-[700px]">
+                  <table className="w-full text-left border-collapse min-w-[540px] md:min-w-full">
                     <thead>
                       <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold font-mono">
                         <th className="pb-3 px-3">Tendencia</th>
-                        <th className="pb-3 px-3">Hook (Gancho)</th>
-                        <th className="pb-3 px-3">Ángulo</th>
-                        <th className="pb-3 px-3">Formato</th>
-                        <th className="pb-3 px-3">Plataforma</th>
+                        <th className="pb-3 px-3 hidden md:table-cell">Hook (Gancho)</th>
+                        <th className="pb-3 px-3 hidden sm:table-cell">Ángulo</th>
+                        <th className="pb-3 px-3 min-w-[125px]">Tracción / Interés</th>
+                        <th className="pb-3 px-3 hidden lg:table-cell">Formato</th>
+                        <th className="pb-3 px-3 hidden lg:table-cell">Plataforma</th>
+                        <th className="pb-3 px-3 w-12 text-center text-zinc-650 font-bold">INFO</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
                       {currentRows.map((row, i) => (
-                        <motion.tr 
-                          key={i} 
-                          whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
-                          animate={copied ? {
-                            backgroundColor: [
-                              "rgba(255, 255, 255, 0)",
-                              "rgba(41, 151, 255, 0.12)", // Flash ambient wave peak
-                              "rgba(41, 151, 255, 0.03)",
-                              "rgba(255, 255, 255, 0)"
-                            ],
-                            x: [0, 8, 2, 0],
-                          } : {
-                            backgroundColor: "rgba(255, 255, 255, 0)",
-                            x: 0,
-                          }}
-                          transition={{
-                            duration: 0.9,
-                            delay: i * 0.07, // Staggered sequence scan
-                            ease: "easeInOut"
-                          }}
-                          className="group text-xs text-zinc-300 transition-colors"
-                        >
-                          <td className="py-4 px-3 font-semibold text-white group-hover:text-brand-accent transition-all max-w-[200px]">
-                            <div className="flex items-center gap-2.5">
-                              <motion.span 
-                                animate={copied ? {
-                                  scale: [1, 1.25, 1],
-                                  rotate: [0, 15, -15, 0]
-                                } : { scale: 1, rotate: 0 }}
-                                transition={{
-                                  duration: 0.6,
-                                  delay: i * 0.07,
-                                  ease: "easeInOut"
+                        <Fragment key={i}>
+                          <motion.tr 
+                            whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+                            onClick={() => setExpandedRows(prev => ({ ...prev, [i]: !prev[i] }))}
+                            animate={copied ? {
+                              backgroundColor: [
+                                "rgba(255, 255, 255, 0)",
+                                "rgba(41, 151, 255, 0.12)", // Flash ambient wave peak
+                                "rgba(41, 151, 255, 0.03)",
+                                "rgba(255, 255, 255, 0)"
+                              ],
+                              x: [0, 8, 2, 0],
+                            } : {
+                              backgroundColor: "rgba(255, 255, 255, 0)",
+                              x: 0,
+                            }}
+                            transition={{
+                              duration: 0.9,
+                              delay: i * 0.07, // Staggered sequence scan
+                              ease: "easeInOut"
+                            }}
+                            className="group text-xs text-zinc-300 transition-colors cursor-pointer"
+                          >
+                            <td className="py-4 px-3 font-semibold text-white group-hover:text-brand-accent transition-all max-w-[180px] sm:max-w-[240px]">
+                              <div className="flex items-center gap-2.5">
+                                <motion.span 
+                                  animate={copied ? {
+                                    scale: [1, 1.25, 1],
+                                    rotate: [0, 15, -15, 0]
+                                  } : { scale: 1, rotate: 0 }}
+                                  transition={{
+                                    duration: 0.6,
+                                    delay: i * 0.07,
+                                    ease: "easeInOut"
+                                  }}
+                                  className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}
+                                >
+                                  {row.icon ? <row.icon size={14} /> : (() => {
+                                    const FallbackIcon = getRowIcon(row.angulo);
+                                    return <FallbackIcon size={14} />;
+                                  })()}
+                                </motion.span>
+                                <span className="truncate">{row.tendencia}</span>
+                              </div>
+                            </td>
+                            <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px] hidden md:table-cell">
+                              "{row.hook}"
+                            </td>
+                            <td className="py-4 px-3 hidden sm:table-cell">
+                              <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 border border-white/5 text-[10px] text-zinc-400 font-medium whitespace-nowrap">
+                                {row.angulo}
+                              </span>
+                            </td>
+                            <td className="py-4 px-3">
+                              <div className="flex flex-col gap-1.5 min-w-[125px] justify-center">
+                                <div className="flex items-center justify-between text-[10px] font-mono leading-none">
+                                  <span className="text-zinc-500 font-medium scale-[0.85] origin-left">DEMANDA</span>
+                                  <span className="text-emerald-400 font-bold">+{row.percentage || 75}%</span>
+                                </div>
+                                <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
+                                  <motion.div 
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${row.percentage || 75}%` }}
+                                    transition={{ duration: 1, ease: "easeOut" }}
+                                    className="h-full bg-gradient-to-r from-teal-500/80 to-[#2997ff]"
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors hidden lg:table-cell">
+                              {row.formato}
+                            </td>
+                            <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px] hidden lg:table-cell">
+                              {row.plataforma}
+                            </td>
+                            <td className="py-4 px-3 text-center">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedRows(prev => ({ ...prev, [i]: !prev[i] }));
                                 }}
-                                className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}
+                                className="p-1 px-1.5 rounded bg-zinc-950 border border-white/5 hover:border-brand-accent/30 hover:bg-zinc-900 text-zinc-500 hover:text-white transition-all flex items-center justify-center mx-auto"
                               >
-                                {row.icon ? <row.icon size={14} /> : (() => {
-                                  const FallbackIcon = getRowIcon(row.angulo);
-                                  return <FallbackIcon size={14} />;
-                                })()}
-                              </motion.span>
-                              <span className="truncate">{row.tendencia}</span>
-                            </div>
-                          </td>
-                          <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px]">
-                            "{row.hook}"
-                          </td>
-                          <td className="py-4 px-3">
-                            <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 border border-white/5 text-[10px] text-zinc-400 font-medium whitespace-nowrap">
-                              {row.angulo}
-                            </span>
-                          </td>
-                          <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors">
-                            {row.formato}
-                          </td>
-                          <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px]">
-                            {row.plataforma}
-                          </td>
-                        </motion.tr>
+                                {expandedRows[i] ? <ChevronUp size={12} className="text-[#2997ff]" /> : <ChevronDown size={12} />}
+                              </button>
+                            </td>
+                          </motion.tr>
+
+                          {expandedRows[i] && (
+                            <tr className="bg-zinc-950/40 border-b border-white/5">
+                              <td colSpan={7} className="p-0 border-t border-white/5">
+                                <motion.div 
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: "auto" }}
+                                  transition={{ duration: 0.2, ease: "easeOut" }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="p-4 md:p-5 flex flex-col gap-4 text-xs select-text">
+                                    <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                                      <span className="text-[10px] font-mono tracking-wider text-[#2997ff] font-semibold flex items-center gap-1.5 select-none">
+                                        <Terminal size={12} />
+                                        MÉTRICAS Y GANCHO DE IA (LYTH SPEC)
+                                      </span>
+                                      <button 
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          copySingleRowToClipboard(row);
+                                        }}
+                                        className="text-[10px] font-bold text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded border border-white/5 transition-all flex items-center gap-1.5"
+                                      >
+                                        <Copy size={10} />
+                                        Copiar Ficha
+                                      </button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                      <div className="flex flex-col gap-1.5 bg-zinc-950 p-3 rounded-lg border border-white/5">
+                                        <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest select-none">Gancho del Contenido (Hook)</span>
+                                        <p className="text-zinc-300 italic font-medium leading-relaxed pr-2">
+                                          "{row.hook}"
+                                        </p>
+                                        <div className="mt-1 flex justify-end">
+                                          <button 
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              navigator.clipboard.writeText(row.hook);
+                                              addToast("¡Gancho copiado!", "success");
+                                            }}
+                                            className="text-[9px] font-semibold text-zinc-400 hover:text-[#2997ff] transition-colors flex items-center gap-1"
+                                          >
+                                            <Copy size={9} /> Copiar Gancho
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <div className="flex flex-col justify-between gap-3 bg-zinc-950 p-3 rounded-lg border border-white/5">
+                                        <div className="flex flex-col gap-1">
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest select-none">Ángulo Estratégico</span>
+                                          <span className="text-zinc-200 font-semibold text-xs">{row.angulo}</span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-[#2997ff]/80 select-none">Formato de Contenido</span>
+                                          <span className="font-mono text-zinc-300 font-bold text-[11px]">{row.formato}</span>
+                                        </div>
+                                      </div>
+
+                                      <div className="flex flex-col justify-between gap-3 bg-zinc-950 p-3 rounded-lg border border-white/5 sm:col-span-2 lg:col-span-1">
+                                        <div className="flex flex-col gap-1">
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-emerald-400/80 select-none">Canal / Plataforma</span>
+                                          <span className="text-emerald-400 font-semibold">{row.plataforma}</span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-purple-400/80 select-none">Tracción & Tráfico</span>
+                                          <span className="text-brand-accent font-bold font-mono text-[11px]">+{row.percentage || 75}% Interés real</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              </td>
+                            </tr>
+                          )}
+                        </Fragment>
                       ))}
                     </tbody>
                   </table>

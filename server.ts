@@ -42,22 +42,60 @@ app.post("/api/generate-strategy", async (req, res) => {
       temperature = 1.15;
     }
 
-    const prompt = `Actúa como un estratega de contenido de élite para la marca premium "LYTH AI".
-Genera una estrategia de contenido moderna, sofisticada y con estética pulida de vanguardia.
-Queremos 5 tendencias innovadoras y ganchos de contenido viral en español para el sector de "${niche}"${customTopic ? ` enfocados específicamente en el tema: "${customTopic}"` : ''}.
+    // Determine target official sources mapping dynamically to act as a curation agent
+    const nicheLower = (niche || "").toLowerCase();
+    let sourcesList = "";
+    if (nicheLower.includes("ia") || nicheLower.includes("inteligencia") || nicheLower.includes("artificial")) {
+      sourcesList = `
+- FUENTES PRINCIPALES: OpenAI Blog, Anthropic News, Google AI Blog.
+- FUENTES SECUNDARIAS: Hugging Face (Trending), The Rundown AI, Futurepedia.
+`;
+    } else if (nicheLower.includes("marketing")) {
+      sourcesList = `
+- FUENTES PRINCIPALES: HubSpot Research, Think with Google.
+- FUENTES SECUNDARIAS: Marketing Brew, Neil Patel Blog, Search Engine Journal.
+`;
+    } else if (nicheLower.includes("redes") || nicheLower.includes("sociales") || nicheLower.includes("social")) {
+      sourcesList = `
+- FUENTES PRINCIPALES: Instagram Creators, TikTok Newsroom.
+- FUENTES SECUNDARIAS: Social Media Today, Later Blog.
+`;
+    } else if (nicheLower.includes("tecnología") || nicheLower.includes("tecnologia") || nicheLower.includes("tech")) {
+      sourcesList = `
+- FUENTES PRINCIPALES: The Verge, TechCrunch.
+- FUENTES SECUNDARIAS: Wired, Product Hunt (Top Products).
+`;
+    } else if (nicheLower.includes("productividad")) {
+      sourcesList = `
+- FUENTES PRINCIPALES: Notion Blog, Zapier / Make Blogs.
+- FUENTES SECUNDARIAS: Harvard Business Review (Productivity), Thomas Frank Blog.
+`;
+    } else {
+      sourcesList = `
+- FUENTES PRINCIPALES: Blogs y portales oficiales del sector, foros de líderes y expertos.
+- FUENTES SECUNDARIAS: Discusiones en Twitter/X y repositorios de tendencias emergentes.
+`;
+    }
+
+    const prompt = `Actúa como un agente de curación de contenidos y analista de tendencias de élite para la marca premium "LYTH AI".
+Acabas de simular un escaneo exhaustivo en tiempo real de las siguientes fuentes oficiales específicas para el nicho "${niche}":
+${sourcesList}
+
+Tu misión es extraer las 5 tendencias en español (o adaptadas al español de manera ultra-profesional/líder) más relevantes, activas y comentadas HOY en ese conjunto de fuentes, aplicando un análisis de tracción/interés real.
+${customTopic ? `CRÍTICO: Filtra y enfoca estas tendencias estrictamente alrededor de este tema/concepto solicitado: "${customTopic}"` : ''}
 
 NOTAS DE REFINAMIENTO SELECCIONADAS POR EL USUARIO:
-- Profundidad de tendencia: "${depth || "Estándar"}". Asegúrate de que las tendencias reflejen este enfoque de profundidad de manera coherente en su explicación técnica.
+- Profundidad de tendencia: "${depth || "Estándar"}". Asegúrate de que las tendencias reflejen este enfoque de profundidad de manera coherente en su explicación técnica (general, detallada o científica).
 - Tono del gancho (hook): "${tone || "Audaz / Provocativo"}". Ajusta las palabras, expresiones, y la intriga a este estilo de tono de voz exacto.
 - Estilo del ángulo: "${creativity || "Vanguardista / Creativa"}". Haz que los ángulos y formatos elegidos reflejen este nivel de innovación disruptiva.
 
 REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
-1. 'tendencia': El título de la tendencia o tema emergente del mercado (máximo 60 caracteres). No incluyas números de ranking en el texto.
-2. 'hook': Un gancho sumamente ingenioso (máximo 120 caracteres) para atrapar al lector en los primeros 3 segundos, redactado segun el tono de gancho indicado.
+1. 'tendencia': El título de la tendencia, concepto, herramienta o cambio algorítmico real extraído (máximo 60 caracteres). No incluyas números de ranking en el texto.
+2. 'hook': Un gancho sumamente ingenioso (máximo 120 caracteres) para atrapar al lector en los primeros 3 segundos, redactado según el tono de gancho indicado.
 3. 'angulo': Una de estas opciones exactamente según combine mejor: "Opinión Incómoda", "Caso de Estudio", "Storytelling", "Fun Fact", "Guía Rápida", "Alerta de Tendencia", "Detrás de Escena", "Análisis de Datos".
 4. 'formato': Una de estas opciones exactamente según combine mejor con el ángulo: "Short Video", "Carrusel", "Hilo Detallado", "Video Tutorial", "Infografía", "Post Editorial", "Demo Técnica".
 5. 'plataforma': La combinación perfecta donde brille, por ejemplo: "TikTok / Reels", "LinkedIn", "Twitter / X", "YouTube Shorts", "Instagram", "LinkedIn / Medium".
-6. 'percentage': Un valor de crecimiento exponencial (ej. número entero entre 75 y 100 representing +75% a +100%).
+6. 'percentage': Un porcentaje de tracción/interés de búsqueda realista y dinámico para cada tendencia, representado como un número entero entre 75 y 100.
 `;
 
     // Query Gemini 3.5 Flash for fast, powerful structured generation
@@ -65,7 +103,7 @@ REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
-        systemInstruction: "Eres el estratega principal de LYTH AI. Respondes con estrategias de contenido ingeniosas y de vanguardia según las pautas de refinamiento del usuario.",
+        systemInstruction: "Eres el estratega de contenido y curador jefe de LYTH AI. Respondes con estrategias de contenido ingeniosas de vanguardia basadas estrictamente en la simulación de análisis en tiempo real de fuentes oficiales de prestigio.",
         temperature: temperature,
         responseMimeType: "application/json",
         responseSchema: {
