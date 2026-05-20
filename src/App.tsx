@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { 
   Zap, 
   TrendingUp, 
@@ -128,76 +128,268 @@ const NICHES = [
   { id: 'productividad', name: 'Productividad', icon: Layout },
 ];
 
-const STRATEGY_ROWS = [
-  { 
-    tendencia: "IA Generativa en el flujo de trabajo", 
-    hook: "La IA no te reemplazará, alguien usándola sí...", 
-    angulo: "Opinión Incómoda", 
-    formato: "Short Video", 
-    plataforma: "Instagram Reels / TikTok",
-    icon: Sparkles,
-    iconColor: "text-brand-accent",
-    bgColor: "bg-brand-accent/10"
-  },
-  { 
-    tendencia: "Micro-SaaS con IA local", 
-    hook: "¿Sigues pagando suscripciones caras de IA?", 
-    angulo: "Fun Fact", 
-    formato: "Post de Carrusel", 
-    plataforma: "LinkedIn",
-    icon: Database,
-    iconColor: "text-purple-400",
-    bgColor: "bg-purple-400/10"
-  },
-  { 
-    tendencia: "Optimización de SEO con LLMs", 
-    hook: "Hice el trabajo de SEO de 10 días en 20 minutos", 
-    angulo: "Storytelling", 
-    formato: "Hilo Detallado", 
-    plataforma: "Twitter / X",
-    icon: Search,
-    iconColor: "text-emerald-400",
-    bgColor: "bg-emerald-400/10"
-  },
-  { 
-    tendencia: "Automatización de contenido en video", 
-    hook: "Este bot edita mis videos mientras duermo", 
-    angulo: "Caso de Estudio", 
-    formato: "Video Tutorial", 
-    plataforma: "TikTok",
-    icon: Video,
-    iconColor: "text-red-400",
-    bgColor: "bg-red-400/10"
-  },
-  { 
-    tendencia: "Ética y regulación de la IA", 
-    hook: "La nueva ley que podría prohibir tu herramienta", 
-    angulo: "Detrás de Escena", 
-    formato: "Infografía", 
-    plataforma: "LinkedIn / Medium",
-    icon: ShieldAlert,
-    iconColor: "text-amber-400",
-    bgColor: "bg-amber-400/10"
-  }
-];
-
-const TRENDS = [
-  "IA Generativa en el flujo de trabajo",
-  "Micro-SaaS con IA local",
-  "Optimización de SEO con LLMs",
-  "Automatización de contenido en video",
-  "Ética y regulación de la IA"
-];
-
-const STRATEGY_TABLE = `
-| Tendencia | Hook | Ángulo | Formato | Plataforma |
-|---|---|---|---|---|
-| IA Generativa en el flujo de trabajo | "La IA no te reemplazará, alguien usándola sí..." | Opinión Incómoda | Short Video | Instagram Reels / TikTok |
-| Micro-SaaS con IA local | "¿Sigues pagando suscripciones caras de IA?" | Fun Fact | Post de Carrusel | LinkedIn |
-| Optimización de SEO con LLMs | "Hice el trabajo de SEO de 10 días en 20 minutos" | Storytelling | Hilo Detallado | Twitter / X |
-| Automatización de contenido en video | "Este bot edita mis videos mientras duermo" | Caso de Estudio | Video Tutorial | TikTok |
-| Ética y regulación de la IA | "La nueva ley que podría prohibir tu herramienta" | Detrás de Escena | Infografía | LinkedIn / Medium |
-`;
+const NICHE_STRATEGY_DATA = {
+  ia: [
+    { 
+      tendencia: "IA Generativa en el flujo de trabajo", 
+      hook: "La IA no te reemplazará, alguien usándola sí...", 
+      angulo: "Opinión Incómoda", 
+      formato: "Short Video", 
+      plataforma: "Instagram Reels / TikTok",
+      icon: Sparkles,
+      iconColor: "text-[#2997ff]",
+      bgColor: "bg-[#2997ff]/10"
+    },
+    { 
+      tendencia: "Micro-SaaS con IA local", 
+      hook: "¿Sigues pagando suscripciones caras de IA?", 
+      angulo: "Fun Fact", 
+      formato: "Post de Carrusel", 
+      plataforma: "LinkedIn",
+      icon: Database,
+      iconColor: "text-purple-400",
+      bgColor: "bg-purple-400/10"
+    },
+    { 
+      tendencia: "Optimización de SEO con LLMs", 
+      hook: "Hice el trabajo de SEO de 10 días en 20 minutos", 
+      angulo: "Storytelling", 
+      formato: "Hilo Detallado", 
+      plataforma: "Twitter / X",
+      icon: Search,
+      iconColor: "text-emerald-400",
+      bgColor: "bg-emerald-400/10"
+    },
+    { 
+      tendencia: "Automatización de contenido en video", 
+      hook: "Este bot edita mis videos mientras duermo", 
+      angulo: "Caso de Estudio", 
+      formato: "Video Tutorial", 
+      plataforma: "TikTok",
+      icon: Video,
+      iconColor: "text-red-400",
+      bgColor: "bg-red-400/10"
+    },
+    { 
+      tendencia: "Ética y regulación de la IA", 
+      hook: "La nueva ley que podría prohibir tu herramienta", 
+      angulo: "Detrás de Escena", 
+      formato: "Infografía", 
+      plataforma: "LinkedIn / Medium",
+      icon: ShieldAlert,
+      iconColor: "text-amber-400",
+      bgColor: "bg-amber-400/10"
+    }
+  ],
+  marketing: [
+    {
+      tendencia: "Funnel Omnicanal Automatizado",
+      hook: "El 90% de tus leads se enfrían por tardar 5 minutos en responder...",
+      angulo: "Opinión Incómoda",
+      formato: "Short Video",
+      plataforma: "Instagram / TikTok",
+      icon: BarChart3,
+      iconColor: "text-[#2997ff]",
+      bgColor: "bg-[#2997ff]/10"
+    },
+    {
+      tendencia: "Psicología de Precios Reversa",
+      hook: "La razón científica de por qué aumenté precios y vendí más",
+      angulo: "Storytelling",
+      formato: "Carrusel Premium",
+      plataforma: "LinkedIn",
+      icon: Sparkles,
+      iconColor: "text-purple-400",
+      bgColor: "bg-purple-400/10"
+    },
+    {
+      tendencia: "Micro-Influencers de Nicho",
+      hook: "Cambié un influencer de 1M por 5 de 10k y tripliqué ventas",
+      angulo: "Caso de Estudio",
+      formato: "Hilo Explicativo",
+      plataforma: "Twitter / X",
+      icon: Share2,
+      iconColor: "text-emerald-400",
+      bgColor: "bg-emerald-400/10"
+    },
+    {
+      tendencia: "Campañas de Retargeting Dinámico",
+      hook: "¿Te persigue ese anuncio? Te enseño el truco detrás de escena",
+      angulo: "Detrás de Escena",
+      formato: "Video Tutorial",
+      plataforma: "YouTube / TikTok",
+      icon: Video,
+      iconColor: "text-red-400",
+      bgColor: "bg-red-400/10"
+    },
+    {
+      tendencia: "Declive de las Cookies de Terceros",
+      hook: "El cambio en Apple y Google que destruirá tus anuncios este mes",
+      angulo: "Alerta de Tendencia",
+      formato: "Post Editorial",
+      plataforma: "LinkedIn / Medium",
+      icon: ShieldAlert,
+      iconColor: "text-amber-400",
+      bgColor: "bg-amber-400/10"
+    }
+  ],
+  tecnologia: [
+    {
+      tendencia: "Sistemas Web Descentralizados",
+      hook: "Si tu app centralizada cae un minuto, pierdes miles. Solución:",
+      angulo: "Opinión Incómoda",
+      formato: "Short Video",
+      plataforma: "Instagram Reels",
+      icon: Zap,
+      iconColor: "text-brand-accent",
+      bgColor: "bg-brand-accent/10"
+    },
+    {
+      tendencia: "Bases de Datos Vectoriales",
+      hook: "La tecnología silenciosa que hace que ChatGPT te recuerde",
+      angulo: "Fun Fact",
+      formato: "Carrusel Técnico",
+      plataforma: "LinkedIn",
+      icon: Database,
+      iconColor: "text-purple-400",
+      bgColor: "bg-purple-400/10"
+    },
+    {
+      tendencia: "Frameworks Edge-Runtime",
+      hook: "Mi sitio web carga en 0.1 segundos globales gracias a esto",
+      angulo: "Storytelling",
+      formato: "Hilo Detallado",
+      plataforma: "Twitter / X",
+      icon: Search,
+      iconColor: "text-emerald-400",
+      bgColor: "bg-emerald-400/10"
+    },
+    {
+      tendencia: "Desarrollo con Agentes de Código",
+      hook: "Este bot escribió el 80% de mi codebase mientras tomaba café",
+      angulo: "Caso de Estudio",
+      formato: "Video Demo",
+      plataforma: "YouTube / TikTok",
+      icon: Video,
+      iconColor: "text-red-400",
+      bgColor: "bg-red-400/10"
+    },
+    {
+      tendencia: "Ciberseguridad en la Era Cuántica",
+      hook: "Tus contraseñas actuales serán obsoletas en menos de un año",
+      angulo: "Detrás de Escena",
+      formato: "Guía de Acción",
+      plataforma: "LinkedIn / X",
+      icon: ShieldAlert,
+      iconColor: "text-amber-400",
+      bgColor: "bg-amber-400/10"
+    }
+  ],
+  redes: [
+    {
+      tendencia: "Retención Óptima de 3 Segundos",
+      hook: "El gancho exacto que impide que hagan scroll en tu video",
+      angulo: "Opinión Incómoda",
+      formato: "Short Video",
+      plataforma: "TikTok / Shorts",
+      icon: Video,
+      iconColor: "text-red-400",
+      bgColor: "bg-red-400/10"
+    },
+    {
+      tendencia: "Estrategias de Growth Subterráneo",
+      hook: "Cómo pasé de 0 a 50k seguidores sin gastar un solo dólar",
+      angulo: "Storytelling",
+      formato: "Post Informativo",
+      plataforma: "LinkedIn",
+      icon: Share2,
+      iconColor: "text-[#2997ff]",
+      bgColor: "bg-[#2997ff]/10"
+    },
+    {
+      tendencia: "Formatos de Carrusel Infinitos",
+      hook: "La plantilla de carrusel que la gente no puede dejar de deslizar",
+      angulo: "Fun Fact",
+      formato: "Plantilla",
+      plataforma: "Instagram / LinkedIn",
+      icon: Layout,
+      iconColor: "text-purple-400",
+      bgColor: "bg-purple-400/10"
+    },
+    {
+      tendencia: "Monetización con Comunidades Privadas",
+      hook: "Dejé de mendigar patrocinadores y creé un club privado de $10/mes",
+      angulo: "Caso de Estudio",
+      formato: "Hilo Directo",
+      plataforma: "Twitter / X",
+      icon: Sparkles,
+      iconColor: "text-emerald-400",
+      bgColor: "bg-emerald-400/10"
+    },
+    {
+      tendencia: "Shadowbans y Cambios de Algoritmo",
+      hook: "El error estúpido que frena el alcance de tu cuenta ahora mismo",
+      angulo: "Alerta de Tendencia",
+      formato: "Guía Rápida",
+      plataforma: "Instagram / TikTok",
+      icon: ShieldAlert,
+      iconColor: "text-amber-400",
+      bgColor: "bg-amber-400/10"
+    }
+  ],
+  productividad: [
+    {
+      tendencia: "Sistemas deep work sin notificaciones",
+      hook: "Apagué mi móvil de 9 a 12 y completé más trabajo que en toda la semana...",
+      angulo: "Opinión Incómoda",
+      formato: "Short Video",
+      plataforma: "Instagram Reels",
+      icon: Sparkles,
+      iconColor: "text-[#2997ff]",
+      bgColor: "bg-[#2997ff]/10"
+    },
+    {
+      tendencia: "Notion AI como Segundo Cerebro",
+      hook: "Toda mi vida en una sola plantilla interactiva auto-clasificada",
+      angulo: "Fun Fact",
+      formato: "Carrusel",
+      plataforma: "LinkedIn",
+      icon: Layout,
+      iconColor: "text-purple-400",
+      bgColor: "bg-purple-400/10"
+    },
+    {
+      tendencia: "Bloques de Enfoque Ultra-Estrictos",
+      hook: "El método de los cronómetros invertidos que usan los CEOs de Silicon Valley",
+      angulo: "Storytelling",
+      formato: "Hilo de Valor",
+      plataforma: "Twitter / X",
+      icon: Database,
+      iconColor: "text-emerald-400",
+      bgColor: "bg-emerald-400/10"
+    },
+    {
+      tendencia: "Automatizaciones No-Code Diarias",
+      hook: "Diseñé un bot que resume mis correos y me los manda ordenados por WhatsApp",
+      angulo: "Caso de Estudio",
+      formato: "Video Tutorial",
+      plataforma: "YouTube Shorts / TikTok",
+      icon: Video,
+      iconColor: "text-red-400",
+      bgColor: "bg-red-400/10"
+    },
+    {
+      tendencia: "Síndrome de Enfoque Fragmentado",
+      hook: "La trampa oculta de las 45 pestañas abiertas que destruye tu cerebro",
+      angulo: "Detrás de Escena",
+      formato: "Infografía",
+      plataforma: "LinkedIn",
+      icon: ShieldAlert,
+      iconColor: "text-amber-400",
+      bgColor: "bg-amber-400/10"
+    }
+  ]
+};
 
 export default function App() {
   const [copied, setCopied] = useState(false);
@@ -206,6 +398,18 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [toasts, setToasts] = useState<{ id: string; message: string; type: 'success' | 'info' | 'download' }[]>([]);
+  
+  // Mobile Experience states
+  const [activeNiche, setActiveNiche] = useState('ia');
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
+  const [isUpdatingStrategy, setIsUpdatingStrategy] = useState(false);
+
+  // Auto detect width to present corresponding layout on desktop
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setViewMode('table');
+    }
+  }, []);
 
   const addToast = (message: string, type: 'success' | 'info' | 'download' = 'success') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -215,11 +419,38 @@ export default function App() {
     }, 4000);
   };
 
+  const currentRows = NICHE_STRATEGY_DATA[activeNiche as keyof typeof NICHE_STRATEGY_DATA] || NICHE_STRATEGY_DATA.ia;
+
+  const getStrategyTableMarkdown = (rows: typeof NICHE_STRATEGY_DATA.ia) => {
+    return [
+      '| Tendencia | Hook | Ángulo | Formato | Plataforma |',
+      '|---|---|---|---|---|',
+      ...rows.map(row => `| ${row.tendencia} | "${row.hook}" | ${row.angulo} | ${row.formato} | ${row.plataforma} |`)
+    ].join('\n');
+  };
+
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(STRATEGY_TABLE.trim());
+    navigator.clipboard.writeText(getStrategyTableMarkdown(currentRows).trim());
     setCopied(true);
     addToast('¡Estrategia copiada al portapapeles con éxito!', 'success');
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copySingleRowToClipboard = (row: typeof NICHE_STRATEGY_DATA.ia[0]) => {
+    const textToCopy = `Tendencia: ${row.tendencia}\nHook: "${row.hook}"\nÁngulo: ${row.angulo}\nFormato: ${row.formato}\nPlataforma: ${row.plataforma}`;
+    navigator.clipboard.writeText(textToCopy);
+    addToast(`Copiada idea: "${row.tendencia}"`, 'success');
+  };
+
+  const handleSelectNiche = (nicheId: string) => {
+    if (isUpdatingStrategy || nicheId === activeNiche) return;
+    setIsUpdatingStrategy(true);
+    const nicheName = NICHES.find(n => n.id === nicheId)?.name || '';
+    addToast(`Generando estructura para: ${nicheName}`, 'info');
+    setTimeout(() => {
+      setActiveNiche(nicheId);
+      setIsUpdatingStrategy(false);
+    }, 600);
   };
 
   const handleDownloadPDF = () => {
@@ -291,13 +522,14 @@ export default function App() {
       // Strategy autoTable setup
       const headers = [['TENDENCIA', 'HOOK (GANCHO)', 'ÁNGULO (PERSPECTIVA)', 'FORMATO', 'PLATAFORMA RECOMENDADA']];
       
-      const body = STRATEGY_ROWS.map(row => [
+      const body = currentRows.map(row => [
         row.tendencia,
         `"${row.hook}"`,
         row.angulo,
         row.formato.toUpperCase(),
         row.plataforma
       ]);
+
 
       (doc as any).autoTable({
         startY: 46,
@@ -617,8 +849,13 @@ export default function App() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
-              whileHover={{ y: -6 }}
-              className={`relative p-6 px-5 rounded-2xl bg-black/45 backdrop-blur-xl border border-white/5 overflow-hidden group cursor-pointer h-40 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.4)] ${
+              whileTap={{ scale: 0.97 }}
+              onClick={() => handleSelectNiche(niche.id)}
+              className={`relative p-5 md:p-6 rounded-2xl backdrop-blur-xl transition-all duration-300 cursor-pointer h-36 md:h-40 flex flex-col justify-between overflow-hidden group text-left ${
+                activeNiche === niche.id 
+                  ? 'border border-brand-accent/40 bg-zinc-950/85 shadow-[0_0_25px_rgba(41,151,255,0.15)]' 
+                  : 'border border-white/5 bg-black/45 hover:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
+              } ${
                 index === NICHES.length - 1 ? 'col-span-2 md:col-span-1' : ''
               }`}
             >
@@ -634,11 +871,17 @@ export default function App() {
               {/* Glowing circular overlay behind the card on hover (illumination effect) */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-accent/15 rounded-full filter blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-20 pointer-events-none" />
 
-              <div className="w-10 h-10 rounded-xl bg-[#0a0a0c] border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:bg-brand-accent group-hover:border-brand-accent/40 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.6)]">
-                <niche.icon size={20} className="text-zinc-400 group-hover:text-white transition-colors duration-300" />
+              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-300 ${
+                activeNiche === niche.id 
+                  ? 'bg-brand-accent border-brand-accent/40 text-white shadow-[0_0_15px_rgba(41,151,255,0.4)]' 
+                  : 'bg-[#0a0a0c] border-white/10 text-zinc-400 group-hover:bg-brand-accent group-hover:border-brand-accent/40 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.6)] group-hover:text-white'
+              }`}>
+                <niche.icon size={20} className="transition-colors duration-300" />
               </div>
               
-              <span className="text-[13px] font-semibold tracking-wide text-zinc-400 group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300 uppercase">
+              <span className={`text-[11px] md:text-[13px] font-bold tracking-wide transition-all duration-300 uppercase ${
+                activeNiche === niche.id ? 'text-white' : 'text-zinc-500 group-hover:text-zinc-200'
+              }`}>
                 {niche.name}
               </span>
             </motion.div>
@@ -654,58 +897,91 @@ export default function App() {
               <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Tendencias</h3>
             </div>
             <div className="space-y-3">
-              {TRENDS.map((trend, index) => (
-                <div 
+              {currentRows.map((row, index) => (
+                <motion.div 
                   key={index} 
-                  className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1.5 hover:bg-white/[0.07] hover:shadow-[0_10px_30px_-10px_rgba(41,151,255,0.15)] transition-all duration-300 cursor-default"
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1 bg-white/[0.01] hover:bg-white/[0.05] transition-all duration-300 cursor-default"
                 >
-                  <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300">
-                    {trend}
+                  <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px]">
+                    {row.tendencia}
                   </span>
                   <div className="flex items-center gap-2 shrink-0">
                     <span className="text-[10px] font-bold text-brand-accent/80 group-hover:text-brand-accent transition-colors px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10">
-                      +{Math.floor(Math.random() * 30) + 5}%
+                      +{Math.floor(Math.random() * 25) + 75}%
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Strategy Visualizer */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="flex justify-between items-center px-2">
-              <div className="flex items-center gap-2">
-                <Terminal size={20} className="text-zinc-500" />
-                <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Visualizador</h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
+              <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                <div className="flex items-center gap-2">
+                  <Terminal size={20} className="text-zinc-500" />
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Visualizador</h3>
+                </div>
+                {/* View Switcher Pill (Interactive iOS Apple design) */}
+                <div className="bg-white/5 border border-white/10 p-0.5 rounded-lg flex items-center h-8 text-[11px] font-semibold shadow-inner">
+                  <button 
+                    onClick={() => setViewMode('cards')} 
+                    className={`px-3 py-1 rounded-md transition-all duration-200 ${viewMode === 'cards' ? 'bg-white text-black font-bold shadow-md' : 'text-zinc-400 hover:text-white'}`}
+                  >
+                    Tarjetas
+                  </button>
+                  <button 
+                    onClick={() => setViewMode('table')} 
+                    className={`px-3 py-1 rounded-md transition-all duration-200 ${viewMode === 'table' ? 'bg-white text-black font-bold shadow-md' : 'text-zinc-400 hover:text-white'}`}
+                  >
+                    Tabla
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2 md:gap-3">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <button 
                   onClick={handleDownloadPDF}
-                  className="apple-button bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 text-[10px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 flex items-center gap-1.5 md:gap-2 transition-all duration-300 shadow-md cursor-pointer"
+                  className="apple-button flex-1 sm:flex-initial bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 text-xs px-4 py-2 flex items-center justify-center gap-1.5 transition-all duration-300 shadow-md cursor-pointer h-10"
                 >
-                  <Download size={12} className="md:w-3.5 md:h-3.5" />
+                  <Download size={13} />
                   Descargar PDF
                 </button>
-                <button className="apple-button bg-brand-accent text-white hover:bg-blue-400 text-[10px] md:text-xs px-3 py-1.5 md:px-6 md:py-2.5 shadow-lg shadow-brand-accent/20 flex items-center gap-1.5 md:gap-2">
-                  <RefreshCw size={12} className="md:w-3.5 md:h-3.5" />
-                  Actualizar Estrategia
+                <button 
+                  onClick={() => {
+                    setIsUpdatingStrategy(true);
+                    addToast('Actualizando datos de estrategia...', 'info');
+                    setTimeout(() => {
+                      setIsUpdatingStrategy(false);
+                      addToast('¡Estrategia actualizada correctamente!', 'success');
+                    }, 500);
+                  }}
+                  className="apple-button flex-1 sm:flex-initial bg-brand-accent text-white hover:bg-blue-400 text-xs px-4 py-2 shadow-lg shadow-brand-accent/20 flex items-center justify-center gap-1.5 h-10"
+                >
+                  <RefreshCw size={13} className={isUpdatingStrategy ? "animate-spin" : ""} />
+                  Actualizar
                 </button>
               </div>
             </div>
             
             <div className="glass-card flex-1 overflow-hidden flex flex-col min-h-[350px] md:min-h-[400px]">
               <div className="border-b border-white/5 p-3 md:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/[0.02]">
-                <div className="flex items-center gap-4 justify-between sm:justify-start w-full">
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-zinc-800" />
-                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-zinc-800" />
-                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-zinc-800" />
+                <div className="flex items-center gap-3 justify-between sm:justify-start w-full">
+                  <div className="flex gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
+                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
+                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
                   </div>
                   <span className="text-[9px] md:text-[10px] text-zinc-600 font-mono">ESTRATEGIA_MD_v3.md</span>
-                  <span className="md:hidden text-[9px] text-[#2997ff] font-sans font-bold flex items-center gap-1.5 px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 animate-pulse">
-                    <span>↔</span> Deslizar para ver más
-                  </span>
+                  {viewMode === 'table' && (
+                    <span className="md:hidden text-[9px] text-[#2997ff] font-sans font-bold flex items-center gap-1.5 px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 animate-pulse">
+                      <span>↔</span> Deslizar para ver más
+                    </span>
+                  )}
                 </div>
                 {copied && (
                   <span className="text-[10px] text-brand-accent font-medium font-mono animate-fade-in-out self-end sm:self-auto">
@@ -713,79 +989,139 @@ export default function App() {
                   </span>
                 )}
               </div>
-              <div className="p-1 md:p-4 overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[700px]">
-                  <thead>
-                    <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold font-mono">
-                      <th className="pb-3 px-3">Tendencia</th>
-                      <th className="pb-3 px-3">Hook (Gancho)</th>
-                      <th className="pb-3 px-3">Ángulo</th>
-                      <th className="pb-3 px-3">Formato</th>
-                      <th className="pb-3 px-3">Plataforma</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {STRATEGY_ROWS.map((row, i) => (
-                      <motion.tr 
-                        key={i} 
-                        whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
-                        animate={copied ? {
-                          backgroundColor: [
-                            "rgba(255, 255, 255, 0)",
-                            "rgba(41, 151, 255, 0.12)", // Flash ambient wave peak
-                            "rgba(41, 151, 255, 0.03)",
-                            "rgba(255, 255, 255, 0)"
-                          ],
-                          x: [0, 8, 2, 0],
-                        } : {
-                          backgroundColor: "rgba(255, 255, 255, 0)",
-                          x: 0,
-                        }}
-                        transition={{
-                          duration: 0.9,
-                          delay: i * 0.07, // Staggered sequence scan
-                          ease: "easeInOut"
-                        }}
-                        className="group text-xs text-zinc-300 transition-colors"
-                      >
-                        <td className="py-4 px-3 font-semibold text-white group-hover:text-brand-accent transition-all max-w-[200px]">
-                          <div className="flex items-center gap-2.5">
-                            <motion.span 
-                              animate={copied ? {
-                                scale: [1, 1.25, 1],
-                                rotate: [0, 15, -15, 0]
-                              } : { scale: 1, rotate: 0 }}
-                              transition={{
-                                duration: 0.6,
-                                delay: i * 0.07,
-                                ease: "easeInOut"
-                              }}
-                              className={`p-1.5 rounded-lg ${row.bgColor} ${row.iconColor} inline-flex items-center justify-center shrink-0`}
-                            >
-                              <row.icon size={14} />
-                            </motion.span>
-                            <span className="truncate">{row.tendencia}</span>
-                          </div>
-                        </td>
-                        <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px]">
-                          "{row.hook}"
-                        </td>
-                        <td className="py-4 px-3">
-                          <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 border border-white/5 text-[10px] text-zinc-400 font-medium whitespace-nowrap">
-                            {row.angulo}
-                          </span>
-                        </td>
-                        <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors">
-                          {row.formato}
-                        </td>
-                        <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px]">
-                          {row.plataforma}
-                        </td>
-                      </motion.tr>
+
+              {isUpdatingStrategy ? (
+                /* Premium shimmer screen scanner animation skeleton */
+                <div className="p-5 space-y-4 flex-1 flex flex-col justify-center">
+                  <div className="h-4 bg-white/10 rounded w-1/4 animate-pulse" />
+                  <div className="space-y-3 flex-1 flex flex-col justify-center">
+                    {[1, 2, 3].map(n => (
+                      <div key={n} className="h-14 bg-white/[0.03] border border-white/5 rounded-xl w-full animate-pulse" style={{ animationDelay: `${n * 100}ms` }} />
                     ))}
-                  </tbody>
-                </table>
-              </div>
+                  </div>
+                </div>
+              ) : viewMode === 'cards' ? (
+                /* Premium Adaptive Cards View: Highly Optimized for Smartphones & Touch inputs */
+                <div className="p-4 md:p-5 grid gap-4 grid-cols-1 md:grid-cols-2 overflow-y-auto max-h-[500px]">
+                  {currentRows.map((row, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ type: 'spring', stiffness: 220, damping: 20, delay: i * 0.04 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative p-4 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col justify-between gap-3 group/card hover:border-brand-accent/30 hover:bg-white/[0.04] transition-all duration-300"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className={`p-1.5 rounded-lg ${row.bgColor} ${row.iconColor} inline-flex items-center justify-center shrink-0`}>
+                            <row.icon size={14} />
+                          </span>
+                          <span className="text-xs font-bold font-mono tracking-wider text-zinc-500 uppercase">{row.formato}</span>
+                        </div>
+                        <span className="text-[10px] text-brand-accent/80 font-bold bg-brand-accent/5 border border-brand-accent/10 px-2 py-0.5 rounded-full">{row.plataforma}</span>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-bold text-white group-hover/card:text-brand-accent transition-colors duration-200">{row.tendencia}</h4>
+                        <div className="bg-white/[0.01] border border-white/5 p-3 rounded-lg italic text-xs text-zinc-300 relative pl-6 leading-relaxed">
+                          <span className="absolute left-2 top-2 text-xl text-brand-accent/30 font-serif leading-none">“</span>
+                          {row.hook}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
+                        <span className="px-2 py-0.5 rounded-md bg-zinc-900/60 border border-white/5 text-[9px] text-zinc-400 font-medium">
+                          {row.angulo}
+                        </span>
+                        
+                        <button 
+                          onClick={() => copySingleRowToClipboard(row)}
+                          className="h-7 text-[10px] font-bold text-zinc-400 hover:text-white hover:bg-white/5 px-2.5 rounded transition-all flex items-center gap-1 border border-white/5 hover:border-white/10"
+                        >
+                          <Copy size={11} />
+                          Copiar Idea
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                /* Native Horizontal Scrolling Table view for Desktop screens & detailed inspection */
+                <div className="p-1 md:p-4 overflow-x-auto select-none">
+                  <table className="w-full text-left border-collapse min-w-[700px]">
+                    <thead>
+                      <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold font-mono">
+                        <th className="pb-3 px-3">Tendencia</th>
+                        <th className="pb-3 px-3">Hook (Gancho)</th>
+                        <th className="pb-3 px-3">Ángulo</th>
+                        <th className="pb-3 px-3">Formato</th>
+                        <th className="pb-3 px-3">Plataforma</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {currentRows.map((row, i) => (
+                        <motion.tr 
+                          key={i} 
+                          whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+                          animate={copied ? {
+                            backgroundColor: [
+                              "rgba(255, 255, 255, 0)",
+                              "rgba(41, 151, 255, 0.12)", // Flash ambient wave peak
+                              "rgba(41, 151, 255, 0.03)",
+                              "rgba(255, 255, 255, 0)"
+                            ],
+                            x: [0, 8, 2, 0],
+                          } : {
+                            backgroundColor: "rgba(255, 255, 255, 0)",
+                            x: 0,
+                          }}
+                          transition={{
+                            duration: 0.9,
+                            delay: i * 0.07, // Staggered sequence scan
+                            ease: "easeInOut"
+                          }}
+                          className="group text-xs text-zinc-300 transition-colors"
+                        >
+                          <td className="py-4 px-3 font-semibold text-white group-hover:text-brand-accent transition-all max-w-[200px]">
+                            <div className="flex items-center gap-2.5">
+                              <motion.span 
+                                animate={copied ? {
+                                  scale: [1, 1.25, 1],
+                                  rotate: [0, 15, -15, 0]
+                                } : { scale: 1, rotate: 0 }}
+                                transition={{
+                                  duration: 0.6,
+                                  delay: i * 0.07,
+                                  ease: "easeInOut"
+                                }}
+                                className={`p-1.5 rounded-lg ${row.bgColor} ${row.iconColor} inline-flex items-center justify-center shrink-0`}
+                              >
+                                <row.icon size={14} />
+                              </motion.span>
+                              <span className="truncate">{row.tendencia}</span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px]">
+                            "{row.hook}"
+                          </td>
+                          <td className="py-4 px-3">
+                            <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 border border-white/5 text-[10px] text-zinc-400 font-medium whitespace-nowrap">
+                              {row.angulo}
+                            </span>
+                          </td>
+                          <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                            {row.formato}
+                          </td>
+                          <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px]">
+                            {row.plataforma}
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         </section>
