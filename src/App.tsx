@@ -23,7 +23,8 @@ import {
   ShieldAlert,
   Check,
   CheckCircle,
-  Download
+  Download,
+  Sliders
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import jsPDF from 'jspdf';
@@ -404,6 +405,27 @@ export default function App() {
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
   const [isUpdatingStrategy, setIsUpdatingStrategy] = useState(false);
 
+  // Custom AI Topic State
+  const [customTopic, setCustomTopic] = useState('');
+  
+  // Custom AI Strategy Refinement States
+  const [aiDepth, setAiDepth] = useState('Específica / Detallada');
+  const [aiTone, setAiTone] = useState('Audaz / Provocativo');
+  const [aiCreativity, setAiCreativity] = useState('Vanguardista / Creativa');
+  const [showAdvancedParams, setShowAdvancedParams] = useState(false);
+
+  // Dynamic state dictionary to hold standard or AI-generated niches strategies
+  const [nicheStrategies, setNicheStrategies] = useState<Record<string, any[]>>(() => {
+    const initial: Record<string, any[]> = {};
+    Object.entries(NICHE_STRATEGY_DATA).forEach(([key, value]) => {
+      initial[key] = value.map(row => ({
+        ...row,
+        percentage: (row as any).percentage || (Math.floor(Math.random() * 25) + 75)
+      }));
+    });
+    return initial;
+  });
+
   // Auto detect width to present corresponding layout on desktop
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
@@ -419,9 +441,38 @@ export default function App() {
     }, 4000);
   };
 
-  const currentRows = NICHE_STRATEGY_DATA[activeNiche as keyof typeof NICHE_STRATEGY_DATA] || NICHE_STRATEGY_DATA.ia;
+  const getRowIcon = (angulo: string) => {
+    const ang = (angulo || "").toLowerCase();
+    if (ang.includes("incómoda") || ang.includes("opinion")) return Sparkles;
+    if (ang.includes("caso") || ang.includes("estudio")) return Search;
+    if (ang.includes("story") || ang.includes("historia")) return Database;
+    if (ang.includes("dato") || ang.includes("analisis")) return BarChart3;
+    if (ang.includes("alerta") || ang.includes("tendencia")) return Zap;
+    if (ang.includes("detrás") || ang.includes("escena")) return ShieldAlert;
+    return Sparkles; 
+  };
 
-  const getStrategyTableMarkdown = (rows: typeof NICHE_STRATEGY_DATA.ia) => {
+  const getRowIconColor = (angulo: string) => {
+    const ang = (angulo || "").toLowerCase();
+    if (ang.includes("incómoda") || ang.includes("opinion")) return "text-[#2997ff]";
+    if (ang.includes("caso")) return "text-purple-400";
+    if (ang.includes("story")) return "text-emerald-400";
+    if (ang.includes("alerta")) return "text-amber-400";
+    return "text-cyan-400";
+  };
+
+  const getRowBgColor = (angulo: string) => {
+    const ang = (angulo || "").toLowerCase();
+    if (ang.includes("incómoda") || ang.includes("opinion")) return "bg-[#2997ff]/10";
+    if (ang.includes("caso")) return "bg-purple-400/10";
+    if (ang.includes("story")) return "bg-emerald-400/10";
+    if (ang.includes("alerta")) return "bg-amber-400/10";
+    return "bg-cyan-400/10";
+  };
+
+  const currentRows = nicheStrategies[activeNiche] || nicheStrategies.ia;
+
+  const getStrategyTableMarkdown = (rows: any[]) => {
     return [
       '| Tendencia | Hook | Ángulo | Formato | Plataforma |',
       '|---|---|---|---|---|',
@@ -436,21 +487,63 @@ export default function App() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const copySingleRowToClipboard = (row: typeof NICHE_STRATEGY_DATA.ia[0]) => {
+  const copySingleRowToClipboard = (row: any) => {
     const textToCopy = `Tendencia: ${row.tendencia}\nHook: "${row.hook}"\nÁngulo: ${row.angulo}\nFormato: ${row.formato}\nPlataforma: ${row.plataforma}`;
     navigator.clipboard.writeText(textToCopy);
     addToast(`Copiada idea: "${row.tendencia}"`, 'success');
+  };
+
+  const fetchGeminiStrategy = async (nicheId: string, topic?: string) => {
+    setIsUpdatingStrategy(true);
+    const nicheName = NICHES.find(n => n.id === nicheId)?.name || nicheId;
+    addToast(topic ? `Modelando estrategia IA para "${topic}"...` : `Consultando tendencias de IA para ${nicheName}...`, 'info');
+    
+    try {
+      const res = await fetch("/api/generate-strategy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          niche: nicheName,
+          customTopic: topic || "",
+          depth: aiDepth,
+          tone: aiTone,
+          creativity: aiCreativity
+        })
+      });
+      
+      if (!res.ok) {
+        throw new Error("No se pudo conectar con el servidor.");
+      }
+      
+      const data = await res.json();
+      if (data.strategies && Array.isArray(data.strategies)) {
+        setNicheStrategies(prev => ({
+          ...prev,
+          [nicheId]: data.strategies
+        }));
+        addToast(`¡Estrategia de ${nicheName} generada por Gemini!`, 'success');
+      } else {
+        throw new Error("La respuesta del modelo no tiene un formato válido.");
+      }
+    } catch (err: any) {
+      console.error(err);
+      addToast(`Error AI: ${err.message || "Por favor intente nuevamente."}`, 'info');
+    } finally {
+      setIsUpdatingStrategy(false);
+    }
   };
 
   const handleSelectNiche = (nicheId: string) => {
     if (isUpdatingStrategy || nicheId === activeNiche) return;
     setIsUpdatingStrategy(true);
     const nicheName = NICHES.find(n => n.id === nicheId)?.name || '';
-    addToast(`Generando estructura para: ${nicheName}`, 'info');
+    addToast(`Cargando estructura para: ${nicheName}`, 'info');
     setTimeout(() => {
       setActiveNiche(nicheId);
       setIsUpdatingStrategy(false);
-    }, 600);
+    }, 400);
   };
 
   const handleDownloadPDF = () => {
@@ -952,20 +1045,141 @@ export default function App() {
                   Descargar PDF
                 </button>
                 <button 
-                  onClick={() => {
-                    setIsUpdatingStrategy(true);
-                    addToast('Actualizando datos de estrategia...', 'info');
-                    setTimeout(() => {
-                      setIsUpdatingStrategy(false);
-                      addToast('¡Estrategia actualizada correctamente!', 'success');
-                    }, 500);
-                  }}
+                  onClick={() => fetchGeminiStrategy(activeNiche, customTopic)}
+                  disabled={isUpdatingStrategy}
                   className="apple-button flex-1 sm:flex-initial bg-brand-accent text-white hover:bg-blue-400 text-xs px-4 py-2 shadow-lg shadow-brand-accent/20 flex items-center justify-center gap-1.5 h-10"
                 >
                   <RefreshCw size={13} className={isUpdatingStrategy ? "animate-spin" : ""} />
-                  Actualizar
+                  Actualizar con IA
                 </button>
               </div>
+            </div>
+
+            {/* Custom AI Topic Architect Bar with Custom Param Adjustments */}
+            <div className="glass-card p-4 md:p-5 flex flex-col gap-4 bg-white/[0.01] hover:bg-white/[0.02] transition-all border border-white/5 rounded-2xl">
+              {/* Main input and action row */}
+              <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
+                <div className="flex items-center gap-2 text-zinc-400 text-xs shrink-0 font-medium select-none">
+                  <Sparkles size={16} className="text-brand-accent shrink-0 animate-pulse" />
+                  <span>Enfocar Inteligencia Artificial:</span>
+                </div>
+                <div className="relative flex-1 w-full">
+                  <input 
+                    type="text"
+                    value={customTopic}
+                    onChange={(e) => setCustomTopic(e.target.value)}
+                    placeholder="Enfoca tu estrategia en un tema (ej: IA en medicina, finanzas estables, comida rápida vegana...)"
+                    className="w-full text-xs bg-black/45 border border-white/10 rounded-xl px-3.5 py-2.5 outline-none focus:border-brand-accent/60 focus:bg-black/60 transition-all placeholder:text-zinc-650 text-zinc-200"
+                  />
+                  {customTopic && (
+                    <button 
+                      onClick={() => setCustomTopic('')}
+                      className="absolute right-3 top-2.5 text-[10px] uppercase font-bold text-zinc-500 hover:text-white transition-colors"
+                    >
+                      Borrar
+                    </button>
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-2 shrink-0 w-full lg:w-auto">
+                  <button
+                    onClick={() => setShowAdvancedParams(!showAdvancedParams)}
+                    className={`apple-button h-10 px-4 flex items-center justify-center gap-2 text-xs font-bold border transition-all ${
+                      showAdvancedParams 
+                        ? 'bg-brand-accent/15 border-brand-accent/50 text-[#2997ff]' 
+                        : 'bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10'
+                    }`}
+                  >
+                    <Sliders size={13} className={showAdvancedParams ? "text-[#2997ff]" : ""} />
+                    <span>Ajustar Refinado</span>
+                  </button>
+
+                  <button
+                    onClick={() => fetchGeminiStrategy(activeNiche, customTopic)}
+                    disabled={isUpdatingStrategy}
+                    className="apple-button h-10 flex-1 lg:flex-none bg-brand-accent text-white hover:bg-blue-400 text-xs font-bold px-5 flex items-center justify-center gap-2 shadow-lg shadow-brand-accent/10 hover:scale-[1.01] transition-transform shrink-0"
+                  >
+                    <Cpu size={14} className={isUpdatingStrategy ? "animate-spin" : ""} />
+                    Generar de Cero
+                  </button>
+                </div>
+              </div>
+
+              {/* Advanced Param Refinements Panel */}
+              <AnimatePresence>
+                {showAdvancedParams && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden border-t border-white/5 pt-4"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* Depth of Trend Selector */}
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff]" />
+                          Profundidad de la Tendencia
+                        </label>
+                        <select
+                          value={aiDepth}
+                          onChange={(e) => setAiDepth(e.target.value)}
+                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-[#2997ff]/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
+                        >
+                          <option value="General / Comercial" className="bg-zinc-950 text-zinc-200">General o Comercial</option>
+                          <option value="Específica / Detallada" className="bg-zinc-950 text-zinc-200">Específica o Detallada</option>
+                          <option value="Técnica / Avanzada" className="bg-zinc-950 text-zinc-200">Técnica o Avanzada / Científica</option>
+                        </select>
+                        <p className="text-[10px] text-zinc-500 leading-relaxed">
+                          Determina la complejidad terminológica y el enfoque de las tendencias de IA generadas.
+                        </p>
+                      </div>
+
+                      {/* Tone of Hook Selector */}
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                          Tono del Gancho (Hook)
+                        </label>
+                        <select
+                          value={aiTone}
+                          onChange={(e) => setAiTone(e.target.value)}
+                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-purple-400/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
+                        >
+                          <option value="Audaz / Provocativo" className="bg-zinc-950 text-zinc-200">Audaz o Provocativo (Llamativo)</option>
+                          <option value="Humorístico / Ingenioso" className="bg-zinc-950 text-zinc-200">Humorístico o Ingenioso / Irónico</option>
+                          <option value="Profesional / Corporativo" className="bg-zinc-950 text-zinc-200">Profesional o Corporativo / Serio</option>
+                          <option value="Empático / Educacional" className="bg-zinc-950 text-zinc-200">Empático o Educacional / Cercano</option>
+                        </select>
+                        <p className="text-[10px] text-zinc-500 leading-relaxed">
+                          Modula la aproximación conversacional del hook ideal para impactar en los primeros segundos.
+                        </p>
+                      </div>
+
+                      {/* Creativity Selector (mapped to temperature) */}
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          Creatividad del Ángulo
+                        </label>
+                        <select
+                          value={aiCreativity}
+                          onChange={(e) => setAiCreativity(e.target.value)}
+                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-emerald-400/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
+                        >
+                          <option value="Estándar / Conservadora" className="bg-zinc-950 text-zinc-200">Estándar o Conservadora (Pragmática)</option>
+                          <option value="Vanguardista / Creativa" className="bg-zinc-950 text-zinc-200">Vanguardista o Creativa (Novedosa)</option>
+                          <option value="Disruptiva / Extrema" className="bg-zinc-950 text-zinc-200">Disruptiva o Extrema (Revolucionaria)</option>
+                        </select>
+                        <p className="text-[10px] text-zinc-500 leading-relaxed">
+                          Controla la variabilidad creativa de la IA en la elección de puntos de vista únicos y ángulos.
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             
             <div className="glass-card flex-1 overflow-hidden flex flex-col min-h-[350px] md:min-h-[400px]">
@@ -1014,8 +1228,11 @@ export default function App() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className={`p-1.5 rounded-lg ${row.bgColor} ${row.iconColor} inline-flex items-center justify-center shrink-0`}>
-                            <row.icon size={14} />
+                          <span className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}>
+                            {row.icon ? <row.icon size={14} /> : (() => {
+                              const FallbackIcon = getRowIcon(row.angulo);
+                              return <FallbackIcon size={14} />;
+                            })()}
                           </span>
                           <span className="text-xs font-bold font-mono tracking-wider text-zinc-500 uppercase">{row.formato}</span>
                         </div>
@@ -1095,9 +1312,12 @@ export default function App() {
                                   delay: i * 0.07,
                                   ease: "easeInOut"
                                 }}
-                                className={`p-1.5 rounded-lg ${row.bgColor} ${row.iconColor} inline-flex items-center justify-center shrink-0`}
+                                className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}
                               >
-                                <row.icon size={14} />
+                                {row.icon ? <row.icon size={14} /> : (() => {
+                                  const FallbackIcon = getRowIcon(row.angulo);
+                                  return <FallbackIcon size={14} />;
+                                })()}
                               </motion.span>
                               <span className="truncate">{row.tendencia}</span>
                             </div>
