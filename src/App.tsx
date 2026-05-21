@@ -518,17 +518,29 @@ export default function App() {
         })
       });
       
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch (e) {
+        console.warn("La respuesta no contiene JSON válido.");
+      }
+
       if (!res.ok) {
-        throw new Error("No se pudo conectar con el servidor.");
+        const errMsg = data?.error || data?.details || "No se pudo conectar con el servidor.";
+        throw new Error(errMsg);
       }
       
-      const data = await res.json();
-      if (data.strategies && Array.isArray(data.strategies)) {
+      if (data && data.strategies && Array.isArray(data.strategies)) {
         setNicheStrategies(prev => ({
           ...prev,
           [nicheId]: data.strategies
         }));
-        addToast(`¡Estrategia de ${nicheName} generada por Gemini!`, 'success');
+
+        if (data.isFallback) {
+          addToast("Estrategia local cargada. Configura tu GEMINI_API_KEY en Settings para tiempo real.", "info");
+        } else {
+          addToast(`¡Estrategia de ${nicheName} generada con Gemini con éxito!`, 'success');
+        }
       } else {
         throw new Error("La respuesta del modelo no tiene un formato válido.");
       }
