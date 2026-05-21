@@ -13,15 +13,25 @@ const PORT = 3000;
 // Parse incoming request JSON bodies
 app.use(express.json());
 
-// Initialize the GoogleenAI SDK server-side
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || "",
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
+// Lazy-initialize the Google GenAI SDK server-side to prevent crashing on startup if the API key is missing
+let aiInstance: GoogleGenAI | null = null;
+function getAIInstance() {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "" || apiKey === "undefined") {
+      throw new Error("GEMINI_API_KEY is not configured.");
     }
+    aiInstance = new GoogleGenAI({
+      apiKey: apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
   }
-});
+  return aiInstance;
+}
 
 // Helper to safely clean and parse JSON that might contain markdown blocks
 function cleanAndParseJSON(text: string) {
@@ -409,7 +419,7 @@ REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
 `;
 
     // Query Gemini 3.5 Flash for fast, powerful structured generation
-    const response = await ai.models.generateContent({
+    const response = await getAIInstance().models.generateContent({
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
