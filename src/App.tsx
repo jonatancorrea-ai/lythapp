@@ -355,23 +355,23 @@ export default function App() {
   // AUTHENTICATION GATE
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#060608] text-white font-sans selection:bg-[#2997ff]/30 flex flex-col justify-center items-center p-4 relative overflow-hidden">
-        {/* Glow Spheres background */}
+      <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2997ff]/20 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+        {/* Cinematic ambient lighting blooms */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[20%] left-[10%] w-[50%] h-[50%] bg-[#2997ff]/5 blur-[140px] rounded-full" />
-          <div className="absolute bottom-[10%] right-[10%] w-[40%] h-[40%] bg-purple-600/5 blur-[140px] rounded-full" />
+          <div className="absolute top-1/4 left-1/4 w-[50%] h-[50%] bg-[#2997ff]/[0.04] blur-[150px] rounded-full animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[45%] h-[45%] bg-purple-600/[0.03] blur-[130px] rounded-full animate-pulse" style={{ animationDuration: '8s' }} />
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-md bg-zinc-950/70 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 md:p-10 space-y-8 relative z-10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)]"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-md bg-[#0A0A0A]/75 border border-white/10 backdrop-blur-3xl rounded-[32px] p-8 md:p-10 space-y-8 relative z-10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95)]"
         >
           <div className="text-center flex flex-col items-center space-y-3">
             <LythLogo size="md" />
-            <p className="text-[9px] font-sans font-bold text-zinc-500 tracking-[0.25em] uppercase pt-1">
-              Creative Operating System
+            <p className="text-[9px] font-bold text-zinc-500 tracking-[0.25em] uppercase pt-1 font-mono">
+              CREATIVE OPERATING SYSTEM
             </p>
           </div>
 
@@ -379,7 +379,7 @@ export default function App() {
             <button
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 rounded-xl bg-white text-black hover:bg-zinc-100 font-semibold text-[13px] tracking-wide transition-all duration-200 flex items-center justify-center gap-3 shadow-md active:scale-98"
+              className="w-full h-12 rounded-xl bg-white text-black hover:bg-zinc-100 font-semibold text-[13px] tracking-wide transition-all duration-300 flex items-center justify-center gap-3 shadow-md active:scale-98 cursor-pointer"
             >
               {isLoading ? (
                 <RefreshCw size={16} className="animate-spin text-zinc-600" />
@@ -398,13 +398,13 @@ export default function App() {
 
             <div className="flex items-center gap-3 py-2">
               <div className="h-px bg-white/5 flex-1" />
-              <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest font-mono">o continúa con email</span>
+              <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest font-mono select-none">o continúa con email</span>
               <div className="h-px bg-white/5 flex-1" />
             </div>
 
             <form onSubmit={handleCustomEmailSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono">CORREO ELECTRÓNICO</label>
+                <label className="text-[9px] font-bold text-zinc-500 tracking-wider font-mono">CORREO ELECTRÓNICO</label>
                 <div className="relative">
                   <input
                     type="email"
@@ -412,13 +412,13 @@ export default function App() {
                     onChange={(e) => setEmailInput(e.target.value)}
                     placeholder="nombre@ejemplo.com"
                     disabled={isLoading}
-                    className="w-full h-11 px-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-[#2997ff]/60 focus:bg-white/[0.06] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
+                    className="w-full h-11 px-4 rounded-xl text-[#FFFFFF] bg-white/[0.015] border border-white/10 focus:border-[#2997ff]/60 focus:bg-white/[0.04] focus:outline-none focus:ring-1 focus:ring-[#2997ff]/30 transition-all duration-300 placeholder:text-zinc-650 text-sm font-sans font-medium"
                   />
                   {emailInput === '' && (
                     <button
                       type="button"
                       onClick={() => setEmailInput('jonatancorreaoficial@gmail.com')}
-                      className="absolute right-3 top-2.5 text-[9px] font-bold text-[#2997ff] hover:text-[#2997ff]/80 bg-[#2997ff]/10 px-2.5 py-1 rounded-md transition-all font-mono"
+                      className="absolute right-3 top-2.5 text-[9px] font-bold text-[#2997ff] hover:text-[#2997ff]/80 bg-[#2997ff]/10 px-2.5 py-1 rounded-md transition-all font-mono cursor-pointer"
                     >
                       Prefill demo
                     </button>
@@ -432,16 +432,16 @@ export default function App() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-11 rounded-xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] text-white font-semibold text-xs tracking-wider uppercase transition-all duration-200 active:scale-98"
+                className="w-full h-11 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] text-white font-semibold text-xs tracking-wider uppercase transition-all duration-300 active:scale-98 cursor-pointer"
               >
                 Ingresar Credenciales
               </button>
             </form>
           </div>
 
-          <div className="pt-2 text-center text-[10px] text-zinc-600">
-            <p className="font-sans leading-relaxed">Al ingresar, interactúas con los motores e indexación de LYTH AI.</p>
-            <p className="text-zinc-500 font-mono mt-2">jonatancorreaoficial@gmail.com</p>
+          <div className="pt-2 text-center text-[10px] text-zinc-650">
+            <p className="font-sans leading-relaxed select-none">Al ingresar, interactúas con los motores e indexación de LYTH AI.</p>
+            <p className="text-zinc-500 font-mono mt-2">{emailInput || 'jonatancorreaoficial@gmail.com'}</p>
           </div>
         </motion.div>
       </div>
@@ -450,7 +450,10 @@ export default function App() {
 
   // CORE CREATOR USER WORKSPACE
   return (
-    <div className="min-h-screen bg-[#050507] text-white font-sans selection:bg-[#2997ff]/35 overflow-y-auto">
+    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2997ff]/20 overflow-y-auto relative">
+      {/* Soft Top Lighting Ray */}
+      <div className="absolute top-0 inset-x-0 h-[400px] apple-blur-bg pointer-events-none z-0" />
+
       {/* Toast notifications */}
       <div className="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none">
         <AnimatePresence>
@@ -460,7 +463,7 @@ export default function App() {
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, y: -10 }}
-              className="pointer-events-auto w-full bg-zinc-950/95 border border-white/10 backdrop-blur-xl p-4 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] flex items-start gap-3 relative overflow-hidden group"
+              className="pointer-events-auto w-full bg-[#0A0A0A]/95 border border-white/10 backdrop-blur-xl p-4 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] flex items-start gap-3 relative overflow-hidden group"
             >
               <div className={`absolute top-0 left-0 w-1 h-full ${toast.type === 'download' ? 'bg-[#2997ff]' : 'bg-emerald-500'}`} />
               <div className="flex-1">
@@ -470,7 +473,7 @@ export default function App() {
               </div>
               <button 
                 onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-                className="text-zinc-500 hover:text-zinc-300 text-[10px] font-mono leading-none p-1"
+                className="text-zinc-500 hover:text-zinc-300 text-[10px] font-mono leading-none p-1 cursor-pointer"
               >
                 ✕
               </button>
@@ -480,8 +483,8 @@ export default function App() {
       </div>
 
       {/* Top clean navigation rule */}
-      <nav className="border-b border-white/5 bg-black/30 backdrop-blur-md sticky top-0 z-40 w-full">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+      <nav className="border-b border-white/8 bg-black/40 backdrop-blur-xl sticky top-0 z-40 w-full">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center relative z-10">
           <div className="flex items-center">
             <LythLogo size="sm" />
           </div>
@@ -491,7 +494,7 @@ export default function App() {
             </span>
             <button 
               onClick={() => setIsAuthenticated(false)}
-              className="h-8 rounded-full bg-white/[0.04] border border-white/10 px-4 hover:bg-white/[0.08] text-xs font-semibold text-zinc-300 transition-all flex items-center gap-1.5 active:scale-95"
+              className="h-8 rounded-full bg-white/[0.03] border border-white/10 px-4 hover:bg-white/[0.06] text-xs font-semibold text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-1.5 active:scale-95 cursor-pointer"
             >
               <LogOut size={12} />
               Salir
@@ -501,27 +504,27 @@ export default function App() {
       </nav>
 
       {/* Header spacing */}
-      <div className="max-w-4xl mx-auto px-6 pt-12 pb-16 space-y-12">
+      <div className="max-w-4xl mx-auto px-6 pt-12 pb-16 space-y-12 relative z-10">
         <div className="text-center space-y-4">
-          <p className="text-[10px] tracking-[0.3em] text-[#2997ff] font-bold uppercase font-mono">
+          <p className="text-[10px] tracking-[0.3em] text-[#2997ff] font-bold uppercase font-mono select-none">
             CREATIVE OPERATING SYSTEM
           </p>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
             Crea estrategias de contenido social-first
           </h1>
-          <p className="text-sm md:text-base text-zinc-500 font-medium max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-zinc-400 font-medium max-w-2xl mx-auto leading-relaxed">
             Transforma conceptos abstractos en matrices de posicionamiento cargadas de tensión psicológica, emoción y formatos nativos de internet.
           </p>
         </div>
 
         {/* Input workspace layout panel */}
-        <section className="bg-zinc-950/40 border border-white/5 rounded-3xl p-6 md:p-8 space-y-8 relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-tr from-brand-accent/[0.01] to-purple-500/[0.01] pointer-events-none" />
+        <section className="glass-panel p-6 md:p-8 space-y-8 relative overflow-hidden rounded-[32px]">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
           
           {/* Quick template seeds */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono">ELEGIR CONTEXTO DE EJEMPLO</span>
+              <span className="text-[9px] font-bold text-zinc-500 tracking-wider font-mono select-none">ELEGIR CONTEXTO DE EJEMPLO</span>
               <span className="h-px bg-white/5 flex-1 ml-4" />
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -534,9 +537,10 @@ export default function App() {
                     setWhatToCommunicate(tpl.whatToCommunicate);
                     addToast(`Cargado ejemplo de ${tpl.label}`, "success");
                   }}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-400 hover:text-white transition-all duration-300"
+                  className="px-4 py-2 rounded-full text-xs font-semibold bg-[#111111] hover:bg-[#161616] border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/10 active:scale-98 transition-all duration-300 cursor-pointer flex items-center gap-1.5"
                 >
-                  ⚡ {tpl.label}
+                  <Sparkles size={11} className="text-brand-accent/80" />
+                  <span>{tpl.label}</span>
                 </button>
               ))}
             </div>
@@ -547,7 +551,7 @@ export default function App() {
           {/* Core Strategic Form fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+              <label className="block text-[9px] font-bold text-zinc-500 tracking-wider font-mono uppercase select-none">
                 1. ¿Quién eres? / Rol estratégico
               </label>
               <input
@@ -555,12 +559,12 @@ export default function App() {
                 value={whoAreYou}
                 onChange={(e) => setWhoAreYou(e.target.value)}
                 placeholder="Ej. Consultor de IA para marcas personales"
-                className="w-full h-11 px-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
+                className="w-full h-11 px-4 rounded-xl text-white glass-input focus:outline-none text-sm font-sans font-medium placeholder:text-zinc-700"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+              <label className="block text-[9px] font-bold text-zinc-500 tracking-wider font-mono uppercase select-none">
                 2. ¿A quién le hablas? / Audiencia ideal
               </label>
               <input
@@ -568,13 +572,13 @@ export default function App() {
                 value={whoAreYouTalkingTo}
                 onChange={(e) => setWhoAreYouTalkingTo(e.target.value)}
                 placeholder="Ej. Creadores, freelancers y negocios digitales"
-                className="w-full h-11 px-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
+                className="w-full h-11 px-4 rounded-xl text-white glass-input focus:outline-none text-sm font-sans font-medium placeholder:text-zinc-700"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+            <label className="block text-[9px] font-bold text-zinc-500 tracking-wider font-mono uppercase select-none">
               3. ¿Qué quieres comunicar? (Mensaje central de valor)
             </label>
             <textarea
@@ -582,12 +586,12 @@ export default function App() {
               value={whatToCommunicate}
               onChange={(e) => setWhatToCommunicate(e.target.value)}
               placeholder="Ej. Quiero hablar sobre cómo la IA está cambiando la velocidad de creación de productos digitales, pero que el criterio humano sigue liderando la tracción real..."
-              className="w-full p-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-650 text-sm resize-none leading-relaxed font-sans"
+              className="w-full p-4 rounded-xl text-white glass-input focus:outline-none text-sm resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700"
             />
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase text-center md:text-left">
+            <label className="block text-[9px] font-bold text-zinc-500 tracking-wider font-mono uppercase text-center md:text-left select-none">
               4. ¿Dónde vas a publicarlo? / Plataforma de destino
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -598,10 +602,10 @@ export default function App() {
                     key={plat}
                     type="button"
                     onClick={() => setPlatform(plat)}
-                    className={`h-11 rounded-xl font-medium text-xs tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 border select-none ${
+                    className={`h-11 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-350 flex items-center justify-center gap-2 border select-none cursor-pointer ${
                       isActive 
-                        ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.06)] scale-102 font-bold' 
-                        : 'bg-white/[0.01] text-zinc-500 border-white/5 hover:border-white/10 hover:text-zinc-350'
+                        ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.08)] scale-102 font-bold' 
+                        : 'bg-[#111111]/40 text-zinc-5 w-full border-white/[0.04] hover:border-white/10 hover:text-white'
                     }`}
                   >
                     {plat === 'Threads' && <MessageSquare size={13} />}
@@ -618,11 +622,11 @@ export default function App() {
           {/* ACTION TRIGGER BUTTON */}
           <div className="pt-2 flex justify-center">
             <motion.button
-              whileHover={{ scale: 1.01, boxShadow: "0 0 30px rgba(41,151,255,0.15)" }}
+              whileHover={{ scale: 1.01, boxShadow: "0 0 25px rgba(41,151,255,0.22)" }}
               whileTap={{ scale: 0.99 }}
               onClick={triggerStrategyGeneration}
               disabled={isAnalyzing}
-              className="w-full md:w-auto md:px-8 py-3.5 bg-[#2997ff] text-white rounded-xl text-xs font-bold tracking-[0.14em] uppercase flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-[#2997ff]/10 disabled:opacity-50 cursor-pointer text-center"
+              className="w-full md:w-auto md:px-12 py-3.5 bg-[#2997ff] text-white rounded-full text-xs font-bold tracking-[0.14em] uppercase flex items-center justify-center gap-2.5 transition-premium shadow-xl shadow-[#2997ff]/10 disabled:opacity-50 cursor-pointer text-center"
             >
               {isAnalyzing ? (
                 <>
@@ -657,20 +661,20 @@ export default function App() {
         {/* GENERATED STRATEGIC MATRIZ LIST (TABLE/MOBILE DESIGN) */}
         {!isAnalyzing && strategies.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
+            transition={{ duration: 0.5 }}
+            className="space-y-6 relative z-10"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
-                <h3 className="text-lg font-bold font-sans tracking-tight text-white flex items-center justify-center sm:justify-start gap-2">
+                <h3 className="text-lg font-semibold font-sans tracking-tight text-white flex items-center justify-center sm:justify-start gap-2 select-none">
                   <span>Matriz Estratégica de Contenido</span>
-                  <span className="px-2 py-0.5 rounded-md bg-white/[0.04] text-[10px] font-mono font-normal tracking-normal text-[#2997ff] uppercase">
+                  <span className="px-2 py-0.5 rounded-md bg-white/[0.04] text-[10px] font-mono font-medium tracking-normal text-[#2997ff] border border-white/5 uppercase select-none">
                     {platform}
                   </span>
                 </h3>
-                <p className="text-xs text-zinc-500 font-sans">
+                <p className="text-xs text-zinc-500 font-medium font-sans">
                   Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
                 </p>
               </div>
@@ -680,10 +684,10 @@ export default function App() {
                 <button
                   type="button"
                   onClick={copyCompleteStrategy}
-                  className={`h-9 px-4 rounded-full text-xs font-semibold flex items-center gap-2 transition-all ${
+                  className={`h-9 px-4 rounded-full text-xs font-semibold flex items-center gap-2 transition-premium cursor-pointer border ${
                     copiedAll 
-                      ? 'bg-emerald-500 text-white' 
-                      : 'bg-white/[0.04] text-zinc-300 hover:bg-white/[0.08] hover:text-white border border-white/5 shadow-inner'
+                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-md animate-pulse' 
+                      : 'bg-white/[0.03] text-zinc-300 hover:bg-white/[0.06] hover:text-white border-white/10 shadow-inner'
                   }`}
                 >
                   {copiedAll ? <Check size={12} /> : <Copy size={12} />}
@@ -692,7 +696,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={downloadStrategyPDF}
-                  className="h-9 px-4 rounded-full text-xs font-semibold bg-white/[0.04] text-zinc-300 hover:bg-white/[0.08] hover:text-white border border-white/5 shadow-inner flex items-center gap-2 transition-all"
+                  className="h-9 px-4 rounded-full text-xs font-semibold bg-white/[0.03] text-zinc-300 hover:bg-white/[0.06] hover:text-white border border-white/10 shadow-inner flex items-center gap-2 transition-premium cursor-pointer"
                 >
                   <Download size={12} />
                   <span>Descargar PDF</span>
@@ -701,29 +705,29 @@ export default function App() {
             </div>
 
             {/* Structured Table - scrollable on phone with neat snapping */}
-            <div className="rounded-2xl border border-white/5 bg-zinc-950/20 overflow-hidden shadow-2xl relative">
+            <div className="rounded-2xl border border-white/8 bg-[#0A0A0A]/40 overflow-hidden shadow-2xl relative">
               <div className="overflow-x-auto scrollbar-thin">
                 <table className="w-full text-left border-collapse table-auto min-w-[780px]">
                   <thead>
-                    <tr className="border-b border-white/5 bg-zinc-950/40 text-[10px] tracking-wider text-zinc-500 font-mono uppercase">
-                      <th className="py-4 px-5 font-bold min-w-[340px]">Hook (Gancho de Apertura)</th>
-                      <th className="py-4 px-4 font-bold min-w-[124px]">Ángulo</th>
-                      <th className="py-4 px-4 font-bold min-w-[114px]">Enfoque</th>
-                      <th className="py-4 px-4 font-bold min-w-[114px]">Formato</th>
-                      <th className="py-4 px-4 font-bold min-w-[114px]">Emoción</th>
-                      <th className="py-4 px-4 font-bold text-right min-w-[64px]">Tracción</th>
+                    <tr className="border-b border-white/8 bg-[#111111]/70 text-[9px] tracking-[0.1em] text-zinc-500 font-mono uppercase select-none">
+                      <th className="py-4.5 px-6 font-semibold min-w-[340px]">Hook (Gancho de Apertura)</th>
+                      <th className="py-4.5 px-4 font-semibold min-w-[124px]">Ángulo</th>
+                      <th className="py-4.5 px-4 font-semibold min-w-[114px]">Enfoque</th>
+                      <th className="py-4.5 px-4 font-semibold min-w-[114px]">Formato</th>
+                      <th className="py-4.5 px-4 font-semibold min-w-[114px]">Emoción</th>
+                      <th className="py-4.5 px-6 font-semibold text-right min-w-[64px]">Tracción</th>
                     </tr>
                   </thead>
                   <tbody>
                     {strategies.map((row, idx) => (
                       <tr 
                         key={idx} 
-                        className="border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group"
+                        className="border-b border-white/[0.04] hover:bg-white/[0.012] transition-premium group"
                       >
                         {/* Hook Column with internal hover action button */}
-                        <td className="py-4.5 px-5 select-text">
+                        <td className="py-5 px-6 select-text">
                           <div className="space-y-1.5 relative pr-12">
-                            <p className="text-[13px] md:text-sm text-zinc-200 leading-relaxed font-sans font-medium tracking-tight">
+                            <p className="text-[13px] md:text-[14px] text-zinc-100 leading-relaxed font-sans font-medium tracking-tight">
                               "{row.hook}"
                             </p>
                             <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 pointer-events-none group-hover:pointer-events-auto">
@@ -748,36 +752,36 @@ export default function App() {
                         </td>
 
                         {/* Ángulo Col */}
-                        <td className="py-4.5 px-4 text-xs">
-                          <span className="px-2 py-0.5 rounded-full text-[11px] font-medium border border-[#2997ff]/20 bg-[#2997ff]/5 text-[#2997ff] inline-block capitalize font-sans leading-none">
+                        <td className="py-5 px-4 text-xs">
+                          <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border border-[#2997ff]/15 bg-[#2997ff]/5 text-[#2997ff] inline-block capitalize font-sans leading-none select-none">
                             {row.angulo}
                           </span>
                         </td>
 
                         {/* Enfoque Col */}
-                        <td className="py-4.5 px-4 text-xs font-sans text-zinc-400 capitalize">
+                        <td className="py-5 px-4 text-xs font-sans font-medium text-zinc-400 capitalize select-none">
                           {row.enfoque}
                         </td>
 
                         {/* Formato Col */}
-                        <td className="py-4.5 px-4 text-xs font-mono text-zinc-500 lowercase">
+                        <td className="py-5 px-4 text-[11px] font-mono text-zinc-500 lowercase select-none">
                           {row.formato}
                         </td>
 
                         {/* Emoción Col */}
-                        <td className="py-4.5 px-4 text-xs">
-                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border border-purple-500/20 bg-purple-500/5 text-purple-400 inline-block capitalize font-sans leading-none">
+                        <td className="py-5 px-4 text-xs">
+                          <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold border border-purple-500/15 bg-purple-500/5 text-purple-400 inline-block capitalize font-sans leading-none select-none">
                             {row.emocion}
                           </span>
                         </td>
 
                         {/* Tracción percentage (Score) icon */}
-                        <td className="py-4.5 px-4 text-right text-xs font-mono font-bold text-zinc-400">
+                        <td className="py-5 px-6 text-right text-xs font-mono font-bold text-zinc-400">
                           <div className="flex flex-col items-end gap-1 font-mono">
-                            <span className="text-[#2997ff] font-sans font-bold text-sm">
+                            <span className="text-[#2997ff] font-sans font-bold text-[13px]">
                               {row.percentage}%
                             </span>
-                            <div className="w-10 h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div className="w-10 h-1 bg-white/5 rounded-full overflow-hidden select-none">
                               <div 
                                 className="bg-gradient-to-r from-blue-500 to-[#2997ff] h-full rounded-full" 
                                 style={{ width: `${row.percentage}%` }} 
@@ -793,7 +797,7 @@ export default function App() {
             </div>
             
             {/* Visual note about publishing */}
-            <div className="flex items-center gap-2 bg-zinc-900/40 p-4 border border-white/5 rounded-xl text-zinc-500 text-xs text-center md:text-left justify-center">
+            <div className="flex items-center gap-2 bg-[#0A0A0A]/40 p-4 border border-white/8 rounded-2xl text-zinc-500 text-xs text-center md:text-left justify-center select-none">
               <span className="text-[#2997ff]">✦</span>
               <span>Propuestas curadas en función del canal de destino. Haz click en el botón de copiar de cada gancho para agilizar tu flujo de publicación.</span>
             </div>
@@ -802,9 +806,9 @@ export default function App() {
       </div>
 
       {/* Decorative footer */}
-      <footer className="py-12 border-t border-white/5 text-center text-zinc-650 text-[11px] font-mono select-none">
+      <footer className="py-12 border-t border-white/8 text-center text-zinc-650 text-[10px] font-mono select-none">
         <p>© {new Date().getFullYear()} LYTH AI. Todos los derechos reservados.</p>
-        <p className="text-zinc-700 mt-1">Concebido como un sistema de posicionamiento social elgante por Jonatan Correa.</p>
+        <p className="text-zinc-700 mt-1">Concebido como un sistema de posicionamiento social elegante por Jonatan Correa.</p>
       </footer>
     </div>
   );
