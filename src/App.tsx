@@ -448,14 +448,13 @@ export default function App() {
     );
   }
 
-  // CORE CREATOR USER WORKSPACE
   return (
-    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2997ff]/20 overflow-y-auto relative">
+    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2997ff]/20 overflow-y-auto relative pb-[env(safe-area-inset-bottom,40px)]">
       {/* Soft Top Lighting Ray */}
       <div className="absolute top-0 inset-x-0 h-[400px] apple-blur-bg pointer-events-none z-0" />
 
       {/* Toast notifications */}
-      <div className="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none">
+      <div className="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none pr-[env(safe-area-inset-right,0px)] pl-[env(safe-area-inset-left,0px)]">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -482,22 +481,32 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* Top clean navigation rule */}
-      <nav className="border-b border-white/8 bg-black/40 backdrop-blur-xl sticky top-0 z-40 w-full">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center relative z-10">
+      {/* Top clean & translucent navigation bar */}
+      <nav className="border-b border-white/[0.06] bg-black/50 backdrop-blur-xl sticky top-0 z-40 w-full pt-[env(safe-area-inset-top,0px)]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-14 md:h-16 flex justify-between items-center relative z-10">
           <div className="flex items-center">
             <LythLogo size="sm" />
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] font-mono text-zinc-500 hidden sm:inline max-w-[200px] truncate">
-              {emailInput}
-            </span>
+          <div className="flex items-center gap-2.5">
+            {/* Subtle Profile Access */}
+            <div className="flex items-center gap-2 bg-white/[0.03] border border-white/5 hover:border-white/10 pl-2.5 pr-3 py-1 rounded-full transition-all duration-300">
+              <div className="w-5.5 h-5.5 rounded-full bg-gradient-to-br from-[#2997ff] to-purple-600 flex items-center justify-center text-[10px] font-mono font-bold text-white shadow-inner select-none uppercase">
+                {emailInput ? emailInput.charAt(0) : 'J'}
+              </div>
+              <span className="text-[10px] font-mono text-zinc-400 max-w-[100px] truncate select-none leading-none pt-0.5">
+                {emailInput ? emailInput.split('@')[0] : 'demo'}
+              </span>
+            </div>
+
             <button 
-              onClick={() => setIsAuthenticated(false)}
-              className="h-8 rounded-full bg-white/[0.03] border border-white/10 px-4 hover:bg-white/[0.06] text-xs font-semibold text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+              onClick={() => {
+                setIsAuthenticated(false);
+                addToast("Sesión cerrada", "info");
+              }}
+              title="Salir"
+              className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] text-zinc-400 hover:text-white transition-all duration-300 flex items-center justify-center active:scale-90 cursor-pointer"
             >
               <LogOut size={12} />
-              Salir
             </button>
           </div>
         </div>
@@ -531,6 +540,7 @@ export default function App() {
               {WORKSPACE_TEMPLATES.map((tpl, i) => (
                 <button
                   key={i}
+                  type="button"
                   onClick={() => {
                     setWhoAreYou(tpl.whoAreYou);
                     setWhoAreYouTalkingTo(tpl.whoAreYouTalkingTo);
@@ -586,7 +596,7 @@ export default function App() {
               value={whatToCommunicate}
               onChange={(e) => setWhatToCommunicate(e.target.value)}
               placeholder="Ej. Quiero hablar sobre cómo la IA está cambiando la velocidad de creación de productos digitales, pero que el criterio humano sigue liderando la tracción real..."
-              className="w-full p-4 rounded-xl text-white glass-input focus:outline-none text-sm resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700"
+              className="w-full p-4 rounded-xl text-white glass-input focus:outline-none text-sm sm:text-base resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700 min-h-[120px] focus:min-h-[160px] transition-all duration-300"
             />
           </div>
 
@@ -601,17 +611,20 @@ export default function App() {
                   <button
                     key={plat}
                     type="button"
-                    onClick={() => setPlatform(plat)}
-                    className={`h-11 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-350 flex items-center justify-center gap-2 border select-none cursor-pointer ${
+                    onClick={() => {
+                      setPlatform(plat);
+                      addToast(`Canal configurado: ${plat}`, "info");
+                    }}
+                    className={`h-11 rounded-full font-semibold text-xs tracking-wider uppercase transition-all duration-350 flex items-center justify-center gap-2 border select-none cursor-pointer ${
                       isActive 
-                        ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.08)] scale-102 font-bold' 
-                        : 'bg-[#111111]/40 text-zinc-5 w-full border-white/[0.04] hover:border-white/10 hover:text-white'
+                        ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(41,151,255,0.22)] scale-[1.02] font-semibold' 
+                        : 'bg-[#111111]/40 text-zinc-400 border-white/[0.04] hover:border-white/10 hover:text-white'
                     }`}
                   >
-                    {plat === 'Threads' && <MessageSquare size={13} />}
-                    {plat === 'X' && <Twitter size={13} />}
-                    {plat === 'Instagram' && <InstagramIcon size={13} />}
-                    {plat === 'TikTok' && <Play size={13} />}
+                    {plat === 'Threads' && <MessageSquare size={13} className={isActive ? "text-zinc-950" : "text-zinc-500"} />}
+                    {plat === 'X' && <Twitter size={13} className={isActive ? "text-zinc-950" : "text-zinc-500"} />}
+                    {plat === 'Instagram' && <InstagramIcon size={13} className={isActive ? "text-red-500" : "text-zinc-500"} />}
+                    {plat === 'TikTok' && <Play size={13} className={isActive ? "text-cyan-500" : "text-zinc-500"} />}
                     <span>{plat}</span>
                   </button>
                 );
@@ -622,20 +635,23 @@ export default function App() {
           {/* ACTION TRIGGER BUTTON */}
           <div className="pt-2 flex justify-center">
             <motion.button
-              whileHover={{ scale: 1.01, boxShadow: "0 0 25px rgba(41,151,255,0.22)" }}
-              whileTap={{ scale: 0.99 }}
+              whileHover={{ scale: 1.01, boxShadow: "0 0 30px rgba(41,151,255,0.28)" }}
+              whileTap={{ scale: 0.96 }}
               onClick={triggerStrategyGeneration}
               disabled={isAnalyzing}
-              className="w-full md:w-auto md:px-12 py-3.5 bg-[#2997ff] text-white rounded-full text-xs font-bold tracking-[0.14em] uppercase flex items-center justify-center gap-2.5 transition-premium shadow-xl shadow-[#2997ff]/10 disabled:opacity-50 cursor-pointer text-center"
+              className="relative overflow-hidden w-full md:w-auto md:px-14 py-3.5 bg-gradient-to-r from-blue-500 to-[#2997ff] text-white rounded-full text-xs font-bold tracking-[0.15em] uppercase flex items-center justify-center gap-2.5 transition-premium shadow-xl shadow-[#2997ff]/10 disabled:opacity-50 cursor-pointer text-center select-none"
             >
+              {/* Subtle shining ray element */}
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full animate-[shimmer_3.5s_infinite]" />
+
               {isAnalyzing ? (
                 <>
-                  <RefreshCw size={14} className="animate-spin" />
+                  <RefreshCw size={14} className="animate-spin text-white" />
                   <span>Procesando Matriz Estratégica...</span>
                 </>
               ) : (
                 <>
-                  <Sparkles size={14} className="animate-pulse" />
+                  <Sparkles size={14} className="animate-bounce" />
                   <span>⚡ Generar ideas estratégicas</span>
                 </>
               )}
@@ -704,8 +720,118 @@ export default function App() {
               </div>
             </div>
 
-            {/* Structured Table - scrollable on phone with neat snapping */}
-            <div className="rounded-2xl border border-white/8 bg-[#0A0A0A]/40 overflow-hidden shadow-2xl relative">
+            {/* RESPONSIVE OUTPUT SYSTEM: MOBILE-FIRST INDIVIDUAL FLOATING CARDS & DESKTOP STRUCTURED TABLE */}
+            
+            {/* 1. Mobile-First Card View (Screens < md) */}
+            <div className="block md:hidden space-y-4">
+              {strategies.map((row, idx) => {
+                const isCopied = copiedIndices[idx];
+                return (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                    className="glass-panel rounded-[24px] p-5 relative overflow-hidden flex flex-col gap-4.5 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.65)] bg-gradient-to-b from-[#0a0a0d]/90 to-[#040406]/95"
+                  >
+                    {/* Background Soft Accent Light Blooms inside each card */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/[0.03] blur-3xl rounded-full pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/[0.02] blur-3xl rounded-full pointer-events-none" />
+
+                    {/* Card Header metadata */}
+                    <div className="flex items-center justify-between border-b border-white/5 pb-3 relative z-10">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[9px] font-mono font-bold text-zinc-400 bg-white/5 px-2 py-0.5 rounded-md border border-white/[0.03]">
+                          #{String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wilder font-semibold">
+                          {platform} Idea
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 bg-[#2997ff]/5 border border-[#2997ff]/20 px-2.5 py-0.5 rounded-full text-[11px] font-bold text-[#2997ff] font-mono">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff] animate-pulse" />
+                        <span>{row.percentage}% <span className="text-[9px] text-[#2997ff]/60 font-semibold font-sans">TRACCIÓN</span></span>
+                      </div>
+                    </div>
+
+                    {/* Card Body: Large Screenshot-worthy Hook Quote */}
+                    <div className="relative z-10">
+                      <p className="text-zinc-100 text-[14px] sm:text-[15px] leading-relaxed font-sans font-medium tracking-tight">
+                        "{row.hook}"
+                      </p>
+                    </div>
+
+                    {/* Card Tag Grid: Meta and classification details */}
+                    <div className="grid grid-cols-2 gap-3.5 relative z-10 border-t border-white/5 pt-3.5 text-xs">
+                      <div>
+                        <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider mb-1 select-none">
+                          Ángulo
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold border border-[#2997ff]/15 bg-[#2997ff]/5 text-[#2997ff] inline-block capitalize font-sans leading-none">
+                          {row.angulo}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider mb-1 select-none">
+                          Emoción
+                        </span>
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold border border-purple-500/15 bg-purple-500/5 text-purple-400 inline-block capitalize font-sans leading-none">
+                          {row.emocion}
+                        </span>
+                      </div>
+
+                      <div className="sm:col-span-1">
+                        <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider mb-0.5 select-none">
+                          Enfoque
+                        </span>
+                        <span className="text-zinc-350 text-[11px] font-sans font-medium capitalize">
+                          {row.enfoque}
+                        </span>
+                      </div>
+
+                      <div className="sm:col-span-1">
+                        <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider mb-0.5 select-none">
+                          Formato
+                        </span>
+                        <span className="text-zinc-400 text-[10px] font-mono break-all lowercase">
+                          {row.formato}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Action footer: big tactile touch targets */}
+                    <div className="grid grid-cols-2 gap-2 pt-1.5 relative z-10 border-t border-white/5">
+                      <button
+                        type="button"
+                        onClick={() => copySingleHook(row.hook, idx)}
+                        className={`h-9.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer ${
+                          isCopied
+                            ? 'bg-emerald-500 text-white shadow-md animate-pulse'
+                            : 'bg-white/[0.03] hover:bg-white/[0.06] text-zinc-300 hover:text-white border border-white/10'
+                        }`}
+                      >
+                        {isCopied ? <Check size={12} /> : <Copy size={12} />}
+                        <span>{isCopied ? '¡Copiado!' : 'Copiar Gancho'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => copyRow(row, idx)}
+                        className="h-9.5 rounded-xl text-xs font-semibold bg-zinc-950/80 hover:bg-zinc-900 border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                      >
+                        <Sparkles size={11} className="text-[#2997ff]" />
+                        <span>Fila Completa</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* 2. Structured Desktop Table (Screens >= md) */}
+            <div className="hidden md:block rounded-2xl border border-white/8 bg-[#0A0A0A]/40 overflow-hidden shadow-2xl relative">
               <div className="overflow-x-auto scrollbar-thin">
                 <table className="w-full text-left border-collapse table-auto min-w-[780px]">
                   <thead>
