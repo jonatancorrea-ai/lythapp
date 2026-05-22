@@ -51,259 +51,211 @@ function getFallbackStrategies(niche: string, customTopic?: string, depth?: stri
   if (nicheLower.includes("ia") || nicheLower.includes("inteligencia") || nicheLower.includes("artificial")) {
     baseStrategies = [
       {
-        tendencia: "Agentes Autónomos de Razonamiento (OpenAI & Anthropic)",
-        hook: "¿Sigues usando prompts simples? El verdadero secreto ahora son los Agentes con bucle de autocrítica y depuración autónoma.",
-        angulo: "Opinión Incómoda",
-        formato: "Hilo Detallado",
-        plataforma: "LinkedIn / Medium",
+        hook: "¿De verdad crees que la IA reemplazará a los redactores? El peligro real es el programador que ya no escribe código.",
+        angulo: "uncomfortable opinion",
+        enfoque: "hot take",
+        formato: "short thread",
+        emocion: "uncomfortable truth",
         percentage: 97
       },
       {
-        tendencia: "Modelos Locales de Código Abierto (DeepSeek & Llama)",
-        hook: "Tu privacidad vale oro. Cómo correr un modelo de calidad GPT-4 completamente gratis en tu laptop de casa hoy mismo.",
-        angulo: "Guía Rápida",
-        formato: "Demo Técnica",
-        plataforma: "Twitter / X",
+        hook: "Tu privacidad local vale oro. Tu laptop de casa puede correr modelos de 30B parámetros sin filtrar un byte a la nube.",
+        angulo: "identity shift",
+        enfoque: "personal experience",
+        formato: "screenshot-style post",
+        emocion: "feeling ahead",
         percentage: 89
       },
       {
-        tendencia: "Búsqueda con Grounding en Tiempo Real (Gemini API)",
-        hook: "Google acaba de descifrar cómo detener las alucinaciones de la IA. Y lo mejor: puedes usarlo en tu propio software.",
-        angulo: "Alerta de Tendencia",
-        formato: "Video Tutorial",
-        plataforma: "YouTube Shorts",
+        hook: "Dejemos de hablar de prompts. Si tu app de IA no tiene un bucle recursivo de autocrítica offline, estás construyendo humo.",
+        angulo: "creator economy tension",
+        enfoque: "disruptive",
+        formato: "hook + reflection",
+        emocion: "curiosity tension",
         percentage: 94
       },
       {
-        tendencia: "Herramientas de Multi-agentes en Futurepedia",
-        hook: "Encontré una IA que hace el trabajo de todo un departamento de marketing en 12 minutos... y no es ChatGPT.",
-        angulo: "Caso de Estudio",
-        formato: "Short Video",
-        plataforma: "TikTok / Reels",
+        hook: "He auditado 14 proyectos SaaS que dicen usar 'Agentes Inteligentes'. El 90% son simples scripts de Python con delay.",
+        angulo: "execution vs consumption",
+        enfoque: "observation",
+        formato: "conversational post",
+        emocion: "creator frustration",
         percentage: 91
-      },
-      {
-        tendencia: "Micro-fichas Técnicas de Hugging Face",
-        hook: "El 90% de las empresas están pagando de más por IA. Aquí tienes las 3 librerías gratuitas que cambiarán tu flujo de código.",
-        angulo: "Detrás de Escena",
-        formato: "Carrusel",
-        plataforma: "Instagram",
-        percentage: 84
       }
     ];
   } else if (nicheLower.includes("marketing")) {
     baseStrategies = [
       {
-        tendencia: "Motores de Hiper-personalización de Audio (HubSpot Research)",
-        hook: "La personalización por nombre está muerta. La nueva tendencia es clonar voces en tiempo real para emails interactivos.",
-        angulo: "Opinión Incómoda",
-        formato: "Demo Técnica",
-        plataforma: "LinkedIn",
+        hook: "La personalización por nombre está muerta. El verdadero truco actual son audios dinámicos clonados con inflexión humana.",
+        angulo: "internet behavior shift",
+        enfoque: "hot take",
+        formato: "talking video",
+        emocion: "uncomfortable truth",
         percentage: 93
       },
       {
-        tendencia: "Optimización para Búsquedas Sin Clics (Think with Google)",
-        hook: "Google se queda con todo tu tráfico. El SEO ya no es recibir visitas, sino ser la respuesta directa de Gemini.",
-        angulo: "Análisis de Datos",
-        formato: "Carrusel",
-        plataforma: "LinkedIn / Medium",
+        hook: "Google está devorando todo tu tráfico orgánico. El SEO moderno es ser indexado como la respuesta directa de Gemini.",
+        angulo: "future prediction",
+        enfoque: "prediction",
+        formato: "carousel",
+        emocion: "future anxiety",
         percentage: 96
       },
       {
-        tendencia: "Creadores Sintéticos vs Influencers Reales (Marketing Brew)",
-        hook: "¿Le pagarías a una modelo de IA? Esta marca duplicó sus ventas usando un bot virtual diseñado en Photoshop.",
-        angulo: "Caso de Estudio",
-        formato: "Short Video",
-        plataforma: "TikTok / Reels",
+        hook: "Reemplacé a un influencer de un millón de seguidores por tres creadores devotos con 4k. Dupliqué ventas en una semana.",
+        angulo: "execution vs consumption",
+        enfoque: "storytelling",
+        formato: "conversational post",
+        emocion: "social proof tension",
         percentage: 88
       },
       {
-        tendencia: "Indexación por Intención Convertida (Neil Patel Blog)",
-        hook: "Escribir 50 artículos de blog ya no sirve de nada. Usa esta fórmula táctica de 3 páginas para captar leads de alto valor.",
-        angulo: "Guía Rápida",
-        formato: "Hilo Detallado",
-        plataforma: "Twitter / X",
-        percentage: 82
-      },
-      {
-        tendencia: "SEO Semántico para Búsqueda Visual (Search Engine Journal)",
-        hook: "La gente ya no lee tus títulos. El truco secreto para rankear primero en las búsquedas visuales de smartphones.",
-        angulo: "Alerta de Tendencia",
-        formato: "Infografía",
-        plataforma: "Instagram",
+        hook: "El 90% de los ganchos de venta fracasan porque huelen a embudo publicitario desde el primer segundo.",
+        angulo: "uncomfortable opinion",
+        enfoque: "disruptive",
+        formato: "hook + reflection",
+        emocion: "perspective shift",
         percentage: 85
       }
     ];
   } else if (nicheLower.includes("redes") || nicheLower.includes("sociales") || nicheLower.includes("social")) {
     baseStrategies = [
       {
-        tendencia: "Canales de Difusión y Encuestas de Conversión (Instagram Creators)",
-        hook: "Los likes en el feed están desapareciendo... El verdadero dinero hoy se hace en la bandeja de entrada privada.",
-        angulo: "Opinión Incómoda",
-        formato: "Post Editorial",
-        plataforma: "Instagram",
+        hook: "Los likes en el feed dejaron de importar. La verdadera conversión de alto valor está ocurriendo dentro de los DMs.",
+        angulo: "internet behavior shift",
+        enfoque: "observation",
+        formato: "conversational post",
+        emocion: "uncomfortable truth",
         percentage: 91
       },
       {
-        tendencia: "Micro-embudos de Compras en Retrato (TikTok Newsroom)",
-        hook: "El truco psicológico detrás de los videos de 7 segundos que están vaciando las tarjetas de crédito de la Generación Z.",
-        angulo: "Storytelling",
-        formato: "Short Video",
-        plataforma: "TikTok / Reels",
+        hook: "La era de la estética pulida terminó. La gente desliza de largo cuando detecta que tu video fue grabado por un equipo de cine.",
+        angulo: "uncomfortable opinion",
+        enfoque: "hot take",
+        formato: "POV",
+        emocion: "perspective shift",
         percentage: 95
       },
       {
-        tendencia: "Descentralización e Integración con Fediverso (Meta Threads)",
-        hook: "Threads acaba de conectarse al Fediverso. Qué significa esto para el futuro de tus seguidores en redes sociales.",
-        angulo: "Alerta de Tendencia",
-        formato: "Hilo Detallado",
-        plataforma: "Twitter / X",
+        hook: "Threads es el espacio para los que se cansaron de LinkedIn pero no toleran la hostilidad constante de Twitter.",
+        angulo: "social observation",
+        enfoque: "reflection",
+        formato: "screenshot-style post",
+        emocion: "emotional resonance",
         percentage: 86
       },
       {
-        tendencia: "Automatización de Contenido Multi-Canal Orgánico (Later Blog)",
-        hook: "Pasé de publicar 2 veces por semana a 3 veces por día sin volverme loco. Te revelo el software secreto.",
-        angulo: "Detrás de Escena",
-        formato: "Video Tutorial",
-        plataforma: "LinkedIn",
+        hook: "El algoritmo de TikTok premia el error sutil. Si repites la toma perfecta, matas la retención biológica.",
+        angulo: "uncomfortable opinion",
+        enfoque: "disruptive",
+        formato: "talking video",
+        emocion: "curiosity tension",
         percentage: 89
-      },
-      {
-        tendencia: "Estrategias de Retención con Hooks en Serie (Social Media Today)",
-        hook: "La regla de los 2 segundos de oro. El motivo real por el cual la gente desliza tu video antes del primer parpadeo.",
-        angulo: "Análisis de Datos",
-        formato: "Carrusel",
-        plataforma: "TikTok / Reels",
-        percentage: 90
       }
     ];
   } else if (nicheLower.includes("tecnología") || nicheLower.includes("tecnologia") || nicheLower.includes("tech")) {
     baseStrategies = [
       {
-        tendencia: "Vidrios Holográficos de Realidad Mixta (The Verge)",
-        hook: "El fin de las pantallas físicas está cerca. He probado las nuevas gafas de realidad aumentada y todo lo demás parece primitivo.",
-        angulo: "Detrás de Escena",
-        formato: "Short Video",
-        plataforma: "YouTube Shorts",
+        hook: "El fin de las pantallas portátiles comenzó. He usado visores integrados una semana y mi monitor se siente prehistórico.",
+        angulo: "social observation",
+        enfoque: "personal experience",
+        formato: "mini story",
+        emocion: "aspirational energy",
         percentage: 94
       },
       {
-        tendencia: "Soberanía en la Nube y Centros de Datos Ecológicos (Wired)",
-        hook: "Los nuevos centros de datos consumen tanta energía como ciudades enteras. La crisis energética silenciosa de internet.",
-        angulo: "Análisis de Datos",
-        formato: "Post Editorial",
-        plataforma: "LinkedIn / Medium",
+        hook: "Lanzar software hoy en día no es una proeza técnica. Lo verdaderamente difícil es defender tu atención en un feed saturado.",
+        angulo: "creator economy tension",
+        enfoque: "reflection",
+        formato: "hook + reflection",
+        emocion: "creator frustration",
         percentage: 90
       },
       {
-        tendencia: "Ecosistemas de Desarrollo sin Servidor No-Code (Product Hunt)",
-        hook: "Lanzar un SaaS ya no requiere un equipo de programadores. Conseguí mis primeros clientes sin escribir una sola línea de código.",
-        angulo: "Caso de Estudio",
-        formato: "Carrusel",
-        plataforma: "LinkedIn",
+        hook: "Tus contraseñas tradicionales quedarán obsoletas este año. La carrera silenciosa por el cifrado cuántico ya está activa.",
+        angulo: "future prediction",
+        enfoque: "prediction",
+        formato: "short thread",
+        emocion: "future anxiety",
         percentage: 92
       },
       {
-        tendencia: "Biomarcadores No Invasivos en Relojes Inteligentes (TechCrunch)",
-        hook: "Tu reloj ahora sabe más de tu salud que tu médico de cabecera. La revolución oculta de los sensores biométricos.",
-        angulo: "Alerta de Tendencia",
-        formato: "Hilo Detallado",
-        plataforma: "Twitter / X",
-        percentage: 87
-      },
-      {
-        tendencia: "Baterías de Estado Sólido para Dispositivos Portátiles (TechCrunch)",
-        hook: "Imagina cargar tu smartphone una sola vez a la semana. La patente de energía que cambiará todos tus gadgets.",
-        angulo: "Guía Rápida",
-        formato: "Infografía",
-        plataforma: "Twitter / X",
+        hook: "La arquitectura sin servidores es genial hasta que recibes la primera factura de un ataque DDoS que no supiste esquivar.",
+        angulo: "uncomfortable opinion",
+        enfoque: "hot take",
+        formato: "conversational post",
+        emocion: "uncomfortable truth",
         percentage: 85
       }
     ];
   } else if (nicheLower.includes("productividad")) {
     baseStrategies = [
       {
-        tendencia: "Botones Activos y Automatizaciones Nativa (Notion Blog)",
-        hook: "¿Sigues copiando y pegando tareas? Cómo transformé mi Notion en un asistente autónomo con un simple clic.",
-        angulo: "Guía Rápida",
-        formato: "Video Tutorial",
-        plataforma: "YouTube Shorts",
+        hook: "Apagué todas mis notificaciones y borré Slack del móvil. Completé más trabajo en 3 días que en las últimas 2 semanas.",
+        angulo: "uncomfortable opinion",
+        enfoque: "personal experience",
+        formato: "mini story",
+        emocion: "perspective shift",
         percentage: 95
       },
       {
-        tendencia: "Embajadores Multi-modales de Canvas (Zapier & Make Blogs)",
-        hook: "Conectar Gmail con Slack es obsoleto. Deja que los nuevos disparadores visuales analicen facturas de forma autónoma.",
-        angulo: "Demo Técnica",
-        formato: "Carrusel",
-        plataforma: "LinkedIn",
+        hook: "Tener 50 aplicaciones integradas no es orden. Es solo un cementerio digital automatizado para calmar tu ansiedad.",
+        angulo: "execution vs consumption",
+        enfoque: "hot take",
+        formato: "hook + reflection",
+        emocion: "creator frustration",
         percentage: 92
       },
       {
-        tendencia: "Asistentes de Voz para Lluvia de Ideas (Thomas Frank Blog)",
-        hook: "Canto mi brainstorming por notas de voz mientras camino y mi IA lo archiva todo ordenadamente en mis apuntes.",
-        angulo: "Detrás de Escena",
-        formato: "Short Video",
-        plataforma: "TikTok / Reels",
+        hook: "El cerebro humano no acumula ideas, solo genera conexiones. Todo tu Notion de 40 páginas es solo ruido inactivo si no ejecutas.",
+        angulo: "identity shift",
+        enfoque: "reflection",
+        formato: "screenshot-style post",
+        emocion: "uncomfortable truth",
         percentage: 89
       },
       {
-        tendencia: "Descarga Cognitiva Automatizada (Harvard Business Review)",
-        hook: "La paradoja de estar ocupado. O cómo delegar el 80% de tus decisiones operativas diarias a automatizaciones robustas.",
-        angulo: "Opinión Incómoda",
-        formato: "Post Editorial",
-        plataforma: "LinkedIn",
+        hook: "La verdadera productividad consiste en saber aburrirte sin mirar la pantalla del iPhone durante 15 minutos seguidos.",
+        angulo: "social observation",
+        enfoque: "hot take",
+        formato: "talking video",
+        emocion: "perspective shift",
         percentage: 87
-      },
-      {
-        tendencia: "Bloqueo de Calendarios Dinámico Basado en Enfoque (Thomas Frank Blog)",
-        hook: "He probado decenas de técnicas de gestión del tiempo. Esta es la única que detuvo por completo mi procrastinación.",
-        angulo: "Caso de Estudio",
-        formato: "Hilo Detallado",
-        plataforma: "Twitter / X",
-        percentage: 90
       }
     ];
   } else {
     baseStrategies = [
       {
-        tendencia: `Nuevas Tendencias Emergentes en ${niche}`,
         hook: `Lo que nadie te está diciendo sobre el futuro de ${niche} hoy en las fuentes de prestigio global.`,
-        angulo: "Alerta de Tendencia",
-        formato: "Carrusel",
-        plataforma: "LinkedIn",
+        angulo: "uncomfortable opinion",
+        enfoque: "hot take",
+        formato: "short thread",
+        emocion: "uncomfortable truth",
         percentage: 88
       },
       {
-        tendencia: `Análisis de Datos y Redes de Curation en ${niche}`,
         hook: `La técnica fundamental que revolucionará la forma en que entiendes ${niche ? niche : 'tu sector'} este trimestre.`,
-        angulo: "Análisis de Datos",
-        formato: "Hilo Detallado",
-        plataforma: "Twitter / X",
+        angulo: "future prediction",
+        enfoque: "prediction",
+        formato: "carousel",
+        emocion: "future anxiety",
         percentage: 86
       },
       {
-        tendencia: `Casos de Éxito Disruptivos en el Sector`,
-        hook: `Fórmula explicada paso a paso de cómo esta táctica superó las expectativas en tiempo récord.`,
-        angulo: "Caso de Estudio",
-        formato: "Short Video",
-        plataforma: "TikTok / Reels",
+        hook: `Fórmula explicada paso a paso de cómo esta táctica superó las expectativas de la industria sin presupuestos millonarios.`,
+        angulo: "execution vs consumption",
+        enfoque: "storytelling",
+        formato: "conversational post",
+        emocion: "social proof tension",
         percentage: 90
       },
       {
-        tendencia: `Secretos del Detrás de Escena de Creadores`,
         hook: `Lo que pasa a puerta cerrada cuando se diseñan estrategias de escala sobre este tema.`,
-        angulo: "Detrás de Escena",
-        formato: "Demo Técnica",
-        plataforma: "LinkedIn / Medium",
+        angulo: "creator economy tension",
+        enfoque: "reflection",
+        formato: "hook + reflection",
+        emocion: "creator frustration",
         percentage: 84
-      },
-      {
-        tendencia: `Guía Rápida y Táctica del Especialista`,
-        hook: `Menos teoría y más ejecución. El checklist definitivo para dominar este concepto de inmediato.`,
-        angulo: "Guía Rápida",
-        formato: "Video Tutorial",
-        plataforma: "YouTube Shorts",
-        percentage: 91
       }
     ];
   }
@@ -311,7 +263,6 @@ function getFallbackStrategies(niche: string, customTopic?: string, depth?: stri
   // If a custom topic is requested, adapt the fallback content to reference it beautifully
   if (customTopic) {
     baseStrategies = baseStrategies.map(item => {
-      // Create intelligent tone-matched hook additions
       let topicPrefix = `¿Quieres dominar ${customTopic}? `;
       if (tone && tone.includes("Polémico")) {
         topicPrefix = `El gran error sobre ${customTopic}: `;
@@ -320,9 +271,6 @@ function getFallbackStrategies(niche: string, customTopic?: string, depth?: stri
       }
       return {
         ...item,
-        tendencia: item.tendencia.includes("(") 
-          ? `${item.tendencia.split(" (")[0]} de ${customTopic}` 
-          : `${item.tendencia} para ${customTopic}`,
         hook: `${topicPrefix}${item.hook.charAt(0).toLowerCase()}${item.hook.slice(1)}`
       };
     });
@@ -397,25 +345,26 @@ app.post("/api/generate-strategy", async (req, res) => {
 `;
     }
 
-    const prompt = `Actúa como un agente de curación de contenidos y analista de tendencias de élite para la marca premium "LYTH AI".
-Acabas de simular un escaneo exhaustivo en tiempo real de las siguientes fuentes oficiales específicas para el nicho "${niche}":
-${sourcesList}
-
-Tu misión es extraer las 5 tendencias en español (o adaptadas al español de manera ultra-profesional/líder) más relevantes, activas y comentadas HOY en ese conjunto de fuentes, aplicando un análisis de tracción/interés real.
-${customTopic ? `CRÍTICO: Filtra y enfoca estas tendencias estrictamente alrededor de este tema/concepto solicitado: "${customTopic}"` : ''}
+    const prompt = `Actúa como un estratega creativo y curador de contenido de élite: "LYTH".
+Tu propósito NO es generar contenido automatizado y genérico de IA. Tu misión es transformar ideas sencillas sobre "${niche}" en estrategias de contenido social-first premium, calibrando la psicología viral y la comunicación emocional.
+${customTopic ? `CRÍTICO: Enfoca todas las ideas de estrategia estrictamente en torno a este concepto solicitado: "${customTopic}"` : ''}
 
 NOTAS DE REFINAMIENTO SELECCIONADAS POR EL USUARIO:
-- Profundidad de tendencia: "${depth || "Estándar"}". Asegúrate de que las tendencias reflejen este enfoque de profundidad de manera coherente en su explicación técnica (general, detallada o científica).
-- Tono del gancho (hook): "${tone || "Audaz / Provocativo"}". Ajusta las palabras, expresiones, y la intriga a este estilo de tono de voz exacto.
+- Profundidad requerida: "${depth || "Estándar"}". Haz que la sofisticación estratégica refleje este nivel.
+- Tono del gancho (hook): "${tone || "Audaz / Provocativo"}". Ajusta la intriga y la fricción a este tono exacto.
 - Estilo del ángulo: "${creativity || "Vanguardista / Creativa"}". Haz que los ángulos y formatos elegidos reflejen este nivel de innovación disruptiva.
 
+Tu output debe constar exactamente de entre 3 y 5 ideas de contenido altamente curadas, pulidas y de altísima calidad. Calidad sobre cantidad.
+
 REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
-1. 'tendencia': El título de la tendencia, concepto, herramienta o cambio algorítmico real extraído (máximo 60 caracteres). No incluyas números de ranking en el texto.
-2. 'hook': Un gancho sumamente ingenioso (máximo 120 caracteres) para atrapar al lector en los primeros 3 segundos, redactado según el tono de gancho indicado.
-3. 'angulo': Una de estas opciones exactamente según combine mejor: "Opinión Incómoda", "Caso de Estudio", "Storytelling", "Fun Fact", "Guía Rápida", "Alerta de Tendencia", "Detrás de Escena", "Análisis de Datos".
-4. 'formato': Una de estas opciones exactamente según combine mejor con el ángulo: "Short Video", "Carrusel", "Hilo Detallado", "Video Tutorial", "Infografía", "Post Editorial", "Demo Técnica".
-5. 'plataforma': La combinación perfecta donde brille, por ejemplo: "TikTok / Reels", "LinkedIn", "Twitter / X", "YouTube Shorts", "Instagram", "LinkedIn / Medium".
-6. 'percentage': Un porcentaje de tracción/interés de búsqueda realista y dinámico para cada tendencia, representado como un número entero entre 75 y 100.
+1. 'hook': Un gancho sumamente ingenioso (máximo 120 caracteres) nativo de plataformas sociales modernas. Debe crear tensión, curiosidad, fricción emocional, sorpresa o contradicción. EVITA ganchos corporativos típicos como "5 tips para", "descubre cómo", o "la guía definitiva".
+2. 'angulo': La perspectiva de comunicación estratégica (ejemplos exactos: "opinión incómoda", "cambio de comportamiento", "tensión del creador", "predicción de futuro", "shift de identidad", "ejecución vs consumo", "contradicción emocional", "observación social").
+3. 'enfoque': El estilo de ejecución o comunicación (ejemplos exactos: "storytelling", "hot take", "reflexión", "predicción", "opinión", "conversacional", "educativo", "disruptivo", "experiencia personal", "observación de internet").
+4. 'formato': El formato ideal adaptado a Threads, X, TikTok o Instagram (ejemplos exactos: "short thread", "tweet", "mini story", "talking video", "carousel", "POV", "conversational post", "hook + reflection", "screenshot-style post", "personal insight").
+5. 'emocion': La energía emocional impulsando el engagement (ejemplos exactos: "curiosity tension", "uncomfortable truth", "aspirational energy", "subtle urgency", "identity validation", "emotional resonance", "future anxiety", "feeling ahead", "social proof tension", "creator frustration", "perspective shift").
+6. 'percentage': Un número entero del 75 al 100 que representa el "Índice de Retención Tracción" estimado.
+
+Escribe de manera sumamente humana, natural, premium, con vocabulario de la economía de creadores e internet culture. NUNCA suenes corporativo, comercial, artificial ni a ChatGPT genérico. Sin emojis excesivos.
 `;
 
     // Query Gemini 3.5 Flash for fast, powerful structured generation
@@ -423,7 +372,7 @@ REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
-        systemInstruction: "Eres el estratega de contenido y curador jefe de LYTH AI. Respondes con estrategias de contenido ingeniosas de vanguardia basadas estrictamente en la simulación de análisis en tiempo real de fuentes oficiales de prestigio.",
+        systemInstruction: "Eres LYTH, un estratega creativo premium de inteligencia artificial que ayuda a creadores, marcas y profesionales a estructurar ideas de contenido social-first que se sienten humanas, emocionalmente inteligentes, estratégicamente afiladas y de nivel elite. Eludes clichés corporativos, lenguaje robótico de IA o ganchos genéricos.",
         temperature: temperature,
         responseMimeType: "application/json",
         responseSchema: {
@@ -431,32 +380,32 @@ REGLAS DE FORMATO Y CONTENIDO (Debes seguir estrictamente esto):
           items: {
             type: Type.OBJECT,
             properties: {
-              tendencia: { 
-                type: Type.STRING, 
-                description: "Título elegante de la tendencia emergente" 
-              },
               hook: { 
                 type: Type.STRING, 
-                description: "Gancho persuasivo, directo o polémico para abrir el post" 
+                description: "Scroll-stopping highly curated opening hook idea native to modern internet platforms" 
               },
               angulo: { 
                 type: Type.STRING, 
-                description: "Ángulo estratégico de entrega" 
+                description: "Strategic communication perspective or tension behind the idea" 
+              },
+              enfoque: { 
+                type: Type.STRING, 
+                description: "Execution style or communication approach" 
               },
               formato: { 
                 type: Type.STRING, 
-                description: "Formato visual recomendado" 
+                description: "The ideal creator-native post layout" 
               },
-              plataforma: { 
+              emocion: { 
                 type: Type.STRING, 
-                description: "Redes sociales ideales" 
+                description: "The emotional energy or psychological driver" 
               },
               percentage: { 
                 type: Type.INTEGER, 
-                description: "Porcentaje de incremento de demanda (entre 72 y 99)" 
+                description: "Estimated tracción or attention score between 75 and 100" 
               }
             },
-            required: ["tendencia", "hook", "angulo", "formato", "plataforma", "percentage"]
+            required: ["hook", "angulo", "enfoque", "formato", "emocion", "percentage"]
           }
         }
       }

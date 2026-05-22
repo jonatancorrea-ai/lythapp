@@ -130,108 +130,94 @@ const NICHES = [
   { id: 'tecnologia', name: 'Tecnología', icon: Zap },
   { id: 'redes', name: 'Redes Sociales', icon: Share2 },
   { id: 'productividad', name: 'Productividad', icon: Layout },
-];
-
-const NICHE_STRATEGY_DATA = {
+];const NICHE_STRATEGY_DATA = {
   ia: [
     { 
-      tendencia: "IA Generativa en el flujo de trabajo", 
-      hook: "La IA no te reemplazará, alguien usándola sí...", 
-      angulo: "Opinión Incómoda", 
-      formato: "Short Video", 
-      plataforma: "Instagram Reels / TikTok",
+      hook: "¿De verdad crees que la IA reemplazará a los redactores? El peligro real es el programador que ya no escribe código.", 
+      angulo: "uncomfortable opinion", 
+      enfoque: "hot take", 
+      formato: "short thread", 
+      emocion: "uncomfortable truth",
+      percentage: 97,
       icon: Sparkles,
       iconColor: "text-[#2997ff]",
       bgColor: "bg-[#2997ff]/10"
     },
     { 
-      tendencia: "Micro-SaaS con IA local", 
-      hook: "¿Sigues pagando suscripciones caras de IA?", 
-      angulo: "Fun Fact", 
-      formato: "Post de Carrusel", 
-      plataforma: "LinkedIn",
+      hook: "Tu privacidad local vale oro. Tu laptop de casa puede correr modelos de 30B parámetros sin filtrar un byte a la nube.", 
+      angulo: "identity shift", 
+      enfoque: "personal experience", 
+      formato: "screenshot-style post", 
+      emocion: "feeling ahead",
+      percentage: 89,
       icon: Database,
       iconColor: "text-purple-400",
       bgColor: "bg-purple-400/10"
     },
     { 
-      tendencia: "Optimización de SEO con LLMs", 
-      hook: "Hice el trabajo de SEO de 10 días en 20 minutos", 
-      angulo: "Storytelling", 
-      formato: "Hilo Detallado", 
-      plataforma: "Twitter / X",
+      hook: "Dejemos de hablar de prompts. Si tu app de IA no tiene un bucle recursivo de autocrítica offline, estás construyendo humo.", 
+      angulo: "creator economy tension", 
+      enfoque: "disruptive", 
+      formato: "hook + reflection", 
+      emocion: "curiosity tension",
+      percentage: 94,
       icon: Search,
       iconColor: "text-emerald-400",
       bgColor: "bg-emerald-400/10"
     },
     { 
-      tendencia: "Automatización de contenido en video", 
-      hook: "Este bot edita mis videos mientras duermo", 
-      angulo: "Caso de Estudio", 
-      formato: "Video Tutorial", 
-      plataforma: "TikTok",
+      hook: "He auditado 14 proyectos SaaS que dicen usar 'Agentes Inteligentes'. El 90% son simples scripts de Python con delay.", 
+      angulo: "execution vs consumption", 
+      enfoque: "observation", 
+      formato: "conversational post", 
+      emocion: "creator frustration",
+      percentage: 91,
       icon: Video,
       iconColor: "text-red-400",
       bgColor: "bg-red-400/10"
-    },
-    { 
-      tendencia: "Ética y regulación de la IA", 
-      hook: "La nueva ley que podría prohibir tu herramienta", 
-      angulo: "Detrás de Escena", 
-      formato: "Infografía", 
-      plataforma: "LinkedIn / Medium",
-      icon: ShieldAlert,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-400/10"
     }
   ],
   marketing: [
     {
-      tendencia: "Funnel Omnicanal Automatizado",
-      hook: "El 90% de tus leads se enfrían por tardar 5 minutos en responder...",
-      angulo: "Opinión Incómoda",
-      formato: "Short Video",
-      plataforma: "Instagram / TikTok",
+      hook: "La personalización por nombre está muerta. El verdadero truco actual son audios dinámicos clonados con inflexión humana.",
+      angulo: "internet behavior shift",
+      enfoque: "hot take",
+      formato: "talking video",
+      emocion: "uncomfortable truth",
+      percentage: 93,
       icon: BarChart3,
       iconColor: "text-[#2997ff]",
       bgColor: "bg-[#2997ff]/10"
     },
     {
-      tendencia: "Psicología de Precios Reversa",
-      hook: "La razón científica de por qué aumenté precios y vendí más",
-      angulo: "Storytelling",
-      formato: "Carrusel Premium",
-      plataforma: "LinkedIn",
+      hook: "Google está devorando todo tu tráfico orgánico. El SEO moderno es ser indexado como la respuesta directa de Gemini.",
+      angulo: "future prediction",
+      enfoque: "prediction",
+      formato: "carousel",
+      emocion: "future anxiety",
+      percentage: 96,
       icon: Sparkles,
       iconColor: "text-purple-400",
       bgColor: "bg-purple-400/10"
     },
     {
-      tendencia: "Micro-Influencers de Nicho",
-      hook: "Cambié un influencer de 1M por 5 de 10k y tripliqué ventas",
-      angulo: "Caso de Estudio",
-      formato: "Hilo Explicativo",
-      plataforma: "Twitter / X",
+      hook: "Reemplacé a un influencer de un millón de seguidores por tres creadores devotos con 4k. Dupliqué ventas en una semana.",
+      angulo: "execution vs consumption",
+      enfoque: "storytelling",
+      formato: "conversational post",
+      emocion: "social proof tension",
+      percentage: 88,
       icon: Share2,
       iconColor: "text-emerald-400",
       bgColor: "bg-emerald-400/10"
     },
     {
-      tendencia: "Campañas de Retargeting Dinámico",
-      hook: "¿Te persigue ese anuncio? Te enseño el truco detrás de escena",
-      angulo: "Detrás de Escena",
-      formato: "Video Tutorial",
-      plataforma: "YouTube / TikTok",
-      icon: Video,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-400/10"
-    },
-    {
-      tendencia: "Declive de las Cookies de Terceros",
-      hook: "El cambio en Apple y Google que destruirá tus anuncios este mes",
-      angulo: "Alerta de Tendencia",
-      formato: "Post Editorial",
-      plataforma: "LinkedIn / Medium",
+      hook: "El 90% de los ganchos de venta fracasan porque huelen a embudo publicitario desde el primer segundo.",
+      angulo: "uncomfortable opinion",
+      enfoque: "disruptive",
+      formato: "hook + reflection",
+      emocion: "perspective shift",
+      percentage: 85,
       icon: ShieldAlert,
       iconColor: "text-amber-400",
       bgColor: "bg-amber-400/10"
@@ -239,51 +225,45 @@ const NICHE_STRATEGY_DATA = {
   ],
   tecnologia: [
     {
-      tendencia: "Sistemas Web Descentralizados",
-      hook: "Si tu app centralizada cae un minuto, pierdes miles. Solución:",
-      angulo: "Opinión Incómoda",
-      formato: "Short Video",
-      plataforma: "Instagram Reels",
+      hook: "El fin de las pantallas portátiles comenzó. He usado visores integrados una semana y mi monitor se siente prehistórico.",
+      angulo: "social observation",
+      enfoque: "personal experience",
+      formato: "mini story",
+      emocion: "aspirational energy",
+      percentage: 94,
       icon: Zap,
       iconColor: "text-brand-accent",
       bgColor: "bg-brand-accent/10"
     },
     {
-      tendencia: "Bases de Datos Vectoriales",
-      hook: "La tecnología silenciosa que hace que ChatGPT te recuerde",
-      angulo: "Fun Fact",
-      formato: "Carrusel Técnico",
-      plataforma: "LinkedIn",
+      hook: "Lanzar software hoy en día no es una proeza técnica. Lo verdaderamente difícil es defender tu atención en un feed saturado.",
+      angulo: "creator economy tension",
+      enfoque: "reflection",
+      formato: "hook + reflection",
+      emocion: "creator frustration",
+      percentage: 90,
       icon: Database,
       iconColor: "text-purple-400",
       bgColor: "bg-purple-400/10"
     },
     {
-      tendencia: "Frameworks Edge-Runtime",
-      hook: "Mi sitio web carga en 0.1 segundos globales gracias a esto",
-      angulo: "Storytelling",
-      formato: "Hilo Detallado",
-      plataforma: "Twitter / X",
+      hook: "Tus contraseñas tradicionales quedarán obsoletas este año. La carrera silenciosa por el cifrado cuántico ya está activa.",
+      angulo: "future prediction",
+      enfoque: "prediction",
+      formato: "short thread",
+      emocion: "future anxiety",
+      percentage: 92,
       icon: Search,
       iconColor: "text-emerald-400",
       bgColor: "bg-emerald-400/10"
     },
     {
-      tendencia: "Desarrollo con Agentes de Código",
-      hook: "Este bot escribió el 80% de mi codebase mientras tomaba café",
-      angulo: "Caso de Estudio",
-      formato: "Video Demo",
-      plataforma: "YouTube / TikTok",
-      icon: Video,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-400/10"
-    },
-    {
-      tendencia: "Ciberseguridad en la Era Cuántica",
-      hook: "Tus contraseñas actuales serán obsoletas en menos de un año",
-      angulo: "Detrás de Escena",
-      formato: "Guía de Acción",
-      plataforma: "LinkedIn / X",
+      hook: "La arquitectura sin servidores es genial hasta que recibes la primera factura de un ataque DDoS que no supiste esquivar.",
+      angulo: "uncomfortable opinion",
+      enfoque: "hot take",
+      formato: "conversational post",
+      emocion: "uncomfortable truth",
+      percentage: 85,
       icon: ShieldAlert,
       iconColor: "text-amber-400",
       bgColor: "bg-amber-400/10"
@@ -291,51 +271,45 @@ const NICHE_STRATEGY_DATA = {
   ],
   redes: [
     {
-      tendencia: "Retención Óptima de 3 Segundos",
-      hook: "El gancho exacto que impide que hagan scroll en tu video",
-      angulo: "Opinión Incómoda",
-      formato: "Short Video",
-      plataforma: "TikTok / Shorts",
+      hook: "Los likes en el feed dejaron de importar. La verdadera conversión de alto valor está ocurriendo dentro de los DMs.",
+      angulo: "internet behavior shift",
+      enfoque: "observation",
+      formato: "conversational post",
+      emocion: "uncomfortable truth",
+      percentage: 91,
       icon: Video,
       iconColor: "text-red-400",
       bgColor: "bg-red-400/10"
     },
     {
-      tendencia: "Estrategias de Growth Subterráneo",
-      hook: "Cómo pasé de 0 a 50k seguidores sin gastar un solo dólar",
-      angulo: "Storytelling",
-      formato: "Post Informativo",
-      plataforma: "LinkedIn",
+      hook: "La era de la estética pulida terminó. La gente desliza de largo cuando detecta que tu video fue grabado por un equipo de cine.",
+      angulo: "uncomfortable opinion",
+      enfoque: "hot take",
+      formato: "POV",
+      emocion: "perspective shift",
+      percentage: 95,
       icon: Share2,
       iconColor: "text-[#2997ff]",
       bgColor: "bg-[#2997ff]/10"
     },
     {
-      tendencia: "Formatos de Carrusel Infinitos",
-      hook: "La plantilla de carrusel que la gente no puede dejar de deslizar",
-      angulo: "Fun Fact",
-      formato: "Plantilla",
-      plataforma: "Instagram / LinkedIn",
+      hook: "Threads es el espacio para los que se cansaron de LinkedIn pero no toleran la hostilidad constante de Twitter.",
+      angulo: "social observation",
+      enfoque: "reflection",
+      formato: "screenshot-style post",
+      emocion: "emotional resonance",
+      percentage: 86,
       icon: Layout,
       iconColor: "text-purple-400",
       bgColor: "bg-purple-400/10"
     },
     {
-      tendencia: "Monetización con Comunidades Privadas",
-      hook: "Dejé de mendigar patrocinadores y creé un club privado de $10/mes",
-      angulo: "Caso de Estudio",
-      formato: "Hilo Directo",
-      plataforma: "Twitter / X",
-      icon: Sparkles,
-      iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-400/10"
-    },
-    {
-      tendencia: "Shadowbans y Cambios de Algoritmo",
-      hook: "El error estúpido que frena el alcance de tu cuenta ahora mismo",
-      angulo: "Alerta de Tendencia",
-      formato: "Guía Rápida",
-      plataforma: "Instagram / TikTok",
+      hook: "El algoritmo de TikTok premia el error sutil. Si repites la toma perfecta, matas la retención biológica.",
+      angulo: "uncomfortable opinion",
+      enfoque: "disruptive",
+      formato: "talking video",
+      emocion: "curiosity tension",
+      percentage: 89,
       icon: ShieldAlert,
       iconColor: "text-amber-400",
       bgColor: "bg-amber-400/10"
@@ -343,51 +317,45 @@ const NICHE_STRATEGY_DATA = {
   ],
   productividad: [
     {
-      tendencia: "Sistemas deep work sin notificaciones",
-      hook: "Apagué mi móvil de 9 a 12 y completé más trabajo que en toda la semana...",
-      angulo: "Opinión Incómoda",
-      formato: "Short Video",
-      plataforma: "Instagram Reels",
+      hook: "Apagué todas mis notificaciones y borré Slack del móvil. Completé más trabajo en 3 días que en las últimas 2 semanas.",
+      angulo: "uncomfortable opinion",
+      enfoque: "personal experience",
+      formato: "mini story",
+      emocion: "perspective shift",
+      percentage: 95,
       icon: Sparkles,
       iconColor: "text-[#2997ff]",
       bgColor: "bg-[#2997ff]/10"
     },
     {
-      tendencia: "Notion AI como Segundo Cerebro",
-      hook: "Toda mi vida en una sola plantilla interactiva auto-clasificada",
-      angulo: "Fun Fact",
-      formato: "Carrusel",
-      plataforma: "LinkedIn",
+      hook: "Tener 50 aplicaciones integradas no es orden. Es solo un cementerio digital automatizado para calmar tu ansiedad.",
+      angulo: "execution vs consumption",
+      enfoque: "hot take",
+      formato: "hook + reflection",
+      emocion: "creator frustration",
+      percentage: 92,
       icon: Layout,
       iconColor: "text-purple-400",
       bgColor: "bg-purple-400/10"
     },
     {
-      tendencia: "Bloques de Enfoque Ultra-Estrictos",
-      hook: "El método de los cronómetros invertidos que usan los CEOs de Silicon Valley",
-      angulo: "Storytelling",
-      formato: "Hilo de Valor",
-      plataforma: "Twitter / X",
+      hook: "El cerebro humano no acumula ideas, solo genera conexiones. Todo tu Notion de 40 páginas es solo ruido inactivo si no ejecutas.",
+      angulo: "identity shift",
+      enfoque: "reflection",
+      formato: "screenshot-style post",
+      emocion: "uncomfortable truth",
+      percentage: 89,
       icon: Database,
       iconColor: "text-emerald-400",
       bgColor: "bg-emerald-400/10"
     },
     {
-      tendencia: "Automatizaciones No-Code Diarias",
-      hook: "Diseñé un bot que resume mis correos y me los manda ordenados por WhatsApp",
-      angulo: "Caso de Estudio",
-      formato: "Video Tutorial",
-      plataforma: "YouTube Shorts / TikTok",
-      icon: Video,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-400/10"
-    },
-    {
-      tendencia: "Síndrome de Enfoque Fragmentado",
-      hook: "La trampa oculta de las 45 pestañas abiertas que destruye tu cerebro",
-      angulo: "Detrás de Escena",
-      formato: "Infografía",
-      plataforma: "LinkedIn",
+      hook: "La verdadera productividad consiste en saber aburrirte sin mirar la pantalla del iPhone durante 15 minutos seguidos.",
+      angulo: "social observation",
+      enfoque: "hot take",
+      formato: "talking video",
+      emocion: "perspective shift",
+      percentage: 87,
       icon: ShieldAlert,
       iconColor: "text-amber-400",
       bgColor: "bg-amber-400/10"
@@ -478,23 +446,23 @@ export default function App() {
 
   const getStrategyTableMarkdown = (rows: any[]) => {
     return [
-      '| Tendencia | Hook | Ángulo | Formato | Plataforma |',
+      '| Hook | Ángulo | Enfoque | Formato | Emoción |',
       '|---|---|---|---|---|',
-      ...rows.map(row => `| ${row.tendencia} | "${row.hook}" | ${row.angulo} | ${row.formato} | ${row.plataforma} |`)
+      ...rows.map(row => `| "${row.hook}" | ${row.angulo} | ${row.enfoque} | ${row.formato} | ${row.emocion} |`)
     ].join('\n');
   };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(getStrategyTableMarkdown(currentRows).trim());
     setCopied(true);
-    addToast('¡Estrategia copiada al portapapeles con éxito!', 'success');
+    addToast('¡Estrategia de LYTH copiada al portapapeles con éxito!', 'success');
     setTimeout(() => setCopied(false), 2000);
   };
 
   const copySingleRowToClipboard = (row: any) => {
-    const textToCopy = `Tendencia: ${row.tendencia}\nHook: "${row.hook}"\nÁngulo: ${row.angulo}\nFormato: ${row.formato}\nPlataforma: ${row.plataforma}`;
+    const textToCopy = `Hook: "${row.hook}"\nÁngulo: ${row.angulo}\nEnfoque: ${row.enfoque}\nFormato: ${row.formato}\nEmoción: ${row.emocion}`;
     navigator.clipboard.writeText(textToCopy);
-    addToast(`Copiada idea: "${row.tendencia}"`, 'success');
+    addToast(`Copiada idea social: "${row.hook.substring(0, 30)}..."`, 'success');
   };
 
   const fetchGeminiStrategy = async (nicheId: string, topic?: string) => {
@@ -630,14 +598,14 @@ export default function App() {
       doc.line(18, 41, pageWidth - 18, 41);
 
       // Strategy autoTable setup
-      const headers = [['TENDENCIA', 'HOOK (GANCHO)', 'ÁNGULO (PERSPECTIVA)', 'FORMATO', 'PLATAFORMA RECOMENDADA']];
+      const headers = [['HOOK (GANCHO)', 'ÁNGULO (PERSPECTIVA)', 'ENFOQUE', 'FORMATO RECOMENDADO', 'EMOCIÓN / MOTOR']];
       
       const body = currentRows.map(row => [
-        row.tendencia,
         `"${row.hook}"`,
         row.angulo,
+        row.enfoque,
         row.formato.toUpperCase(),
-        row.plataforma
+        row.emocion
       ]);
 
 
@@ -1022,8 +990,8 @@ export default function App() {
                     whileTap={{ scale: 0.98 }}
                     className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1 bg-white/[0.01] hover:bg-white/[0.05] transition-all duration-300 cursor-default"
                   >
-                    <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px]">
-                      {row.tendencia}
+                    <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px] capitalize">
+                      {row.enfoque}: {row.angulo}
                     </span>
                     <div className="flex items-center gap-2 shrink-0">
                       <span className="text-[10px] font-bold text-brand-accent/80 group-hover:text-brand-accent transition-colors px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 font-mono">
@@ -1256,11 +1224,11 @@ export default function App() {
                           </span>
                           <span className="text-xs font-bold font-mono tracking-wider text-zinc-500 uppercase">{row.formato}</span>
                         </div>
-                        <span className="text-[10px] text-brand-accent/80 font-bold bg-brand-accent/5 border border-brand-accent/10 px-2 py-0.5 rounded-full">{row.plataforma}</span>
+                        <span className="text-[10px] text-brand-accent/80 font-bold bg-brand-accent/5 border border-brand-accent/10 px-2.5 py-0.5 rounded-full uppercase font-mono tracking-wide">{row.emocion}</span>
                       </div>
 
                       <div className="space-y-2">
-                        <h4 className="text-sm font-bold text-white group-hover/card:text-brand-accent transition-colors duration-200">{row.tendencia}</h4>
+                        <h4 className="text-sm font-bold text-white group-hover/card:text-brand-accent transition-colors duration-200 capitalize">{row.enfoque} — <span className="text-zinc-400 font-medium">{row.angulo}</span></h4>
                         <div className="bg-white/[0.01] border border-white/5 p-3 rounded-lg italic text-xs text-zinc-300 relative pl-6 leading-relaxed">
                           <span className="absolute left-2 top-2 text-xl text-brand-accent/30 font-serif leading-none">“</span>
                           {row.hook}
@@ -1308,12 +1276,12 @@ export default function App() {
                   <table className="w-full text-left border-collapse min-w-[540px] md:min-w-full">
                     <thead>
                       <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold font-mono">
-                        <th className="pb-3 px-3">Tendencia</th>
+                        <th className="pb-3 px-3">Enfoque</th>
                         <th className="pb-3 px-3 hidden md:table-cell">Hook (Gancho)</th>
                         <th className="pb-3 px-3 hidden sm:table-cell">Ángulo</th>
-                        <th className="pb-3 px-3 min-w-[125px]">Tracción / Interés</th>
+                        <th className="pb-3 px-3 min-w-[130px]">Poder de Atención</th>
                         <th className="pb-3 px-3 hidden lg:table-cell">Formato</th>
-                        <th className="pb-3 px-3 hidden lg:table-cell">Plataforma</th>
+                        <th className="pb-3 px-3 hidden lg:table-cell">Emoción</th>
                         <th className="pb-3 px-3 w-12 text-center text-zinc-650 font-bold">INFO</th>
                       </tr>
                     </thead>
@@ -1361,7 +1329,7 @@ export default function App() {
                                     return <FallbackIcon size={14} />;
                                   })()}
                                 </motion.span>
-                                <span className="truncate">{row.tendencia}</span>
+                                <span className="truncate capitalize">{row.enfoque}</span>
                               </div>
                             </td>
                             <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px] hidden md:table-cell">
@@ -1375,7 +1343,7 @@ export default function App() {
                             <td className="py-4 px-3">
                               <div className="flex flex-col gap-1.5 min-w-[125px] justify-center">
                                 <div className="flex items-center justify-between text-[10px] font-mono leading-none">
-                                  <span className="text-zinc-500 font-medium scale-[0.85] origin-left">DEMANDA</span>
+                                  <span className="text-zinc-500 font-medium scale-[0.85] origin-left">VIRAL SCORE</span>
                                   <span className="text-emerald-400 font-bold">+{row.percentage || 75}%</span>
                                 </div>
                                 <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
@@ -1391,8 +1359,8 @@ export default function App() {
                             <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors hidden lg:table-cell">
                               {row.formato}
                             </td>
-                            <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px] hidden lg:table-cell">
-                              {row.plataforma}
+                            <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px] hidden lg:table-cell uppercase font-mono tracking-wide">
+                              {row.emocion}
                             </td>
                             <td className="py-4 px-3 text-center">
                               <button 
@@ -1467,12 +1435,12 @@ export default function App() {
 
                                       <div className="flex flex-col justify-between gap-3 bg-zinc-950 p-3 rounded-lg border border-white/5 sm:col-span-2 lg:col-span-1">
                                         <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-emerald-400/80 select-none">Canal / Plataforma</span>
-                                          <span className="text-emerald-400 font-semibold">{row.plataforma}</span>
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-[#2997ff]/80 select-none">Psicología & Emoción</span>
+                                          <span className="text-brand-accent font-semibold uppercase tracking-wide text-xs">{row.emocion}</span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-purple-400/80 select-none">Tracción & Tráfico</span>
-                                          <span className="text-brand-accent font-bold font-mono text-[11px]">+{row.percentage || 75}% Interés real</span>
+                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-purple-400/80 select-none">Retención Tracción</span>
+                                          <span className="text-zinc-200 font-bold font-mono text-[11px]">+{row.percentage || 75}% Tracción potencial</span>
                                         </div>
                                       </div>
                                     </div>
