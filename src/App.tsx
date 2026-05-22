@@ -1,54 +1,42 @@
-import { useState, useEffect, FormEvent, Fragment } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { 
   Zap, 
-  TrendingUp, 
-  Cpu, 
-  BarChart3, 
-  Briefcase, 
-  Share2, 
-  Layout, 
-  PenTool, 
-  Shirt, 
-  Heart, 
-  Dumbbell, 
-  Clipboard,
-  Terminal,
-  LogIn,
-  RefreshCw,
-  Copy,
+  LogIn, 
+  LogOut,
+  RefreshCw, 
+  Copy, 
+  Check, 
+  CheckCircle, 
+  Download, 
   Sparkles,
   Database,
   Search,
-  Video,
-  ShieldAlert,
-  Check,
-  CheckCircle,
-  Download,
-  Sliders,
-  ChevronDown,
-  ChevronUp
+  MessageSquare,
+  Twitter,
+  Instagram as InstagramIcon,
+  Play
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import StrategyLoader from './components/StrategyLoader';
 
-// Interactive & Premium Vector Logo recreation of the "LYTH Ai" brand image
+// Interactive & Premium Vector Logo recreation of the "LYTH Ai" brand
 function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg"; showText?: boolean }) {
   const dimensions = {
     sm: { container: "h-9", icon: "w-8 h-8", text: "text-lg md:text-xl", bolt: 12 },
     md: { container: "h-14", icon: "w-12 h-12", text: "text-2xl md:text-3xl", bolt: 20 },
-    lg: { container: "h-20 md:h-24", icon: "w-16 h-16 md:w-20 md:h-20", text: "text-4xl md:text-6xl", bolt: 28 }
+    lg: { container: "h-20 md:h-24", icon: "w-16 h-16 md:w-20 md:h-20", text: "text-4xl md:text-5xl", bolt: 28 }
   }[size];
 
   return (
     <div className={`flex items-center select-none ${showText ? 'gap-3 md:gap-4' : ''} ${dimensions.container}`}>
       {/* Outer Glow Wrapper */}
       <div className={`relative ${dimensions.icon} flex items-center justify-center shrink-0`}>
-        {/* Central ambient glow resembling the neon atmosphere of the logo */}
+        {/* Central ambient glow */}
         <div className="absolute inset-0 bg-blue-500/25 blur-md rounded-full animate-pulse" style={{ animationDuration: '3s' }} />
         
-        {/* Outermost Orbiting Ring (Concentric vector styled paths to match the logo) */}
+        {/* Concentric rotating SVG loops matching the brand spirit */}
         <svg className="absolute inset-0 w-full h-full animate-[spin_10s_linear_infinite]" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logo-ring-1)" strokeWidth="1.5" strokeDasharray="140 40 80 40" strokeLinecap="round" />
           <defs>
@@ -60,7 +48,6 @@ function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg";
           </defs>
         </svg>
 
-        {/* Middle reverse-orbiting Ring */}
         <svg className="absolute inset-1.5 w-[calc(100%-12px)] h-[calc(100%-12px)] animate-[spin_7s_linear_infinite_reverse]" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logo-ring-2)" strokeWidth="1.25" strokeDasharray="110 50" strokeLinecap="round" />
           <defs>
@@ -72,27 +59,12 @@ function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg";
           </defs>
         </svg>
 
-        {/* Inner static border */}
-        <svg className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)]" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#2997ff" strokeOpacity="0.35" strokeWidth="1" />
-        </svg>
-
-        {/* Inner subtle glow and container */}
         <div className="absolute inset-4 rounded-full bg-black/40 border border-white/5 shadow-inner" />
 
-        {/* Central lightning bolt vector with gradient fill */}
-        <div className="relative z-10 text-white drop-shadow-[0_0_8px_rgba(41,151,255,0.85)] transform translate-x-[0.5px]">
-          <svg 
-            width={dimensions.bolt} 
-            height={dimensions.bolt * 1.5} 
-            viewBox="0 0 24 36" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              d="M14.5 0L1.5 19H12.5L9.5 36L22.5 17H11.5L14.5 0Z" 
-              fill="url(#logo-bolt)"
-            />
+        {/* Central lightning bolt vector */}
+        <div className="relative z-10 text-white drop-shadow-[0_0_8px_rgba(41,151,255,0.85)]">
+          <svg width={dimensions.bolt} height={dimensions.bolt * 1.5} viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.5 0L1.5 19H12.5L9.5 36L22.5 17H11.5L14.5 0Z" fill="url(#logo-bolt)" />
             <defs>
               <linearGradient id="logo-bolt" x1="12" y1="0" x2="12" y2="36" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#a5f3fc" />
@@ -105,15 +77,13 @@ function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg";
         </div>
       </div>
 
-      {/* Brand Text styling strictly matching the user image: "LYTH Ai" (White typography with glowing dot) */}
       {showText && (
-        <div className="flex items-baseline font-sans font-extrabold tracking-tight text-white select-none">
+        <div className="flex items-baseline font-sans font-extrabold tracking-tight text-white">
           <span className={`${dimensions.text} font-bold mr-1`}>LYTH</span>
           <span className={`${dimensions.text} relative font-semibold text-white`}>
             A
             <span className="relative inline-block">
               ı
-              {/* Cyan laser/glow pulse dot over the dotless 'i' exactly as in the user logo image */}
               <span className="absolute -top-[2%] left-[50%] -translate-x-1/2 w-[6px] h-[6px] rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_20px_#06b6d4] animate-pulse" />
               <span className="absolute -top-[2%] left-[50%] -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white opacity-80" />
             </span>
@@ -124,286 +94,47 @@ function LythLogo({ size = "md", showText = true }: { size?: "sm" | "md" | "lg";
   );
 }
 
-const NICHES = [
-  { id: 'ia', name: 'Inteligencia Artificial', icon: Cpu },
-  { id: 'marketing', name: 'Marketing', icon: BarChart3 },
-  { id: 'tecnologia', name: 'Tecnología', icon: Zap },
-  { id: 'redes', name: 'Redes Sociales', icon: Share2 },
-  { id: 'productividad', name: 'Productividad', icon: Layout },
-];const NICHE_STRATEGY_DATA = {
-  ia: [
-    { 
-      hook: "¿De verdad crees que la IA reemplazará a los redactores? El peligro real es el programador que ya no escribe código.", 
-      angulo: "uncomfortable opinion", 
-      enfoque: "hot take", 
-      formato: "short thread", 
-      emocion: "uncomfortable truth",
-      percentage: 97,
-      icon: Sparkles,
-      iconColor: "text-[#2997ff]",
-      bgColor: "bg-[#2997ff]/10"
-    },
-    { 
-      hook: "Tu privacidad local vale oro. Tu laptop de casa puede correr modelos de 30B parámetros sin filtrar un byte a la nube.", 
-      angulo: "identity shift", 
-      enfoque: "personal experience", 
-      formato: "screenshot-style post", 
-      emocion: "feeling ahead",
-      percentage: 89,
-      icon: Database,
-      iconColor: "text-purple-400",
-      bgColor: "bg-purple-400/10"
-    },
-    { 
-      hook: "Dejemos de hablar de prompts. Si tu app de IA no tiene un bucle recursivo de autocrítica offline, estás construyendo humo.", 
-      angulo: "creator economy tension", 
-      enfoque: "disruptive", 
-      formato: "hook + reflection", 
-      emocion: "curiosity tension",
-      percentage: 94,
-      icon: Search,
-      iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-400/10"
-    },
-    { 
-      hook: "He auditado 14 proyectos SaaS que dicen usar 'Agentes Inteligentes'. El 90% son simples scripts de Python con delay.", 
-      angulo: "execution vs consumption", 
-      enfoque: "observation", 
-      formato: "conversational post", 
-      emocion: "creator frustration",
-      percentage: 91,
-      icon: Video,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-400/10"
-    }
-  ],
-  marketing: [
-    {
-      hook: "La personalización por nombre está muerta. El verdadero truco actual son audios dinámicos clonados con inflexión humana.",
-      angulo: "internet behavior shift",
-      enfoque: "hot take",
-      formato: "talking video",
-      emocion: "uncomfortable truth",
-      percentage: 93,
-      icon: BarChart3,
-      iconColor: "text-[#2997ff]",
-      bgColor: "bg-[#2997ff]/10"
-    },
-    {
-      hook: "Google está devorando todo tu tráfico orgánico. El SEO moderno es ser indexado como la respuesta directa de Gemini.",
-      angulo: "future prediction",
-      enfoque: "prediction",
-      formato: "carousel",
-      emocion: "future anxiety",
-      percentage: 96,
-      icon: Sparkles,
-      iconColor: "text-purple-400",
-      bgColor: "bg-purple-400/10"
-    },
-    {
-      hook: "Reemplacé a un influencer de un millón de seguidores por tres creadores devotos con 4k. Dupliqué ventas en una semana.",
-      angulo: "execution vs consumption",
-      enfoque: "storytelling",
-      formato: "conversational post",
-      emocion: "social proof tension",
-      percentage: 88,
-      icon: Share2,
-      iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-400/10"
-    },
-    {
-      hook: "El 90% de los ganchos de venta fracasan porque huelen a embudo publicitario desde el primer segundo.",
-      angulo: "uncomfortable opinion",
-      enfoque: "disruptive",
-      formato: "hook + reflection",
-      emocion: "perspective shift",
-      percentage: 85,
-      icon: ShieldAlert,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-400/10"
-    }
-  ],
-  tecnologia: [
-    {
-      hook: "El fin de las pantallas portátiles comenzó. He usado visores integrados una semana y mi monitor se siente prehistórico.",
-      angulo: "social observation",
-      enfoque: "personal experience",
-      formato: "mini story",
-      emocion: "aspirational energy",
-      percentage: 94,
-      icon: Zap,
-      iconColor: "text-brand-accent",
-      bgColor: "bg-brand-accent/10"
-    },
-    {
-      hook: "Lanzar software hoy en día no es una proeza técnica. Lo verdaderamente difícil es defender tu atención en un feed saturado.",
-      angulo: "creator economy tension",
-      enfoque: "reflection",
-      formato: "hook + reflection",
-      emocion: "creator frustration",
-      percentage: 90,
-      icon: Database,
-      iconColor: "text-purple-400",
-      bgColor: "bg-purple-400/10"
-    },
-    {
-      hook: "Tus contraseñas tradicionales quedarán obsoletas este año. La carrera silenciosa por el cifrado cuántico ya está activa.",
-      angulo: "future prediction",
-      enfoque: "prediction",
-      formato: "short thread",
-      emocion: "future anxiety",
-      percentage: 92,
-      icon: Search,
-      iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-400/10"
-    },
-    {
-      hook: "La arquitectura sin servidores es genial hasta que recibes la primera factura de un ataque DDoS que no supiste esquivar.",
-      angulo: "uncomfortable opinion",
-      enfoque: "hot take",
-      formato: "conversational post",
-      emocion: "uncomfortable truth",
-      percentage: 85,
-      icon: ShieldAlert,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-400/10"
-    }
-  ],
-  redes: [
-    {
-      hook: "Los likes en el feed dejaron de importar. La verdadera conversión de alto valor está ocurriendo dentro de los DMs.",
-      angulo: "internet behavior shift",
-      enfoque: "observation",
-      formato: "conversational post",
-      emocion: "uncomfortable truth",
-      percentage: 91,
-      icon: Video,
-      iconColor: "text-red-400",
-      bgColor: "bg-red-400/10"
-    },
-    {
-      hook: "La era de la estética pulida terminó. La gente desliza de largo cuando detecta que tu video fue grabado por un equipo de cine.",
-      angulo: "uncomfortable opinion",
-      enfoque: "hot take",
-      formato: "POV",
-      emocion: "perspective shift",
-      percentage: 95,
-      icon: Share2,
-      iconColor: "text-[#2997ff]",
-      bgColor: "bg-[#2997ff]/10"
-    },
-    {
-      hook: "Threads es el espacio para los que se cansaron de LinkedIn pero no toleran la hostilidad constante de Twitter.",
-      angulo: "social observation",
-      enfoque: "reflection",
-      formato: "screenshot-style post",
-      emocion: "emotional resonance",
-      percentage: 86,
-      icon: Layout,
-      iconColor: "text-purple-400",
-      bgColor: "bg-purple-400/10"
-    },
-    {
-      hook: "El algoritmo de TikTok premia el error sutil. Si repites la toma perfecta, matas la retención biológica.",
-      angulo: "uncomfortable opinion",
-      enfoque: "disruptive",
-      formato: "talking video",
-      emocion: "curiosity tension",
-      percentage: 89,
-      icon: ShieldAlert,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-400/10"
-    }
-  ],
-  productividad: [
-    {
-      hook: "Apagué todas mis notificaciones y borré Slack del móvil. Completé más trabajo en 3 días que en las últimas 2 semanas.",
-      angulo: "uncomfortable opinion",
-      enfoque: "personal experience",
-      formato: "mini story",
-      emocion: "perspective shift",
-      percentage: 95,
-      icon: Sparkles,
-      iconColor: "text-[#2997ff]",
-      bgColor: "bg-[#2997ff]/10"
-    },
-    {
-      hook: "Tener 50 aplicaciones integradas no es orden. Es solo un cementerio digital automatizado para calmar tu ansiedad.",
-      angulo: "execution vs consumption",
-      enfoque: "hot take",
-      formato: "hook + reflection",
-      emocion: "creator frustration",
-      percentage: 92,
-      icon: Layout,
-      iconColor: "text-purple-400",
-      bgColor: "bg-purple-400/10"
-    },
-    {
-      hook: "El cerebro humano no acumula ideas, solo genera conexiones. Todo tu Notion de 40 páginas es solo ruido inactivo si no ejecutas.",
-      angulo: "identity shift",
-      enfoque: "reflection",
-      formato: "screenshot-style post",
-      emocion: "uncomfortable truth",
-      percentage: 89,
-      icon: Database,
-      iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-400/10"
-    },
-    {
-      hook: "La verdadera productividad consiste en saber aburrirte sin mirar la pantalla del iPhone durante 15 minutos seguidos.",
-      angulo: "social observation",
-      enfoque: "hot take",
-      formato: "talking video",
-      emocion: "perspective shift",
-      percentage: 87,
-      icon: ShieldAlert,
-      iconColor: "text-amber-400",
-      bgColor: "bg-amber-400/10"
-    }
-  ]
-};
+// Interactive Premium Creator Onboarding quick-templates
+const WORKSPACE_TEMPLATES = [
+  {
+    label: "Consultor de IA",
+    whoAreYou: "Consultor de IA para marcas personales",
+    whoAreYouTalkingTo: "Creadores de contenido, freelancers y negocios digitales",
+    whatToCommunicate: "Quiero hablar sobre cómo la IA está cambiando la velocidad de creación de productos digitales, pero demostrando que la verdadera ventaja a largo plazo nunca será la velocidad, sino el criterio con el que diseñas y el enfoque humano."
+  },
+  {
+    label: "Indie Maker / Programador",
+    whoAreYou: "Indie Hacker e Ingeniero de Software independiente",
+    whoAreYouTalkingTo: "Fundadores técnicos de startups y solopreneurs",
+    whatToCommunicate: "La obsesión por 'lanzar rápido con interfaces feas' es destructiva. Diseñar una experiencia limpia y pulida con microinteracciones de lujo evita el 80% del churn de usuarios."
+  },
+  {
+    label: "E-Commerce Storyteller",
+    whoAreYou: "Especialista en Growth y Storytelling de marcas directas al consumidor",
+    whoAreYouTalkingTo: "E-commerce modernos y dueños de marcas digitales independientes",
+    whatToCommunicate: "Los anuncios de marketing tradicionales están muertos. El verdadero crecimiento hoy consiste en crear tensión narrativa en plataformas sociales, mostrando el caos real detrás de escena en la cadena de suministro."
+  }
+];
 
 export default function App() {
-  const [copied, setCopied] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [toasts, setToasts] = useState<{ id: string; message: string; type: 'success' | 'info' | 'download' }[]>([]);
-  
-  // Mobile Experience states
-  const [activeNiche, setActiveNiche] = useState('ia');
-  const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
-  const [isUpdatingStrategy, setIsUpdatingStrategy] = useState(false);
-  const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({});
 
-  // Custom AI Topic State
-  const [customTopic, setCustomTopic] = useState('');
-  
-  // Custom AI Strategy Refinement States
-  const [aiDepth, setAiDepth] = useState('Específica / Detallada');
-  const [aiTone, setAiTone] = useState('Audaz / Provocativo');
-  const [aiCreativity, setAiCreativity] = useState('Vanguardista / Creativa');
-  const [showAdvancedParams, setShowAdvancedParams] = useState(false);
+  // Strategic Content Input States
+  const [whoAreYou, setWhoAreYou] = useState('');
+  const [whoAreYouTalkingTo, setWhoAreYouTalkingTo] = useState('');
+  const [whatToCommunicate, setWhatToCommunicate] = useState('');
+  const [platform, setPlatform] = useState('Threads'); // Threads, X, Instagram, TikTok
 
-  // Dynamic state dictionary to hold standard or AI-generated niches strategies
-  const [nicheStrategies, setNicheStrategies] = useState<Record<string, any[]>>(() => {
-    const initial: Record<string, any[]> = {};
-    Object.entries(NICHE_STRATEGY_DATA).forEach(([key, value]) => {
-      initial[key] = value.map(row => ({
-        ...row,
-        percentage: (row as any).percentage || (Math.floor(Math.random() * 25) + 75)
-      }));
-    });
-    return initial;
-  });
-
-  // Auto detect width to present corresponding layout on desktop
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-      setViewMode('table');
-    }
-  }, []);
+  // Output Strategy State
+  const [strategies, setStrategies] = useState<any[]>([]);
+  const [isFallback, setIsFallback] = useState(false);
+  const [copiedAll, setCopiedAll] = useState(false);
+  const [copiedIndices, setCopiedIndices] = useState<Record<number, boolean>>({});
 
   const addToast = (message: string, type: 'success' | 'info' | 'download' = 'success') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -413,265 +144,13 @@ export default function App() {
     }, 4000);
   };
 
-  const getRowIcon = (angulo: string) => {
-    const ang = (angulo || "").toLowerCase();
-    if (ang.includes("incómoda") || ang.includes("opinion")) return Sparkles;
-    if (ang.includes("caso") || ang.includes("estudio")) return Search;
-    if (ang.includes("story") || ang.includes("historia")) return Database;
-    if (ang.includes("dato") || ang.includes("analisis")) return BarChart3;
-    if (ang.includes("alerta") || ang.includes("tendencia")) return Zap;
-    if (ang.includes("detrás") || ang.includes("escena")) return ShieldAlert;
-    return Sparkles; 
-  };
-
-  const getRowIconColor = (angulo: string) => {
-    const ang = (angulo || "").toLowerCase();
-    if (ang.includes("incómoda") || ang.includes("opinion")) return "text-[#2997ff]";
-    if (ang.includes("caso")) return "text-purple-400";
-    if (ang.includes("story")) return "text-emerald-400";
-    if (ang.includes("alerta")) return "text-amber-400";
-    return "text-cyan-400";
-  };
-
-  const getRowBgColor = (angulo: string) => {
-    const ang = (angulo || "").toLowerCase();
-    if (ang.includes("incómoda") || ang.includes("opinion")) return "bg-[#2997ff]/10";
-    if (ang.includes("caso")) return "bg-purple-400/10";
-    if (ang.includes("story")) return "bg-emerald-400/10";
-    if (ang.includes("alerta")) return "bg-amber-400/10";
-    return "bg-cyan-400/10";
-  };
-
-  const currentRows = nicheStrategies[activeNiche] || nicheStrategies.ia;
-
-  const getStrategyTableMarkdown = (rows: any[]) => {
-    return [
-      '| Hook | Ángulo | Enfoque | Formato | Emoción |',
-      '|---|---|---|---|---|',
-      ...rows.map(row => `| "${row.hook}" | ${row.angulo} | ${row.enfoque} | ${row.formato} | ${row.emocion} |`)
-    ].join('\n');
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(getStrategyTableMarkdown(currentRows).trim());
-    setCopied(true);
-    addToast('¡Estrategia de LYTH copiada al portapapeles con éxito!', 'success');
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const copySingleRowToClipboard = (row: any) => {
-    const textToCopy = `Hook: "${row.hook}"\nÁngulo: ${row.angulo}\nEnfoque: ${row.enfoque}\nFormato: ${row.formato}\nEmoción: ${row.emocion}`;
-    navigator.clipboard.writeText(textToCopy);
-    addToast(`Copiada idea social: "${row.hook.substring(0, 30)}..."`, 'success');
-  };
-
-  const fetchGeminiStrategy = async (nicheId: string, topic?: string) => {
-    setIsUpdatingStrategy(true);
-    setExpandedRows({});
-    const nicheName = NICHES.find(n => n.id === nicheId)?.name || nicheId;
-    addToast(topic ? `Modelando estrategia IA para "${topic}"...` : `Consultando tendencias de IA para ${nicheName}...`, 'info');
-    
-    try {
-      const res = await fetch("/api/generate-strategy", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          niche: nicheName,
-          customTopic: topic || "",
-          depth: aiDepth,
-          tone: aiTone,
-          creativity: aiCreativity
-        })
-      });
-      
-      let data: any = null;
-      try {
-        data = await res.json();
-      } catch (e) {
-        console.warn("La respuesta no contiene JSON válido.");
-      }
-
-      if (!res.ok) {
-        const errMsg = data?.error || data?.details || "No se pudo conectar con el servidor.";
-        throw new Error(errMsg);
-      }
-      
-      if (data && data.strategies && Array.isArray(data.strategies)) {
-        setNicheStrategies(prev => ({
-          ...prev,
-          [nicheId]: data.strategies
-        }));
-
-        if (data.isFallback) {
-          addToast("Estrategia local cargada. Configura tu GEMINI_API_KEY en Settings para tiempo real.", "info");
-        } else {
-          addToast(`¡Estrategia de ${nicheName} generada con Gemini con éxito!`, 'success');
-        }
-      } else {
-        throw new Error("La respuesta del modelo no tiene un formato válido.");
-      }
-    } catch (err: any) {
-      console.error(err);
-      addToast(`Error AI: ${err.message || "Por favor intente nuevamente."}`, 'info');
-    } finally {
-      setIsUpdatingStrategy(false);
-    }
-  };
-
-  const handleSelectNiche = async (nicheId: string) => {
-    if (isUpdatingStrategy) return;
-    setActiveNiche(nicheId);
-    await fetchGeminiStrategy(nicheId, customTopic);
-  };
-
-  // Fetch initial dynamic trends on mount for the default 'ia' niche
-  useEffect(() => {
-    fetchGeminiStrategy('ia');
-  }, []);
-
-  const handleDownloadPDF = () => {
-    try {
-      const doc = new jsPDF({
-        orientation: 'landscape',
-        unit: 'mm',
-        format: 'a4'
-      });
-
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-
-      // Premium Neo Brutalist Slate/Light Grey elegant background
-      doc.setFillColor(248, 249, 250);
-      doc.rect(0, 0, pageWidth, pageHeight, 'F');
-
-      // Top decorative banner in Electric Apple blue
-      doc.setFillColor(41, 151, 255);
-      doc.rect(0, 0, pageWidth, 4.5, 'F');
-
-      // Main branding heading
-      doc.setTextColor(10, 10, 12);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(26);
-      doc.text('LYTH AI', 18, 18);
-
-      // Icon badge symbol (⚡)
-      doc.setTextColor(41, 151, 255);
-      doc.setFontSize(20);
-      doc.text('⚡', 58, 17.5);
-
-      // Slogan / Subtitle
-      doc.setTextColor(115, 115, 118);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(8);
-      doc.text('CONVIERTE LAS TENDENCIAS EN CONTENIDOS PARA TU ESTRATEGIA', 18, 24);
-
-      // Top Divider line
-      doc.setDrawColor(218, 220, 224);
-      doc.setLineWidth(0.4);
-      doc.line(18, 29, pageWidth - 18, 29);
-
-      // Meta values
-      const now = new Date();
-      const dateStr = now.toLocaleDateString('es-ES', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      });
-
-      doc.setTextColor(100, 100, 105);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9.5);
-      doc.text(`Estratega: ${emailInput || 'Invitado Premium'}`, 18, 36);
-      
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(41, 151, 255);
-      doc.text('● PREMIUM ACCESS', pageWidth - 55, 36);
-
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(100, 100, 105);
-      doc.text(`Generado el: ${dateStr}`, pageWidth - 110, 36);
-
-      // Divider line
-      doc.setDrawColor(218, 220, 224);
-      doc.line(18, 41, pageWidth - 18, 41);
-
-      // Strategy autoTable setup
-      const headers = [['HOOK (GANCHO)', 'ÁNGULO (PERSPECTIVA)', 'ENFOQUE', 'FORMATO RECOMENDADO', 'EMOCIÓN / MOTOR']];
-      
-      const body = currentRows.map(row => [
-        `"${row.hook}"`,
-        row.angulo,
-        row.enfoque,
-        row.formato.toUpperCase(),
-        row.emocion
-      ]);
-
-
-      (doc as any).autoTable({
-        startY: 46,
-        margin: { left: 18, right: 18 },
-        head: headers,
-        body: body,
-        theme: 'plain',
-        styles: {
-          font: 'helvetica',
-          fontSize: 9.5,
-          cellPadding: 5.5,
-          textColor: [33, 37, 41],
-          lineColor: [222, 226, 230],
-          lineWidth: 0.15,
-        },
-        headStyles: {
-          fillColor: [10, 10, 12], // Jet-black
-          textColor: [255, 255, 255],
-          fontStyle: 'bold',
-          fontSize: 9,
-          cellPadding: 4.5,
-        },
-        bodyStyles: {
-          fillColor: [255, 255, 255],
-        },
-        alternateRowStyles: {
-          fillColor: [241, 243, 245], // Sleek light gray
-        },
-        columnStyles: {
-          0: { cellWidth: 50, fontStyle: 'bold', textColor: [10, 10, 12] },
-          1: { cellWidth: 90, fontStyle: 'italic', textColor: [73, 80, 87] },
-          2: { cellWidth: 40, fontStyle: 'bold', textColor: [41, 151, 255] },
-          3: { cellWidth: 35, fontStyle: 'normal' },
-          4: { cellWidth: 45, fontStyle: 'bold', textColor: [10, 10, 12] },
-        },
-      });
-
-      // Footer
-      const finalY = (doc as any).lastAutoTable.finalY || 160;
-      
-      doc.setDrawColor(218, 220, 224);
-      doc.line(18, finalY + 8, pageWidth - 18, finalY + 8);
-
-      doc.setTextColor(140, 142, 146);
-      doc.setFontSize(8);
-      doc.setFont('helvetica', 'normal');
-      doc.text('Diseñado y estructurado con LYTH AI • El estándar dorado de contenidos.', 18, finalY + 14);
-      doc.text('www.lyth.ai • Todos los derechos reservados', pageWidth - 75, finalY + 14);
-
-      // Save document
-      doc.save(`LYTH_AI_Estrategia_${emailInput ? emailInput.split('@')[0] : 'Contenido'}.pdf`);
-      addToast('¡Estrategia descargada en formato PDF con éxito!', 'download');
-    } catch (err) {
-      console.error('Error al descargar el PDF:', err);
-    }
-  };
-
   const handleGoogleLogin = () => {
     setIsLoading(true);
-    // Simulate a premium authentic loading experience
     setTimeout(() => {
       setEmailInput('jonatancorreaoficial@gmail.com');
       setIsLoading(false);
       setIsAuthenticated(true);
+      addToast("Sesión iniciada con Google", "success");
     }, 1200);
   };
 
@@ -691,133 +170,288 @@ export default function App() {
     setTimeout(() => {
       setIsLoading(false);
       setIsAuthenticated(true);
+      addToast(`Bienvenido de vuelta, ${emailInput.split('@')[0]}`, "success");
     }, 1000);
   };
 
-  // If not authenticated, render the premium Apple-style Login Gate
+  // Strategic generation request to back-end
+  const triggerStrategyGeneration = async () => {
+    if (!whatToCommunicate.trim()) {
+      addToast("El campo 'qué quieres comunicar' es indispensable.", "info");
+      return;
+    }
+
+    setIsAnalyzing(true);
+    addToast("Modelando posicionamiento emocional...", "info");
+
+    try {
+      const res = await fetch("/api/generate-strategy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          whoAreYou,
+          whoAreYouTalkingTo,
+          whatToCommunicate,
+          platform
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "No se pudo obtener respuesta del motor estratégico.");
+      }
+
+      if (data.strategies && Array.isArray(data.strategies)) {
+        setStrategies(data.strategies);
+        setIsFallback(!!data.isFallback);
+        
+        if (data.isFallback) {
+          addToast("Curación adaptativa cargada fuera de línea. Configura la clave API.", "info");
+        } else {
+          addToast("Estrategia social generada con Gemini 3.5 con éxito.", "success");
+        }
+      } else {
+        throw new Error("La respuesta del modelo no contiene un conjunto de estrategias compatible.");
+      }
+    } catch (err: any) {
+      console.error(err);
+      addToast(`Error AI: ${err.message || "Por favor intente de nuevo."}`, "info");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const copySingleHook = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndices(prev => ({ ...prev, [index]: true }));
+    addToast(`¡Gancho #${index + 1} copiado!`, "success");
+    setTimeout(() => {
+      setCopiedIndices(prev => ({ ...prev, [index]: false }));
+    }, 2000);
+  };
+
+  const copyRow = (row: any, index: number) => {
+    const formatted = `Hook / Gancho: "${row.hook}"\nÁngulo: ${row.angulo}\nEnfoque: ${row.enfoque}\nFormato: ${row.formato}\nEmoción Relativa: ${row.emocion}`;
+    navigator.clipboard.writeText(formatted);
+    setCopiedIndices(prev => ({ ...prev, [index]: true }));
+    addToast(`¡Línea estratégica #${index + 1} copiada al portapapeles!`, "success");
+    setTimeout(() => {
+      setCopiedIndices(prev => ({ ...prev, [index]: false }));
+    }, 2000);
+  };
+
+  const copyCompleteStrategy = () => {
+    if (strategies.length === 0) return;
+    const textMsg = strategies.map((s, idx) => 
+      `--- PROPUESTA SOCIAL #${idx + 1} (${platform.toUpperCase()}) ---\nGancho: "${s.hook}"\nÁngulo: ${s.angulo}\nEnfoque: ${s.enfoque}\nFormato: ${s.formato}\nEmoción: ${s.emocion}\nÍndice Tracción: ${s.percentage}%`
+    ).join("\n\n");
+    
+    navigator.clipboard.writeText(textMsg);
+    setCopiedAll(true);
+    addToast("Toda la matriz de contenido copiada en formato Markdown", "success");
+    setTimeout(() => {
+      setCopiedAll(false);
+    }, 2500);
+  };
+
+  const downloadStrategyPDF = () => {
+    try {
+      const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      // Cinematic Dark Slate background
+      doc.setFillColor(12, 12, 14);
+      doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      // Top electric blue divider accent strip
+      doc.setFillColor(41, 151, 255);
+      doc.rect(0, 0, pageWidth, 4, 'F');
+
+      // Brand Title
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.text('LYTH AI', 20, 20);
+
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 155);
+      doc.text('CREATIVE OPERATING SYSTEM FOR MODERN CREATORS', 20, 26);
+
+      // Metadata box
+      doc.setTextColor(115, 115, 118);
+      doc.text(`Creador: ${whoAreYou || 'Premium User'}  |   Público: ${whoAreYouTalkingTo || 'Nicho Social'}  |  Canal: ${platform}`, 20, 34);
+
+      doc.setDrawColor(25, 25, 28);
+      doc.line(20, 38, pageWidth - 20, 38);
+
+      const headers = [['HOOK (GANCHO DE APERTURA)', 'ÁNGULO ESTRATÉGICO', 'ENFOQUE', 'FORMATO RECOMENDADO', 'EMOCIÓN / MOTOR', 'ÍNDICE']];
+      const body = strategies.map(row => [
+        row.hook,
+        row.angulo || '',
+        row.enfoque || '',
+        row.formato || '',
+        row.emocion || '',
+        `${row.percentage || 90}%`
+      ]);
+
+      (doc as any).autoTable({
+        startY: 42,
+        head: headers,
+        body: body,
+        theme: 'plain',
+        margin: { left: 20, right: 20 },
+        headStyles: {
+          fillColor: [18, 18, 20],
+          textColor: [41, 151, 255],
+          fontSize: 8,
+          fontStyle: 'bold',
+          lineWidth: 0.5,
+          lineColor: [40, 40, 45]
+        },
+        bodyStyles: {
+          textColor: [240, 240, 245],
+          fontSize: 8.5,
+          lineWidth: 0.5,
+          lineColor: [32, 32, 37]
+        },
+        columnStyles: {
+          0: { cellWidth: 105 },
+          1: { cellWidth: 32 },
+          2: { cellWidth: 28 },
+          3: { cellWidth: 34 },
+          4: { cellWidth: 36 },
+          5: { cellWidth: 21 }
+        },
+        styles: {
+          valign: 'middle',
+          font: 'helvetica'
+        }
+      });
+
+      const finalY = (doc as any).lastAutoTable.finalY || 160;
+
+      doc.setTextColor(115, 115, 118);
+      doc.setFontSize(8);
+      doc.text('Generado con LYTH AI • El estándar premium de posicionamiento cognitivo de contenido.', 20, finalY + 12);
+      doc.text(`Autor: ${emailInput}  |  lyth.ai`, pageWidth - 80, finalY + 12);
+
+      doc.save(`LYTH_Estrategia_${platform}.pdf`);
+      addToast('¡Estrategia social descargada como PDF!', 'download');
+    } catch (err) {
+      console.error(err);
+      addToast('Error al compilar documento PDF.', 'info');
+    }
+  };
+
+  // AUTHENTICATION GATE
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-brand-bg text-white font-sans selection:bg-brand-accent/30 overflow-hidden flex flex-col justify-center items-center p-4 relative">
-        {/* Ambient Glowing background circles */}
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-[20%] left-[15%] w-[50%] h-[50%] bg-brand-accent/10 blur-[130px] rounded-full animate-pulse" style={{ animationDuration: '8s' }} />
-          <div className="absolute bottom-[20%] right-[15%] w-[45%] h-[45%] bg-purple-600/10 blur-[130px] rounded-full animate-pulse" style={{ animationDuration: '12s' }} />
+      <div className="min-h-screen bg-[#060608] text-white font-sans selection:bg-[#2997ff]/30 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+        {/* Glow Spheres background */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[20%] left-[10%] w-[50%] h-[50%] bg-[#2997ff]/5 blur-[140px] rounded-full" />
+          <div className="absolute bottom-[10%] right-[10%] w-[40%] h-[40%] bg-purple-600/5 blur-[140px] rounded-full" />
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-md glass-card p-8 md:p-10 space-y-8 relative overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7)]"
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-md bg-zinc-950/70 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 md:p-10 space-y-8 relative z-10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)]"
         >
-          {/* Top Brand Tag */}
           <div className="text-center flex flex-col items-center space-y-3">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.5 }}
-              className="flex justify-center animate-fade-in"
-            >
-              <LythLogo size="md" />
-            </motion.div>
-            <p className="text-[10px] font-sans font-semibold text-zinc-500 tracking-[0.2em] uppercase pt-1">
-              Plataforma Premium de Contenido
+            <LythLogo size="md" />
+            <p className="text-[9px] font-sans font-bold text-zinc-500 tracking-[0.25em] uppercase pt-1">
+              Creative Operating System
             </p>
           </div>
 
           <div className="space-y-4">
-            {/* Branded Google Sign-In Button */}
             <button
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 rounded-xl bg-white text-black hover:bg-zinc-100 font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-3 relative overflow-hidden group shadow-md"
+              className="w-full h-12 rounded-xl bg-white text-black hover:bg-zinc-100 font-semibold text-[13px] tracking-wide transition-all duration-200 flex items-center justify-center gap-3 shadow-md active:scale-98"
             >
               {isLoading ? (
-                <RefreshCw size={18} className="animate-spin text-zinc-600" />
+                <RefreshCw size={16} className="animate-spin text-zinc-600" />
               ) : (
                 <>
-                  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-                    <path
-                      fill="#4285F4"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                    />
+                  <svg className="w-4.5 h-4.5 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                   </svg>
-                  <span className="text-zinc-900">Iniciar sesión con Google</span>
+                  <span>Iniciar sesión con Google</span>
                 </>
               )}
             </button>
 
-            {/* Separator */}
-            <div className="flex items-center gap-3">
-              <div className="h-px bg-white/10 flex-1" />
-              <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">o continúa con email</span>
-              <div className="h-px bg-white/10 flex-1" />
+            <div className="flex items-center gap-3 py-2">
+              <div className="h-px bg-white/5 flex-1" />
+              <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest font-mono">o continúa con email</span>
+              <div className="h-px bg-white/5 flex-1" />
             </div>
 
-            {/* Simulated Traditional Input Form */}
             <form onSubmit={handleCustomEmailSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-400 tracking-wider">CORREO ELECTRÓNICO</label>
+                <label className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono">CORREO ELECTRÓNICO</label>
                 <div className="relative">
                   <input
                     type="email"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="ejemplo@gmail.com"
+                    placeholder="nombre@ejemplo.com"
                     disabled={isLoading}
-                    className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 focus:border-brand-accent/60 focus:bg-white/[0.08] focus:outline-none transition-all placeholder:text-zinc-600 text-sm"
+                    className="w-full h-11 px-4 rounded-xl bg-white/[0.03] border border-white/10 focus:border-[#2997ff]/60 focus:bg-white/[0.06] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
                   />
                   {emailInput === '' && (
                     <button
                       type="button"
                       onClick={() => setEmailInput('jonatancorreaoficial@gmail.com')}
-                      className="absolute right-3 top-2.5 text-[9px] font-bold text-brand-accent/60 hover:text-brand-accent transition-colors bg-brand-accent/10 hover:bg-brand-accent/20 px-2 py-1 rounded"
+                      className="absolute right-3 top-2.5 text-[9px] font-bold text-[#2997ff] hover:text-[#2997ff]/80 bg-[#2997ff]/10 px-2.5 py-1 rounded-md transition-all font-mono"
                     >
-                      Autocompletar
-                    </button> // Prefills native email
+                      Prefill demo
+                    </button>
                   )}
                 </div>
                 {errorMessage && (
-                  <p className="text-red-400 text-xs mt-1">{errorMessage}</p>
+                  <p className="text-red-400 text-xs mt-1 font-sans">{errorMessage}</p>
                 )}
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-11 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white font-semibold text-xs tracking-wider uppercase transition-all duration-200"
+                className="w-full h-11 rounded-xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] text-white font-semibold text-xs tracking-wider uppercase transition-all duration-200 active:scale-98"
               >
-                Continuar con Correo
+                Ingresar Credenciales
               </button>
             </form>
           </div>
 
-          {/* Footer of card */}
-          <div className="pt-2 text-center text-[10px] text-zinc-600 space-y-1">
-            <p>Al continuar, aceptas la integración segura de contenido de LYTH AI.</p>
-            <p className="text-zinc-500 font-mono">Creado por Jonatan Correa</p>
+          <div className="pt-2 text-center text-[10px] text-zinc-600">
+            <p className="font-sans leading-relaxed">Al ingresar, interactúas con los motores e indexación de LYTH AI.</p>
+            <p className="text-zinc-500 font-mono mt-2">jonatancorreaoficial@gmail.com</p>
           </div>
         </motion.div>
       </div>
     );
   }
 
-  // Authenticated state loads everything flawlessly
+  // CORE CREATOR USER WORKSPACE
   return (
-    <div className="min-h-screen bg-brand-bg text-white font-sans selection:bg-brand-accent/30 overflow-x-hidden">
-      {/* HUD de Notificaciones Premium Toast */}
+    <div className="min-h-screen bg-[#050507] text-white font-sans selection:bg-[#2997ff]/35 overflow-y-auto">
+      {/* Toast notifications */}
       <div className="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none">
         <AnimatePresence>
           {toasts.map((toast) => (
@@ -826,689 +460,352 @@ export default function App() {
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, y: -10 }}
-              transition={{ type: "spring", stiffness: 380, damping: 28 }}
-              className="pointer-events-auto w-full bg-[#0c0c0e]/95 border border-white/10 backdrop-blur-xl p-4 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] flex items-start gap-3 relative overflow-hidden group"
+              className="pointer-events-auto w-full bg-zinc-950/95 border border-white/10 backdrop-blur-xl p-4 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] flex items-start gap-3 relative overflow-hidden group"
             >
-              <div className={`absolute top-0 left-0 w-1 h-full ${toast.type === 'download' ? 'bg-[#2997ff]' : 'bg-[#30d158]'}`} />
-              
-              <div className={`p-1.5 rounded-lg shrink-0 ${toast.type === 'download' ? 'bg-[#2997ff]/10 text-[#2997ff]' : 'bg-[#30d158]/10 text-[#30d158]'}`}>
-                {toast.type === 'download' ? (
-                  <Download size={16} />
-                ) : (
-                  <Check size={16} />
-                )}
-              </div>
-
-              <div className="flex-1 space-y-0.5">
-                <h4 className="text-[10px] font-bold tracking-wider text-zinc-500 uppercase font-mono">
-                  {toast.type === 'download' ? 'Descarga Premium' : 'Acción Completada'}
-                </h4>
-                <p className="text-xs text-zinc-200 font-medium leading-relaxed font-sans">
+              <div className={`absolute top-0 left-0 w-1 h-full ${toast.type === 'download' ? 'bg-[#2997ff]' : 'bg-emerald-500'}`} />
+              <div className="flex-1">
+                <p className="text-xs text-zinc-100 font-medium leading-relaxed">
                   {toast.message}
                 </p>
               </div>
-
               <button 
                 onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-                className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase font-bold tracking-wider hover:bg-white/5 px-2 py-1 rounded transition-colors shrink-0"
+                className="text-zinc-500 hover:text-zinc-300 text-[10px] font-mono leading-none p-1"
               >
-                Cerrar
+                ✕
               </button>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      {/* Navbar Minimalista */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-black/50 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-          <div className="flex items-center justify-center">
-            <LythLogo size="sm" showText={false} />
+      {/* Top clean navigation rule */}
+      <nav className="border-b border-white/5 bg-black/30 backdrop-blur-md sticky top-0 z-40 w-full">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+          <div className="flex items-center">
+            <LythLogo size="sm" />
           </div>
-
-          <div className="flex items-center gap-4">
-            <span className="hidden md:inline text-xs text-zinc-400 font-mono truncate max-w-[170px]">
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-mono text-zinc-500 hidden sm:inline max-w-[200px] truncate">
               {emailInput}
             </span>
             <button 
               onClick={() => setIsAuthenticated(false)}
-              className="apple-button bg-white text-black hover:bg-zinc-200 text-sm flex items-center gap-2 py-1.5 px-4"
+              className="h-8 rounded-full bg-white/[0.04] border border-white/10 px-4 hover:bg-white/[0.08] text-xs font-semibold text-zinc-300 transition-all flex items-center gap-1.5 active:scale-95"
             >
-              <LogIn size={15} className="rotate-180" />
+              <LogOut size={12} />
               Salir
             </button>
           </div>
         </div>
       </nav>
 
-      <main className="pt-24 md:pt-32 pb-40 px-4 md:px-6 max-w-6xl mx-auto space-y-16 md:space-y-24">
-        {/* Hero Section */}
-        <header className="text-center space-y-8 md:space-y-12">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex flex-col items-center"
-          >
-            <div className="mb-6 flex justify-center">
-              <LythLogo size="lg" showText={false} />
+      {/* Header spacing */}
+      <div className="max-w-4xl mx-auto px-6 pt-12 pb-16 space-y-12">
+        <div className="text-center space-y-4">
+          <p className="text-[10px] tracking-[0.3em] text-[#2997ff] font-bold uppercase font-mono">
+            CREATIVE OPERATING SYSTEM
+          </p>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+            Crea estrategias de contenido social-first
+          </h1>
+          <p className="text-sm md:text-base text-zinc-500 font-medium max-w-2xl mx-auto">
+            Transforma conceptos abstractos en matrices de posicionamiento cargadas de tensión psicológica, emoción y formatos nativos de internet.
+          </p>
+        </div>
+
+        {/* Input workspace layout panel */}
+        <section className="bg-zinc-950/40 border border-white/5 rounded-3xl p-6 md:p-8 space-y-8 relative overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 bg-gradient-to-tr from-brand-accent/[0.01] to-purple-500/[0.01] pointer-events-none" />
+          
+          {/* Quick template seeds */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono">ELEGIR CONTEXTO DE EJEMPLO</span>
+              <span className="h-px bg-white/5 flex-1 ml-4" />
             </div>
-            <div className="h-px w-16 bg-brand-accent/20 mb-3 md:w-24" />
-            <p className="text-[9px] md:text-[11px] font-sans font-semibold text-zinc-500 tracking-[0.3em] uppercase">
-              Creado por Jonatan Correa
-            </p>
-          </motion.div>
-
-          <div className="space-y-4 md:space-y-6">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-3xl md:text-5xl lg:text-6xl font-bold apple-gradient-text tracking-tight leading-[1.15] max-w-4xl mx-auto px-2"
-            >
-              Convierte las tendencias en contenidos para tu estrategia.
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="text-zinc-500 text-sm md:text-xl font-medium max-w-3xl mx-auto px-6 leading-relaxed"
-            >
-              Ya no tendrás que pasar horas buscando ideas para publicar, aqui la tendencia se convierte en tu mejor contenido.
-            </motion.p>
-          </div>
-        </header>
-
-        {/* Bento Grid Minimalista */}
-        <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {NICHES.map((niche, index) => (
-            <motion.div
-              key={niche.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => handleSelectNiche(niche.id)}
-              className={`relative p-5 md:p-6 rounded-2xl backdrop-blur-xl transition-all duration-300 cursor-pointer h-36 md:h-40 flex flex-col justify-between overflow-hidden group text-left ${
-                activeNiche === niche.id 
-                  ? 'border border-brand-accent/40 bg-zinc-950/85 shadow-[0_0_25px_rgba(41,151,255,0.15)]' 
-                  : 'border border-white/5 bg-black/45 hover:border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
-              } ${
-                index === NICHES.length - 1 ? 'col-span-2 md:col-span-1' : ''
-              }`}
-            >
-              {/* Blue and Black blur gradient behind */}
-              <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-brand-accent/[0.04] group-hover:to-brand-accent/[0.12] transition-colors duration-500 -z-10" />
-              
-              {/* Ambient radiating glow effect behind the card */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(41,151,255,0.07),transparent_70%)] group-hover:bg-[radial-gradient(circle_at_bottom_right,rgba(41,151,255,0.18),transparent_70%)] transition-opacity duration-300 -z-10" />
-              
-              {/* Premium shining border glow */}
-              <div className="absolute -inset-px bg-gradient-to-tr from-brand-accent/0 via-transparent to-white/5 opacity-40 group-hover:opacity-100 group-hover:from-brand-accent/30 group-hover:to-white/10 rounded-2xl transition-all duration-300 pointer-events-none" />
-
-              {/* Glowing circular overlay behind the card on hover (illumination effect) */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-accent/15 rounded-full filter blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-20 pointer-events-none" />
-
-              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-300 ${
-                activeNiche === niche.id 
-                  ? 'bg-brand-accent border-brand-accent/40 text-white shadow-[0_0_15px_rgba(41,151,255,0.4)]' 
-                  : 'bg-[#0a0a0c] border-white/10 text-zinc-400 group-hover:bg-brand-accent group-hover:border-brand-accent/40 group-hover:shadow-[0_0_20px_rgba(41,151,255,0.6)] group-hover:text-white'
-              }`}>
-                <niche.icon size={20} className="transition-colors duration-300" />
-              </div>
-              
-              <span className={`text-[11px] md:text-[13px] font-bold tracking-wide transition-all duration-300 uppercase ${
-                activeNiche === niche.id ? 'text-white' : 'text-zinc-500 group-hover:text-zinc-200'
-              }`}>
-                {niche.name}
-              </span>
-            </motion.div>
-          ))}
-        </section>
-
-        {/* Dashboard Section */}
-        <section className="grid lg:grid-cols-12 gap-8">
-          {/* Trends Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="flex items-center gap-2 px-2">
-              <TrendingUp size={20} className="text-brand-accent" />
-              <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Tendencias</h3>
-            </div>
-            <div className="space-y-3">
-              {isUpdatingStrategy ? (
-                <StrategyLoader 
-                  mode="sidebar" 
-                  nicheName={NICHES.find(n => n.id === activeNiche)?.name || 'Estrategia'} 
-                />
-              ) : (
-                currentRows.map((row, index) => (
-                  <motion.div 
-                    key={index} 
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="glass-card p-4 flex items-center justify-between group hover:border-brand-accent/40 hover:-translate-y-1 bg-white/[0.01] hover:bg-white/[0.05] transition-all duration-300 cursor-default"
-                  >
-                    <span className="text-sm font-semibold text-zinc-400 group-hover:text-brand-accent transition-colors duration-300 truncate max-w-[210px] capitalize">
-                      {row.enfoque}: {row.angulo}
-                    </span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[10px] font-bold text-brand-accent/80 group-hover:text-brand-accent transition-colors px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 font-mono">
-                        +{row.percentage || 75}%
-                      </span>
-                    </div>
-                  </motion.div>
-                ))
-              )}
+            <div className="flex flex-wrap gap-2.5">
+              {WORKSPACE_TEMPLATES.map((tpl, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setWhoAreYou(tpl.whoAreYou);
+                    setWhoAreYouTalkingTo(tpl.whoAreYouTalkingTo);
+                    setWhatToCommunicate(tpl.whatToCommunicate);
+                    addToast(`Cargado ejemplo de ${tpl.label}`, "success");
+                  }}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-400 hover:text-white transition-all duration-300"
+                >
+                  ⚡ {tpl.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Strategy Visualizer */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
-              <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-                <div className="flex items-center gap-2">
-                  <Terminal size={20} className="text-zinc-500" />
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500">Visualizador</h3>
-                </div>
-                {/* View Switcher Pill (Interactive iOS Apple design) */}
-                <div className="bg-white/5 border border-white/10 p-0.5 rounded-lg flex items-center h-8 text-[11px] font-semibold shadow-inner">
-                  <button 
-                    onClick={() => setViewMode('cards')} 
-                    className={`px-3 py-1 rounded-md transition-all duration-200 ${viewMode === 'cards' ? 'bg-white text-black font-bold shadow-md' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    Tarjetas
-                  </button>
-                  <button 
-                    onClick={() => setViewMode('table')} 
-                    className={`px-3 py-1 rounded-md transition-all duration-200 ${viewMode === 'table' ? 'bg-white text-black font-bold shadow-md' : 'text-zinc-400 hover:text-white'}`}
-                  >
-                    Tabla
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <button 
-                  onClick={handleDownloadPDF}
-                  className="apple-button flex-1 sm:flex-initial bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 text-xs px-4 py-2 flex items-center justify-center gap-1.5 transition-all duration-300 shadow-md cursor-pointer h-10"
-                >
-                  <Download size={13} />
-                  Descargar PDF
-                </button>
-                <button 
-                  onClick={() => fetchGeminiStrategy(activeNiche, customTopic)}
-                  disabled={isUpdatingStrategy}
-                  className="apple-button flex-1 sm:flex-initial bg-brand-accent text-white hover:bg-blue-400 text-xs px-4 py-2 shadow-lg shadow-brand-accent/20 flex items-center justify-center gap-1.5 h-10"
-                >
-                  <RefreshCw size={13} className={isUpdatingStrategy ? "animate-spin" : ""} />
-                  Actualizar con IA
-                </button>
-              </div>
+          <div className="h-px bg-white/5" />
+
+          {/* Core Strategic Form fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+                1. ¿Quién eres? / Rol estratégico
+              </label>
+              <input
+                type="text"
+                value={whoAreYou}
+                onChange={(e) => setWhoAreYou(e.target.value)}
+                placeholder="Ej. Consultor de IA para marcas personales"
+                className="w-full h-11 px-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
+              />
             </div>
 
-            {/* Custom AI Topic Architect Bar with Custom Param Adjustments */}
-            <div className="glass-card p-4 md:p-5 flex flex-col gap-4 bg-white/[0.01] hover:bg-white/[0.02] transition-all border border-white/5 rounded-2xl">
-              {/* Main input and action row */}
-              <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
-                <div className="flex items-center gap-2 text-zinc-400 text-xs shrink-0 font-medium select-none">
-                  <Sparkles size={16} className="text-brand-accent shrink-0 animate-pulse" />
-                  <span>Enfocar Inteligencia Artificial:</span>
-                </div>
-                <div className="relative flex-1 w-full">
-                  <input 
-                    type="text"
-                    value={customTopic}
-                    onChange={(e) => setCustomTopic(e.target.value)}
-                    placeholder="Enfoca tu estrategia en un tema (ej: IA en medicina, finanzas estables, comida rápida vegana...)"
-                    className="w-full text-xs bg-black/45 border border-white/10 rounded-xl px-3.5 py-2.5 outline-none focus:border-brand-accent/60 focus:bg-black/60 transition-all placeholder:text-zinc-650 text-zinc-200"
-                  />
-                  {customTopic && (
-                    <button 
-                      onClick={() => setCustomTopic('')}
-                      className="absolute right-3 top-2.5 text-[10px] uppercase font-bold text-zinc-500 hover:text-white transition-colors"
-                    >
-                      Borrar
-                    </button>
-                  )}
-                </div>
-                
-                <div className="flex items-center gap-2 shrink-0 w-full lg:w-auto">
+            <div className="space-y-2">
+              <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+                2. ¿A quién le hablas? / Audiencia ideal
+              </label>
+              <input
+                type="text"
+                value={whoAreYouTalkingTo}
+                onChange={(e) => setWhoAreYouTalkingTo(e.target.value)}
+                placeholder="Ej. Creadores, freelancers y negocios digitales"
+                className="w-full h-11 px-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-600 text-sm font-sans"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase">
+              3. ¿Qué quieres comunicar? (Mensaje central de valor)
+            </label>
+            <textarea
+              rows={4}
+              value={whatToCommunicate}
+              onChange={(e) => setWhatToCommunicate(e.target.value)}
+              placeholder="Ej. Quiero hablar sobre cómo la IA está cambiando la velocidad de creación de productos digitales, pero que el criterio humano sigue liderando la tracción real..."
+              className="w-full p-4 rounded-xl bg-white/[0.02] border border-white/5 focus:border-[#2997ff]/50 focus:bg-white/[0.04] focus:outline-none transition-all placeholder:text-zinc-650 text-sm resize-none leading-relaxed font-sans"
+            />
+          </div>
+
+          <div className="space-y-3">
+            <label className="block text-[11px] font-bold text-zinc-400 tracking-wider font-mono uppercase text-center md:text-left">
+              4. ¿Dónde vas a publicarlo? / Plataforma de destino
+            </label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {['Threads', 'X', 'Instagram', 'TikTok'].map((plat) => {
+                const isActive = platform === plat;
+                return (
                   <button
-                    onClick={() => setShowAdvancedParams(!showAdvancedParams)}
-                    className={`apple-button h-10 px-4 flex items-center justify-center gap-2 text-xs font-bold border transition-all ${
-                      showAdvancedParams 
-                        ? 'bg-brand-accent/15 border-brand-accent/50 text-[#2997ff]' 
-                        : 'bg-white/5 border-white/10 text-zinc-300 hover:bg-white/10'
+                    key={plat}
+                    type="button"
+                    onClick={() => setPlatform(plat)}
+                    className={`h-11 rounded-xl font-medium text-xs tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 border select-none ${
+                      isActive 
+                        ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.06)] scale-102 font-bold' 
+                        : 'bg-white/[0.01] text-zinc-500 border-white/5 hover:border-white/10 hover:text-zinc-350'
                     }`}
                   >
-                    <Sliders size={13} className={showAdvancedParams ? "text-[#2997ff]" : ""} />
-                    <span>Ajustar Refinado</span>
+                    {plat === 'Threads' && <MessageSquare size={13} />}
+                    {plat === 'X' && <Twitter size={13} />}
+                    {plat === 'Instagram' && <InstagramIcon size={13} />}
+                    {plat === 'TikTok' && <Play size={13} />}
+                    <span>{plat}</span>
                   </button>
-
-                  <button
-                    onClick={() => fetchGeminiStrategy(activeNiche, customTopic)}
-                    disabled={isUpdatingStrategy}
-                    className="apple-button h-10 flex-1 lg:flex-none bg-brand-accent text-white hover:bg-blue-400 text-xs font-bold px-5 flex items-center justify-center gap-2 shadow-lg shadow-brand-accent/10 hover:scale-[1.01] transition-transform shrink-0"
-                  >
-                    <Cpu size={14} className={isUpdatingStrategy ? "animate-spin" : ""} />
-                    Generar de Cero
-                  </button>
-                </div>
-              </div>
-
-              {/* Advanced Param Refinements Panel */}
-              <AnimatePresence>
-                {showAdvancedParams && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden border-t border-white/5 pt-4"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {/* Depth of Trend Selector */}
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff]" />
-                          Profundidad de la Tendencia
-                        </label>
-                        <select
-                          value={aiDepth}
-                          onChange={(e) => setAiDepth(e.target.value)}
-                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-[#2997ff]/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
-                        >
-                          <option value="General / Comercial" className="bg-zinc-950 text-zinc-200">General o Comercial</option>
-                          <option value="Específica / Detallada" className="bg-zinc-950 text-zinc-200">Específica o Detallada</option>
-                          <option value="Técnica / Avanzada" className="bg-zinc-950 text-zinc-200">Técnica o Avanzada / Científica</option>
-                        </select>
-                        <p className="text-[10px] text-zinc-500 leading-relaxed">
-                          Determina la complejidad terminológica y el enfoque de las tendencias de IA generadas.
-                        </p>
-                      </div>
-
-                      {/* Tone of Hook Selector */}
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                          Tono del Gancho (Hook)
-                        </label>
-                        <select
-                          value={aiTone}
-                          onChange={(e) => setAiTone(e.target.value)}
-                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-purple-400/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
-                        >
-                          <option value="Audaz / Provocativo" className="bg-zinc-950 text-zinc-200">Audaz o Provocativo (Llamativo)</option>
-                          <option value="Humorístico / Ingenioso" className="bg-zinc-950 text-zinc-200">Humorístico o Ingenioso / Irónico</option>
-                          <option value="Profesional / Corporativo" className="bg-zinc-950 text-zinc-200">Profesional o Corporativo / Serio</option>
-                          <option value="Empático / Educacional" className="bg-zinc-950 text-zinc-200">Empático o Educacional / Cercano</option>
-                        </select>
-                        <p className="text-[10px] text-zinc-500 leading-relaxed">
-                          Modula la aproximación conversacional del hook ideal para impactar en los primeros segundos.
-                        </p>
-                      </div>
-
-                      {/* Creativity Selector (mapped to temperature) */}
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[10px] font-bold text-zinc-455 uppercase tracking-wider flex items-center gap-1.5 select-none">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          Creatividad del Ángulo
-                        </label>
-                        <select
-                          value={aiCreativity}
-                          onChange={(e) => setAiCreativity(e.target.value)}
-                          className="w-full text-xs bg-black/50 border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-emerald-400/60 focus:bg-black/70 transition-all text-zinc-200 cursor-pointer"
-                        >
-                          <option value="Estándar / Conservadora" className="bg-zinc-950 text-zinc-200">Estándar o Conservadora (Pragmática)</option>
-                          <option value="Vanguardista / Creativa" className="bg-zinc-950 text-zinc-200">Vanguardista o Creativa (Novedosa)</option>
-                          <option value="Disruptiva / Extrema" className="bg-zinc-950 text-zinc-200">Disruptiva o Extrema (Revolucionaria)</option>
-                        </select>
-                        <p className="text-[10px] text-zinc-500 leading-relaxed">
-                          Controla la variabilidad creativa de la IA en la elección de puntos de vista únicos y ángulos.
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
-            <div className="glass-card flex-1 overflow-hidden flex flex-col min-h-[350px] md:min-h-[400px]">
-              <div className="border-b border-white/5 p-3 md:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/[0.02]">
-                <div className="flex items-center gap-3 justify-between sm:justify-start w-full">
-                  <div className="flex gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
-                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
-                    <div className="w-2 h-2 rounded-full bg-zinc-800" />
-                  </div>
-                  <span className="text-[9px] md:text-[10px] text-zinc-600 font-mono">ESTRATEGIA_MD_v3.md</span>
-                  {viewMode === 'table' && (
-                    <span className="md:hidden text-[9px] text-[#2997ff] font-sans font-bold flex items-center gap-1.5 px-2 py-0.5 rounded bg-brand-accent/5 border border-brand-accent/10 animate-pulse">
-                      <span>↔</span> Deslizar para ver más
-                    </span>
-                  )}
-                </div>
-                {copied && (
-                  <span className="text-[10px] text-brand-accent font-medium font-mono animate-fade-in-out self-end sm:self-auto">
-                    ¡Copiado para Markdown!
-                  </span>
-                )}
-              </div>
-
-              {isUpdatingStrategy ? (
-                <StrategyLoader 
-                  mode="visualizer" 
-                  nicheName={NICHES.find(n => n.id === activeNiche)?.name || 'Estrategia'} 
-                  customTopic={customTopic}
-                />
-              ) : viewMode === 'cards' ? (
-                /* Premium Adaptive Cards View: Highly Optimized for Smartphones & Touch inputs */
-                <div className="p-4 md:p-5 grid gap-4 grid-cols-1 md:grid-cols-2 overflow-y-auto max-h-[500px]">
-                  {currentRows.map((row, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ type: 'spring', stiffness: 220, damping: 20, delay: i * 0.04 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="relative p-4 rounded-xl bg-white/[0.02] border border-white/5 flex flex-col justify-between gap-3 group/card hover:border-brand-accent/30 hover:bg-white/[0.04] transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}>
-                            {row.icon ? <row.icon size={14} /> : (() => {
-                              const FallbackIcon = getRowIcon(row.angulo);
-                              return <FallbackIcon size={14} />;
-                            })()}
-                          </span>
-                          <span className="text-xs font-bold font-mono tracking-wider text-zinc-500 uppercase">{row.formato}</span>
-                        </div>
-                        <span className="text-[10px] text-brand-accent/80 font-bold bg-brand-accent/5 border border-brand-accent/10 px-2.5 py-0.5 rounded-full uppercase font-mono tracking-wide">{row.emocion}</span>
-                      </div>
-
-                      <div className="space-y-2">
-                        <h4 className="text-sm font-bold text-white group-hover/card:text-brand-accent transition-colors duration-200 capitalize">{row.enfoque} — <span className="text-zinc-400 font-medium">{row.angulo}</span></h4>
-                        <div className="bg-white/[0.01] border border-white/5 p-3 rounded-lg italic text-xs text-zinc-300 relative pl-6 leading-relaxed">
-                          <span className="absolute left-2 top-2 text-xl text-brand-accent/30 font-serif leading-none">“</span>
-                          {row.hook}
-                        </div>
-                        
-                        {/* Dynamic Percentage Visualization (Interés/Tracción Indicator) */}
-                        <div className="mt-2.5 pt-1.5 flex flex-col gap-1.5">
-                          <div className="flex items-center justify-between text-[10px] font-medium text-zinc-400">
-                            <span className="flex items-center gap-1">
-                              <TrendingUp size={11} className="text-emerald-400 shrink-0" />
-                              <span>Interés de Búsqueda / Tracción</span>
-                            </span>
-                            <span className="text-emerald-400 font-mono font-bold">+{row.percentage || 75}%</span>
-                          </div>
-                          <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${row.percentage || 75}%` }}
-                              transition={{ duration: 1, ease: "easeOut" }}
-                              className="h-full bg-gradient-to-r from-teal-500/80 via-emerald-400 to-[#2997ff] rounded-full"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
-                        <span className="px-2 py-0.5 rounded-md bg-zinc-900/60 border border-white/5 text-[9px] text-zinc-400 font-medium">
-                          {row.angulo}
-                        </span>
-                        
-                        <button 
-                          onClick={() => copySingleRowToClipboard(row)}
-                          className="h-7 text-[10px] font-bold text-zinc-400 hover:text-white hover:bg-white/5 px-2.5 rounded transition-all flex items-center gap-1 border border-white/5 hover:border-white/10"
-                        >
-                          <Copy size={11} />
-                          Copiar Idea
-                        </button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                /* Responsive Neo-Brutalist Table view for all screen sizes with expandable rows */
-                <div className="p-1 md:p-4 overflow-x-auto select-none">
-                  <table className="w-full text-left border-collapse min-w-[540px] md:min-w-full">
-                    <thead>
-                      <tr className="border-b border-white/10 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold font-mono">
-                        <th className="pb-3 px-3">Enfoque</th>
-                        <th className="pb-3 px-3 hidden md:table-cell">Hook (Gancho)</th>
-                        <th className="pb-3 px-3 hidden sm:table-cell">Ángulo</th>
-                        <th className="pb-3 px-3 min-w-[130px]">Poder de Atención</th>
-                        <th className="pb-3 px-3 hidden lg:table-cell">Formato</th>
-                        <th className="pb-3 px-3 hidden lg:table-cell">Emoción</th>
-                        <th className="pb-3 px-3 w-12 text-center text-zinc-650 font-bold">INFO</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                      {currentRows.map((row, i) => (
-                        <Fragment key={i}>
-                          <motion.tr 
-                            whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
-                            onClick={() => setExpandedRows(prev => ({ ...prev, [i]: !prev[i] }))}
-                            animate={copied ? {
-                              backgroundColor: [
-                                "rgba(255, 255, 255, 0)",
-                                "rgba(41, 151, 255, 0.12)", // Flash ambient wave peak
-                                "rgba(41, 151, 255, 0.03)",
-                                "rgba(255, 255, 255, 0)"
-                              ],
-                              x: [0, 8, 2, 0],
-                            } : {
-                              backgroundColor: "rgba(255, 255, 255, 0)",
-                              x: 0,
-                            }}
-                            transition={{
-                              duration: 0.9,
-                              delay: i * 0.07, // Staggered sequence scan
-                              ease: "easeInOut"
-                            }}
-                            className="group text-xs text-zinc-300 transition-colors cursor-pointer"
-                          >
-                            <td className="py-4 px-3 font-semibold text-white group-hover:text-brand-accent transition-all max-w-[180px] sm:max-w-[240px]">
-                              <div className="flex items-center gap-2.5">
-                                <motion.span 
-                                  animate={copied ? {
-                                    scale: [1, 1.25, 1],
-                                    rotate: [0, 15, -15, 0]
-                                  } : { scale: 1, rotate: 0 }}
-                                  transition={{
-                                    duration: 0.6,
-                                    delay: i * 0.07,
-                                    ease: "easeInOut"
-                                  }}
-                                  className={`p-1.5 rounded-lg ${row.icon ? row.bgColor : getRowBgColor(row.angulo)} ${row.icon ? row.iconColor : getRowIconColor(row.angulo)} inline-flex items-center justify-center shrink-0`}
-                                >
-                                  {row.icon ? <row.icon size={14} /> : (() => {
-                                    const FallbackIcon = getRowIcon(row.angulo);
-                                    return <FallbackIcon size={14} />;
-                                  })()}
-                                </motion.span>
-                                <span className="truncate capitalize">{row.enfoque}</span>
-                              </div>
-                            </td>
-                            <td className="py-4 px-3 italic text-zinc-400 group-hover:text-zinc-200 transition-colors max-w-[240px] hidden md:table-cell">
-                              "{row.hook}"
-                            </td>
-                            <td className="py-4 px-3 hidden sm:table-cell">
-                              <span className="px-2.5 py-1 rounded-full bg-zinc-900/80 border border-white/5 text-[10px] text-zinc-400 font-medium whitespace-nowrap">
-                                {row.angulo}
-                              </span>
-                            </td>
-                            <td className="py-4 px-3">
-                              <div className="flex flex-col gap-1.5 min-w-[125px] justify-center">
-                                <div className="flex items-center justify-between text-[10px] font-mono leading-none">
-                                  <span className="text-zinc-500 font-medium scale-[0.85] origin-left">VIRAL SCORE</span>
-                                  <span className="text-emerald-400 font-bold">+{row.percentage || 75}%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
-                                  <motion.div 
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${row.percentage || 75}%` }}
-                                    transition={{ duration: 1, ease: "easeOut" }}
-                                    className="h-full bg-gradient-to-r from-teal-500/80 to-[#2997ff]"
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-4 px-3 font-mono text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors hidden lg:table-cell">
-                              {row.formato}
-                            </td>
-                            <td className="py-4 px-3 text-brand-accent/90 font-medium font-sans text-[11px] hidden lg:table-cell uppercase font-mono tracking-wide">
-                              {row.emocion}
-                            </td>
-                            <td className="py-4 px-3 text-center">
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setExpandedRows(prev => ({ ...prev, [i]: !prev[i] }));
-                                }}
-                                className="p-1 px-1.5 rounded bg-zinc-950 border border-white/5 hover:border-brand-accent/30 hover:bg-zinc-900 text-zinc-500 hover:text-white transition-all flex items-center justify-center mx-auto"
-                              >
-                                {expandedRows[i] ? <ChevronUp size={12} className="text-[#2997ff]" /> : <ChevronDown size={12} />}
-                              </button>
-                            </td>
-                          </motion.tr>
-
-                          {expandedRows[i] && (
-                            <tr className="bg-zinc-950/40 border-b border-white/5">
-                              <td colSpan={7} className="p-0 border-t border-white/5">
-                                <motion.div 
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: "auto" }}
-                                  transition={{ duration: 0.2, ease: "easeOut" }}
-                                  className="overflow-hidden"
-                                >
-                                  <div className="p-4 md:p-5 flex flex-col gap-4 text-xs select-text">
-                                    <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                                      <span className="text-[10px] font-mono tracking-wider text-[#2997ff] font-semibold flex items-center gap-1.5 select-none">
-                                        <Terminal size={12} />
-                                        MÉTRICAS Y GANCHO DE IA (LYTH SPEC)
-                                      </span>
-                                      <button 
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          copySingleRowToClipboard(row);
-                                        }}
-                                        className="text-[10px] font-bold text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded border border-white/5 transition-all flex items-center gap-1.5"
-                                      >
-                                        <Copy size={10} />
-                                        Copiar Ficha
-                                      </button>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                      <div className="flex flex-col gap-1.5 bg-zinc-950 p-3 rounded-lg border border-white/5">
-                                        <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest select-none">Gancho del Contenido (Hook)</span>
-                                        <p className="text-zinc-300 italic font-medium leading-relaxed pr-2">
-                                          "{row.hook}"
-                                        </p>
-                                        <div className="mt-1 flex justify-end">
-                                          <button 
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              navigator.clipboard.writeText(row.hook);
-                                              addToast("¡Gancho copiado!", "success");
-                                            }}
-                                            className="text-[9px] font-semibold text-zinc-400 hover:text-[#2997ff] transition-colors flex items-center gap-1"
-                                          >
-                                            <Copy size={9} /> Copiar Gancho
-                                          </button>
-                                        </div>
-                                      </div>
-
-                                      <div className="flex flex-col justify-between gap-3 bg-zinc-950 p-3 rounded-lg border border-white/5">
-                                        <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest select-none">Ángulo Estratégico</span>
-                                          <span className="text-zinc-200 font-semibold text-xs">{row.angulo}</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-[#2997ff]/80 select-none">Formato de Contenido</span>
-                                          <span className="font-mono text-zinc-300 font-bold text-[11px]">{row.formato}</span>
-                                        </div>
-                                      </div>
-
-                                      <div className="flex flex-col justify-between gap-3 bg-zinc-950 p-3 rounded-lg border border-white/5 sm:col-span-2 lg:col-span-1">
-                                        <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-[#2997ff]/80 select-none">Psicología & Emoción</span>
-                                          <span className="text-brand-accent font-semibold uppercase tracking-wide text-xs">{row.emocion}</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                          <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest text-purple-400/80 select-none">Retención Tracción</span>
-                                          <span className="text-zinc-200 font-bold font-mono text-[11px]">+{row.percentage || 75}% Tracción potencial</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </motion.div>
-                              </td>
-                            </tr>
-                          )}
-                        </Fragment>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                );
+              })}
             </div>
           </div>
+
+          {/* ACTION TRIGGER BUTTON */}
+          <div className="pt-2 flex justify-center">
+            <motion.button
+              whileHover={{ scale: 1.01, boxShadow: "0 0 30px rgba(41,151,255,0.15)" }}
+              whileTap={{ scale: 0.99 }}
+              onClick={triggerStrategyGeneration}
+              disabled={isAnalyzing}
+              className="w-full md:w-auto md:px-8 py-3.5 bg-[#2997ff] text-white rounded-xl text-xs font-bold tracking-[0.14em] uppercase flex items-center justify-center gap-2.5 transition-all shadow-xl shadow-[#2997ff]/10 disabled:opacity-50 cursor-pointer text-center"
+            >
+              {isAnalyzing ? (
+                <>
+                  <RefreshCw size={14} className="animate-spin" />
+                  <span>Procesando Matriz Estratégica...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles size={14} className="animate-pulse" />
+                  <span>⚡ Generar ideas estratégicas</span>
+                </>
+              )}
+            </motion.button>
+          </div>
         </section>
-        
-        {/* Mobile-optimized spacing buffer to prevent the persistent action button from overlapping the visualizer table when scrolled to the end */}
-        <div className="h-28 md:h-12 w-full" />
-      </main>
 
-      {/* Persistent Action Footer */}
-      <footer className="fixed bottom-10 w-full flex items-center justify-center px-6 z-40">
-        <div className="flex items-center justify-center gap-3 relative">
-          <motion.button 
-            whileHover={{ y: -3 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={copyToClipboard}
-            className={`apple-button h-12 md:h-14 min-w-[200px] md:min-w-[280px] shadow-2xl flex items-center justify-center gap-2 md:gap-3 text-base md:text-lg backdrop-blur-xl transition-all duration-300 ${
-              copied ? 'bg-green-500 text-white shadow-green-500/20' : 'bg-white text-black shadow-white/10'
-            }`}
+        {/* LOADING ANIMATION EXPERIENCE */}
+        <AnimatePresence mode="wait">
+          {isAnalyzing && (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="pt-4"
+            >
+              <StrategyLoader nicheName={whoAreYouTalkingTo || "Estrategia Global"} customTopic={whatToCommunicate} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* GENERATED STRATEGIC MATRIZ LIST (TABLE/MOBILE DESIGN) */}
+        {!isAnalyzing && strategies.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
           >
-            {copied ? <Clipboard size={18} className="md:w-5 md:h-5" /> : <Copy size={18} className="md:w-5 md:h-5" />}
-            <span className="font-bold">{copied ? 'Copiado' : 'Copiar Estrategia'}</span>
-          </motion.button>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1 text-center sm:text-left">
+                <h3 className="text-lg font-bold font-sans tracking-tight text-white flex items-center justify-center sm:justify-start gap-2">
+                  <span>Matriz Estratégica de Contenido</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/[0.04] text-[10px] font-mono font-normal tracking-normal text-[#2997ff] uppercase">
+                    {platform}
+                  </span>
+                </h3>
+                <p className="text-xs text-zinc-500 font-sans">
+                  Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
+                </p>
+              </div>
 
-          {copied && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6, x: -12 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ type: "spring", stiffness: 350, damping: 20 }}
-              className="absolute left-full ml-3 hidden md:flex items-center justify-center p-3.5 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 shadow-xl shadow-green-500/5 backdrop-blur-xl shrink-0"
-              title="Copiado al portapapeles"
-            >
-              <CheckCircle size={18} className="animate-pulse" />
-            </motion.div>
-          )}
+              {/* Matriz Toolbox */}
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={copyCompleteStrategy}
+                  className={`h-9 px-4 rounded-full text-xs font-semibold flex items-center gap-2 transition-all ${
+                    copiedAll 
+                      ? 'bg-emerald-500 text-white' 
+                      : 'bg-white/[0.04] text-zinc-300 hover:bg-white/[0.08] hover:text-white border border-white/5 shadow-inner'
+                  }`}
+                >
+                  {copiedAll ? <Check size={12} /> : <Copy size={12} />}
+                  <span>{copiedAll ? '¡Copiado Todo!' : 'Copiar Matriz'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={downloadStrategyPDF}
+                  className="h-9 px-4 rounded-full text-xs font-semibold bg-white/[0.04] text-zinc-300 hover:bg-white/[0.08] hover:text-white border border-white/5 shadow-inner flex items-center gap-2 transition-all"
+                >
+                  <Download size={12} />
+                  <span>Descargar PDF</span>
+                </button>
+              </div>
+            </div>
 
-          {copied && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 350, damping: 20 }}
-              className="absolute bottom-full mb-3 md:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/15 border border-green-500/20 text-green-400 text-[11px] font-semibold shadow-lg shadow-green-500/5 backdrop-blur-xl"
-            >
-              <CheckCircle size={12} />
-              <span>¡Copiado!</span>
-            </motion.div>
-          )}
-        </div>
-      </footer>
+            {/* Structured Table - scrollable on phone with neat snapping */}
+            <div className="rounded-2xl border border-white/5 bg-zinc-950/20 overflow-hidden shadow-2xl relative">
+              <div className="overflow-x-auto scrollbar-thin">
+                <table className="w-full text-left border-collapse table-auto min-w-[780px]">
+                  <thead>
+                    <tr className="border-b border-white/5 bg-zinc-950/40 text-[10px] tracking-wider text-zinc-500 font-mono uppercase">
+                      <th className="py-4 px-5 font-bold min-w-[340px]">Hook (Gancho de Apertura)</th>
+                      <th className="py-4 px-4 font-bold min-w-[124px]">Ángulo</th>
+                      <th className="py-4 px-4 font-bold min-w-[114px]">Enfoque</th>
+                      <th className="py-4 px-4 font-bold min-w-[114px]">Formato</th>
+                      <th className="py-4 px-4 font-bold min-w-[114px]">Emoción</th>
+                      <th className="py-4 px-4 font-bold text-right min-w-[64px]">Tracción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {strategies.map((row, idx) => (
+                      <tr 
+                        key={idx} 
+                        className="border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group"
+                      >
+                        {/* Hook Column with internal hover action button */}
+                        <td className="py-4.5 px-5 select-text">
+                          <div className="space-y-1.5 relative pr-12">
+                            <p className="text-[13px] md:text-sm text-zinc-200 leading-relaxed font-sans font-medium tracking-tight">
+                              "{row.hook}"
+                            </p>
+                            <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 pointer-events-none group-hover:pointer-events-auto">
+                              <button
+                                type="button"
+                                title="Copiar gancho"
+                                onClick={() => copySingleHook(row.hook, idx)}
+                                className="p-2 aspect-square rounded-lg bg-zinc-900 border border-white/10 hover:border-white/20 text-[#2997ff] shadow-lg hover:bg-zinc-800 transition-all cursor-pointer"
+                              >
+                                {copiedIndices[idx] ? <Check size={11} /> : <Copy size={11} />}
+                              </button>
+                              <button
+                                type="button"
+                                title="Copiar fila"
+                                onClick={() => copyRow(row, idx)}
+                                className="p-2 aspect-square rounded-lg bg-zinc-900 border border-white/10 hover:border-white/20 text-zinc-400 hover:text-white shadow-lg hover:bg-zinc-800 transition-all cursor-pointer text-[10px] font-mono leading-none"
+                              >
+                                ROW
+                              </button>
+                            </div>
+                          </div>
+                        </td>
 
-      {/* Decorative Background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-accent/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/5 blur-[120px] rounded-full" />
+                        {/* Ángulo Col */}
+                        <td className="py-4.5 px-4 text-xs">
+                          <span className="px-2 py-0.5 rounded-full text-[11px] font-medium border border-[#2997ff]/20 bg-[#2997ff]/5 text-[#2997ff] inline-block capitalize font-sans leading-none">
+                            {row.angulo}
+                          </span>
+                        </td>
+
+                        {/* Enfoque Col */}
+                        <td className="py-4.5 px-4 text-xs font-sans text-zinc-400 capitalize">
+                          {row.enfoque}
+                        </td>
+
+                        {/* Formato Col */}
+                        <td className="py-4.5 px-4 text-xs font-mono text-zinc-500 lowercase">
+                          {row.formato}
+                        </td>
+
+                        {/* Emoción Col */}
+                        <td className="py-4.5 px-4 text-xs">
+                          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border border-purple-500/20 bg-purple-500/5 text-purple-400 inline-block capitalize font-sans leading-none">
+                            {row.emocion}
+                          </span>
+                        </td>
+
+                        {/* Tracción percentage (Score) icon */}
+                        <td className="py-4.5 px-4 text-right text-xs font-mono font-bold text-zinc-400">
+                          <div className="flex flex-col items-end gap-1 font-mono">
+                            <span className="text-[#2997ff] font-sans font-bold text-sm">
+                              {row.percentage}%
+                            </span>
+                            <div className="w-10 h-1 bg-white/5 rounded-full overflow-hidden">
+                              <div 
+                                className="bg-gradient-to-r from-blue-500 to-[#2997ff] h-full rounded-full" 
+                                style={{ width: `${row.percentage}%` }} 
+                              />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            {/* Visual note about publishing */}
+            <div className="flex items-center gap-2 bg-zinc-900/40 p-4 border border-white/5 rounded-xl text-zinc-500 text-xs text-center md:text-left justify-center">
+              <span className="text-[#2997ff]">✦</span>
+              <span>Propuestas curadas en función del canal de destino. Haz click en el botón de copiar de cada gancho para agilizar tu flujo de publicación.</span>
+            </div>
+          </motion.div>
+        )}
       </div>
+
+      {/* Decorative footer */}
+      <footer className="py-12 border-t border-white/5 text-center text-zinc-650 text-[11px] font-mono select-none">
+        <p>© {new Date().getFullYear()} LYTH AI. Todos los derechos reservados.</p>
+        <p className="text-zinc-700 mt-1">Concebido como un sistema de posicionamiento social elgante por Jonatan Correa.</p>
+      </footer>
     </div>
   );
 }
