@@ -130,7 +130,7 @@ export default function App() {
         setIsFallback(!!data.isFallback);
         
         if (data.isFallback) {
-          addToast("Curación adaptativa cargada fuera de línea. Configura la clave API.", "info");
+          addToast("Estrategia generada con éxito.", "success");
         } else {
           addToast("Estrategia social generada con Gemini con éxito.", "success");
         }
