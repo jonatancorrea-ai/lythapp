@@ -233,3 +233,5 @@ async function runServer() {
 runServer().catch(err => {
   console.error("Falla crítica al iniciar el servidor de LYTH AI:", err);
 });
+
+export default app;
