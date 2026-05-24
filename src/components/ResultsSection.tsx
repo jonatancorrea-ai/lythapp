@@ -41,7 +41,14 @@ export default function ResultsSection({
             </span>
           </h3>
           <p className="text-xs text-zinc-500 font-medium font-sans">
-            Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
+          Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
+</p>
+<div className="flex items-center gap-2 mt-1">
+  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-mono font-bold tracking-wider text-amber-400 uppercase">
+    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+    Beta · Curación estratégica interna
+  </span>
+</div>
           </p>
         </div>
 
