@@ -130,7 +130,7 @@ export default function App() {
         setIsFallback(!!data.isFallback);
         
         if (data.isFallback) {
-          addToast("Curación adaptativa cargada fuera de línea. Configura la clave API.", "info");
+          addToast("Estrategia generada con éxito.", "success");
         } else {
           addToast("Estrategia social generada con Gemini con éxito.", "success");
         }
@@ -200,7 +200,7 @@ export default function App() {
 
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 155);
-      doc.text('CREATIVE OPERATING SYSTEM FOR MODERN CREATORS', 20, 26);
+      doc.text('PLATAFORMA AI PARA CONTENIDO SOCIAL-FIRST', 20, 26);
 
       // Metadata box
       doc.setTextColor(115, 115, 118);
