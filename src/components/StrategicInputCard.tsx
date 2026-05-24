@@ -64,12 +64,12 @@ export default function StrategicInputCard({
       <div className="h-px bg-white/5" />
 
       {/* 2. Unified Inputs System */}
-      <div className="space-y-5 sm:space-y-6">
+      <div className="space-y-6 sm:space-y-7">
         
         {/* Input Pair (Who you are & target audience) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          <div className="space-y-1.5">
-            <label className="block text-[9px] font-bold text-zinc-550 tracking-wider font-mono uppercase select-none">
+          <div className="space-y-2 relative group">
+            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
               ¿Quién eres?
             </label>
             <input
@@ -77,12 +77,12 @@ export default function StrategicInputCard({
               value={whoAreYou}
               onChange={(e) => setWhoAreYou(e.target.value)}
               placeholder="Ej. Consultor de IA para marcas"
-              className="w-full h-11.5 px-4 rounded-xl text-white glass-input focus:outline-none text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.015] border border-white/8 transition-all duration-300"
+              className="w-full h-12 px-4 rounded-xl text-white glass-input focus:outline-none focus:ring-4 focus:ring-brand-accent/5 text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.012] border border-white/10 transition-all duration-300"
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label className="block text-[9px] font-bold text-zinc-550 tracking-wider font-mono uppercase select-none">
+          <div className="space-y-2 relative group">
+            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
               ¿A quién le hablas?
             </label>
             <input
@@ -90,25 +90,45 @@ export default function StrategicInputCard({
               value={whoAreYouTalkingTo}
               onChange={(e) => setWhoAreYouTalkingTo(e.target.value)}
               placeholder="Ej. Creadores y graduados digitales"
-              className="w-full h-11.5 px-4 rounded-xl text-white glass-input focus:outline-none text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.015] border border-white/8 transition-all duration-300"
+              className="w-full h-12 px-4 rounded-xl text-white glass-input focus:outline-none focus:ring-4 focus:ring-brand-accent/5 text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.012] border border-white/10 transition-all duration-300"
             />
           </div>
         </div>
 
         {/* Input Idea: Textarea Hero Input */}
-        <div className="space-y-2 relative">
-          <label className="block text-[9px] font-bold text-zinc-550 tracking-wider font-mono uppercase select-none">
-            ¿Qué quieres comunicar?
-          </label>
+        <div className="space-y-2.5 relative">
+          <div className="flex items-center justify-between">
+            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
+              ¿Qué quieres comunicar?
+            </label>
+            <span className="text-[9px] font-mono text-zinc-650 font-bold tracking-widest uppercase select-none">
+              {whatToCommunicate.length > 0 ? `${whatToCommunicate.length} caract.` : "Escribe tu idea"}
+            </span>
+          </div>
           <div className="relative group">
+            {/* Soft backdrop glow matching focused state only */}
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-500/15 via-purple-500/10 to-brand-accent/15 rounded-[22px] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            
             <textarea
               ref={textareaRef}
               rows={4}
               value={whatToCommunicate}
               onChange={(e) => setWhatToCommunicate(e.target.value)}
               placeholder="Ej. Quiero hablar sobre cómo la IA es una herramienta técnica excelente para optimizar tareas mecánicas, pero el criterio real y el alma humana definen el engagement a largo plazo..."
-              className="w-full p-4.5 rounded-2xl text-white glass-input focus:outline-none text-sm sm:text-base resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700 bg-white/[0.012] border border-white/10 transition-all duration-300 min-h-[120px] shadow-inner"
+              className="relative w-full p-5 rounded-2xl text-white glass-input focus:outline-none text-sm sm:text-base resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700 bg-white/[0.01] border border-white/10 focus:border-brand-accent/60 transition-all duration-300 min-h-[140px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]"
             />
+          </div>
+          
+          {/* Typographic emotional guide indicator */}
+          <div className="flex items-center justify-between text-[10px] text-zinc-550 pt-0.5 select-none font-sans">
+            <span className="italic">
+              * El deconstructor calibrará ganchos, ganchos antagónicos y tensión social.
+            </span>
+            {whatToCommunicate.length > 50 && (
+              <span className="text-emerald-500/80 font-semibold flex items-center gap-1 font-mono transition-all duration-300 animate-fade-in text-[9.5px] uppercase tracking-wider">
+                ● Criterio de entrada óptimo
+              </span>
+            )}
           </div>
         </div>
 

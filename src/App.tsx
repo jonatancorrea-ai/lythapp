@@ -130,7 +130,7 @@ export default function App() {
         setIsFallback(!!data.isFallback);
         
         if (data.isFallback) {
-          addToast("Estrategia generada con éxito.", "success");
+          addToast("Curación adaptativa cargada fuera de línea. Configura la clave API.", "info");
         } else {
           addToast("Estrategia social generada con Gemini con éxito.", "success");
         }
@@ -268,18 +268,7 @@ export default function App() {
     }
   };
 
-  // 1. Auth Guard View
-  if (!isAuthenticated) {
-    return (
-      <LoginGate
-        emailInput={emailInput}
-        setEmailInput={setEmailInput}
-        onLoginSuccess={handleLoginSuccess}
-      />
-    );
-  }
-
-  // 2. Primary Workspace View
+  // 1. Unified Render Pipeline with Cinematic Swap Transition
   return (
     <AppShell>
       {/* Ambient background blur lighting layers */}
@@ -314,79 +303,105 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* Sticky top glass responsive nav rule */}
-      <FloatingHeader email={emailInput} onLogout={handleLogout} />
+      <AnimatePresence mode="wait animate-presence-wrapper">
+        {!isAuthenticated ? (
+          <motion.div
+            key="login-screen"
+            initial={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(32px)", scale: 0.95, y: -15 }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-grow w-full flex items-center justify-center z-10"
+          >
+            <LoginGate
+              emailInput={emailInput}
+              setEmailInput={setEmailInput}
+              onLoginSuccess={handleLoginSuccess}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="workspace-screen"
+            initial={{ opacity: 0, filter: "blur(24px)", scale: 1.03, y: 15 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="flex-grow w-full flex flex-col relative z-20"
+          >
+            {/* Sticky top glass responsive nav rule */}
+            <FloatingHeader email={emailInput} onLogout={handleLogout} />
 
-      {/* Max-width centering flow workspace */}
-      <MainWorkspace>
-        
-        {/* Emotional brand hook introduction */}
-        <HeroSection />
+            {/* Max-width centering flow workspace */}
+            <MainWorkspace>
+              
+              {/* Emotional brand hook introduction */}
+              <HeroSection />
 
-        {/* Tactile strategic card input controls */}
-        <StrategicInputCard
-          whoAreYou={whoAreYou}
-          setWhoAreYou={setWhoAreYou}
-          whoAreYouTalkingTo={whoAreYouTalkingTo}
-          setWhoAreYouTalkingTo={setWhoAreYouTalkingTo}
-          whatToCommunicate={whatToCommunicate}
-          setWhatToCommunicate={setWhatToCommunicate}
-          templates={WORKSPACE_TEMPLATES}
-          onTemplateSelect={handleTemplateSelect}
-        />
+              {/* Tactile strategic card input controls */}
+              <StrategicInputCard
+                whoAreYou={whoAreYou}
+                setWhoAreYou={setWhoAreYou}
+                whoAreYouTalkingTo={whoAreYouTalkingTo}
+                setWhoAreYouTalkingTo={setWhoAreYouTalkingTo}
+                whatToCommunicate={whatToCommunicate}
+                setWhatToCommunicate={setWhatToCommunicate}
+                templates={WORKSPACE_TEMPLATES}
+                onTemplateSelect={handleTemplateSelect}
+              />
 
-        {/* Content publishing channel selects */}
-        <PlatformSelector
-          selectedPlatform={platform}
-          onPlatformChange={(plat) => {
-            setPlatform(plat);
-            addToast(`Canal configurado: ${plat}`, "info");
-          }}
-        />
+              {/* Content publishing channel selects */}
+              <PlatformSelector
+                selectedPlatform={platform}
+                onPlatformChange={(plat) => {
+                  setPlatform(plat);
+                  addToast(`Canal configurado: ${plat}`, "info");
+                }}
+              />
 
-        {/* Generation Action CTA */}
-        <GenerateButton
-          isAnalyzing={isAnalyzing}
-          onClick={triggerStrategyGeneration}
-        />
+              {/* Generation Action CTA */}
+              <GenerateButton
+                isAnalyzing={isAnalyzing}
+                onClick={triggerStrategyGeneration}
+              />
 
-        {/* Loader skeletal indicators during async analysis */}
-        <AnimatePresence mode="wait">
-          {isAnalyzing && (
-            <LoadingState nicheName={whoAreYouTalkingTo} customTopic={whatToCommunicate} />
-          )}
-        </AnimatePresence>
+              {/* Loader skeletal indicators during async analysis */}
+              <AnimatePresence mode="wait">
+                {isAnalyzing && (
+                  <LoadingState nicheName={whoAreYouTalkingTo} customTopic={whatToCommunicate} />
+                )}
+              </AnimatePresence>
 
-        {/* Render Results system, Empty System, or Error reporting */}
-        <AnimatePresence mode="wait">
-          {!isAnalyzing && (
-            <motion.div
-              key="outputs-wrap"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {errorMessage ? (
-                <ErrorState message={errorMessage} />
-              ) : strategies.length > 0 ? (
-                <ResultsSection
-                  strategies={strategies}
-                  platform={platform}
-                  copiedAll={copiedAll}
-                  onCopyAll={copyCompleteStrategy}
-                  onDownloadPDF={downloadStrategyPDF}
-                  onCopyHook={copySingleHook}
-                  onCopyRow={copyRow}
-                />
-              ) : (
-                <EmptyState />
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {/* Render Results system, Empty System, or Error reporting */}
+              <AnimatePresence mode="wait">
+                {!isAnalyzing && (
+                  <motion.div
+                    key="outputs-wrap"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {errorMessage ? (
+                      <ErrorState message={errorMessage} />
+                    ) : strategies.length > 0 ? (
+                      <ResultsSection
+                        strategies={strategies}
+                        platform={platform}
+                        copiedAll={copiedAll}
+                        onCopyAll={copyCompleteStrategy}
+                        onDownloadPDF={downloadStrategyPDF}
+                        onCopyHook={copySingleHook}
+                        onCopyRow={copyRow}
+                      />
+                    ) : (
+                      <EmptyState />
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-      </MainWorkspace>
+            </MainWorkspace>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AppShell>
   );
 }

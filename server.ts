@@ -138,7 +138,7 @@ Escribe el gancho ("hook") directamente en ESPAÑOL fluido, pulido, sofisticado 
 `;
 
     const response = await getAIInstance().models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.5-flash",
       contents: prompt,
       config: {
         systemInstruction: "Eres LYTH, un estratega creativo premium de inteligencia artificial que ayuda a creadores, marcas y profesionales a estructurar ideas de contenido social-first que se sienten humanas, emocionalmente inteligentes, estratégicamente afiladas y de nivel elite. Eludes clichés corporativos, lenguaje de IA obvio y ganchos predecibles.",

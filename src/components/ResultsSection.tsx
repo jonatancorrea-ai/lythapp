@@ -13,6 +13,17 @@ interface ResultsSectionProps {
   onCopyRow: (row: StrategyRow, index: number) => void;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.15
+    }
+  }
+};
+
 export default function ResultsSection({
   strategies,
   platform,
@@ -31,6 +42,7 @@ export default function ResultsSection({
       transition={{ duration: 0.55 }}
       className="space-y-6 relative z-10 w-full"
     >
+      {/* 1. Header Toolbar metadata & export tools */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
         <div className="space-y-1 text-center sm:text-left select-none">
           <h3 className="text-lg font-semibold font-sans tracking-tight text-white flex items-center justify-center sm:justify-start gap-2">
@@ -42,26 +54,25 @@ export default function ResultsSection({
           <p className="text-xs text-zinc-500 font-medium font-sans">
             Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
           </p>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-mono font-bold tracking-wider text-amber-400 uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              Beta · Curación estratégica interna
-            </span>
-          </div>
         </div>
+
+        {/* Action Toolbox export/action launchers */}
         <div className="flex flex-wrap items-center justify-center gap-2 select-none">
+          {/* Copy complete Markdown matrix */}
           <button
             type="button"
             onClick={onCopyAll}
             className={`h-9 px-4 rounded-full text-xs font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer border ${
-              copiedAll
-                ? 'bg-emerald-500 text-white border-emerald-400 shadow-md'
+              copiedAll 
+                ? 'bg-emerald-500 text-white border-emerald-400 shadow-md' 
                 : 'bg-white/[0.03] text-zinc-350 hover:bg-white/[0.05] hover:text-white border-white/10'
             }`}
           >
             {copiedAll ? <Check size={12} className="animate-pulse" /> : <Copy size={12} />}
             <span>{copiedAll ? '¡Copiado Todo!' : 'Copiar Matriz (Markdown)'}</span>
           </button>
+
+          {/* Download high-end document export */}
           <button
             type="button"
             onClick={onDownloadPDF}
@@ -72,7 +83,14 @@ export default function ResultsSection({
           </button>
         </div>
       </div>
-      <div className="space-y-5">
+
+      {/* 2. List Stack of premium, high-retention strategy cards */}
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="space-y-5"
+      >
         {strategies.map((row, idx) => (
           <ResultCard
             key={idx}
@@ -83,7 +101,7 @@ export default function ResultsSection({
             onCopyRow={onCopyRow}
           />
         ))}
-      </div>
+      </motion.div>
     </motion.section>
   );
 }
