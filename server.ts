@@ -1,41 +1,33 @@
 import express from "express";
-import path from "path";
 import dotenv from "dotenv";
-import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
-
-// Parse incoming request JSON bodies
 app.use(express.json());
 
-// Lazy-initialize the Google GenAI SDK server-side to prevent crashing on startup if the API key is missing
-let aiInstance: GoogleGenAI | null = null;
-function getAIInstance() {
-  if (!aiInstance) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "" || apiKey === "undefined") {
-      throw new Error("GEMINI_API_KEY is not configured.");
-    }
-    aiInstance = new GoogleGenAI({
-      apiKey: apiKey,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build',
-        }
-      }
-    });
-  }
-  return aiInstance;
-}
+// Inicialización segura
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
-// Helper to safely clean and parse JSON that might contain markdown blocks
-function cleanAndParseJSON(text: string) {
-  let cleaned = text.trim();
-  if (cleaned.startsWith("```")) {
-    cleaned = cleaned.replace(/^
-http://googleusercontent.com/immersive_entry_chip/0
+app.post("/api/generate-strategy", async (req, res) => {
+  try {
+    const { whoAreYou, whoAreYouTalkingTo, whatToCommunicate, platform } = req.body;
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    const prompt = `Actúa como un estratega creativo. Genera ideas de contenido para ${whoAreYou} hablando a ${whoAreYouTalkingTo} sobre ${whatToCommunicate} en ${platform}. Responde solo en formato JSON puro.`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    
+    // Limpiamos el texto por si trae bloques de código
+    const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    res.json(JSON.parse(cleaned));
+  } catch (error) {
+    console.error("Error en API:", error);
+    res.status(500).json({ error: "Error en el motor" });
+  }
+});
+
+// Esto es lo que Vercel necesita para funcionar
+export default app;
