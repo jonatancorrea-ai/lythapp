@@ -40,8 +40,8 @@ export default function ResultsSection({
               {platform}
             </span>
           </h3>
-          <p className="text-xs text-zinc-500 font-medium font-sans">
-          Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
+       <p className="text-xs text-zinc-500 font-medium font-sans">
+  Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
 </p>
 <div className="flex items-center gap-2 mt-1">
   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-mono font-bold tracking-wider text-amber-400 uppercase">
@@ -49,8 +49,6 @@ export default function ResultsSection({
     Beta · Curación estratégica interna
   </span>
 </div>
-          </p>
-        </div>
 
         {/* Action Toolbox export/action launchers */}
         <div className="flex flex-wrap items-center justify-center gap-2 select-none">
