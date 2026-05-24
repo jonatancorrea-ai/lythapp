@@ -23,17 +23,155 @@ function cleanAndParseJSON(text: string) {
 }
 
 function getFallbackStrategies(whoAreYou: string, whoAreYouTalkingTo: string, whatToCommunicate: string, platform: string) {
-  const audience = whoAreYouTalkingTo || "Profesionales y creadores";
-  const msg = whatToCommunicate || "la evolución del ecosistema digital actual";
-  const limitWords = (str: string, max: number) => str.trim().length > max ? str.trim().slice(0, max) + "..." : str.trim();
-  const cleanMsg = limitWords(msg, 60);
+  const topic = whatToCommunicate?.trim() || "el futuro del trabajo y la creatividad";
+  const audience = whoAreYouTalkingTo?.trim() || "profesionales digitales";
+  const creator = whoAreYou?.trim() || "creador de contenido";
 
-  return [
-    { hook: `¿De verdad crees que ${cleanMsg} resolverá tu negocio? El gran peligro real para los ${audience} es otro.`, angulo: "opinión incómoda", enfoque: "hot take", formato: platform === "Instagram" || platform === "TikTok" ? "talking video" : "short thread", emocion: "uncomfortable truth", percentage: Math.floor(Math.random() * 8) + 91 },
-    { hook: `He auditado docenas de marcas intentando comunicar ${cleanMsg}. El 90% comete este error básico.`, angulo: "ejecución vs consumo", enfoque: "experiencia personal", formato: platform === "Threads" || platform === "X" ? "tweet" : "carousel", emocion: "feeling ahead", percentage: Math.floor(Math.random() * 8) + 85 },
-    { hook: `La razón por la que destacar hablando sobre ${cleanMsg} ya no depende del mérito técnico. Depende de esto:`, angulo: "tensión del creador", enfoque: "reflexión", formato: "hook + reflection", emocion: "creator frustration", percentage: Math.floor(Math.random() * 10) + 88 },
-    { hook: `A los ${audience} no les importa la teoría sobre ${cleanMsg}. Quieren ver la fricción de tu proceso real.`, angulo: "cambio de comportamiento", enfoque: "disruptivo", formato: "conversational post", emocion: "perspective shift", percentage: Math.floor(Math.random() * 12) + 78 }
+  const allStrategies = [
+    // --- CREADORES DE CONTENIDO ---
+    {
+      hook: `Llevas meses creando contenido. Pero nadie te dijo que el algoritmo premia el patrón, no el talento.`,
+      angulo: "verdad incómoda del ecosistema",
+      enfoque: "desmitificación estratégica",
+      formato: platform === "YouTube" ? "video editorial" : "carousel de ruptura",
+      emocion: "uncomfortable truth",
+      percentage: 94
+    },
+    {
+      hook: `El creador que gana en 2025 no publica más. Publica diferente. Aquí la diferencia exacta:`,
+      angulo: "ventaja competitiva oculta",
+      enfoque: "contraintuitivo + accionable",
+      formato: platform === "Threads" || platform === "X" ? "thread con gancho numérico" : "reel educativo",
+      emocion: "feeling ahead of the curve",
+      percentage: 91
+    },
+    {
+      hook: `Dejé de obsesionarme con el engagement. Mis números subieron 3x. Esto es lo que cambié:`,
+      angulo: "resultado paradójico personal",
+      enfoque: "storytelling de proceso real",
+      formato: "talking video con subtítulos",
+      emocion: "curiosity + social proof",
+      percentage: 96
+    },
+    {
+      hook: `Tu contenido no tiene problema de calidad. Tiene problema de posicionamiento. Hay diferencia.`,
+      angulo: "reencuadre del problema",
+      enfoque: "diagnóstico directo",
+      formato: platform === "Instagram" ? "carousel con texto fuerte" : "post reflexivo",
+      emocion: "perspective shift",
+      percentage: 89
+    },
+
+    // --- CONSULTORES ---
+    {
+      hook: `El consultor que cobra $500/hora y el que cobra $5,000/hora dicen lo mismo. La diferencia está en cómo lo enmarcan.`,
+      angulo: "percepción de valor vs. valor real",
+      enfoque: "contraste de posicionamiento",
+      formato: platform === "LinkedIn" ? "post narrativo" : "carousel comparativo",
+      emocion: "status anxiety + aspiración",
+      percentage: 95
+    },
+    {
+      hook: `Mis clientes no me pagan por mis horas. Me pagan por saber cuál palanca mover primero.`,
+      angulo: "redefinición del rol del experto",
+      enfoque: "autoridad silenciosa",
+      formato: "post corto de impacto",
+      emocion: "respect + deseo de aprender",
+      percentage: 92
+    },
+    {
+      hook: `La propuesta que perdí me enseñó más que las 10 que gané. Lo que descubrí sobre ${topic}:`,
+      angulo: "vulnerabilidad estratégica",
+      enfoque: "lección extraída del fracaso",
+      formato: "storytelling de 3 actos",
+      emocion: "empathy + credibilidad",
+      percentage: 93
+    },
+    {
+      hook: `Si tu cliente necesita que le expliques tu valor, ya perdiste la venta. Así se evita eso:`,
+      angulo: "falla de comunicación de alto costo",
+      enfoque: "diagnóstico + solución inmediata",
+      formato: platform === "Threads" ? "thread directo" : "video corto",
+      emocion: "recognition + urgencia",
+      percentage: 90
+    },
+
+    // --- COACHES ---
+    {
+      hook: `El mayor enemigo de tus clientes no es la falta de información. Es la distancia entre saber y hacer.`,
+      angulo: "insight psicológico del cambio",
+      enfoque: "verdad sobre la transformación real",
+      formato: "reflexión + llamada a la acción suave",
+      emocion: "deep recognition",
+      percentage: 97
+    },
+    {
+      hook: `Nadie te contrata para que les des respuestas. Te contratan para que les hagas las preguntas que ellos no pueden hacerse.`,
+      angulo: "redefinición del valor del coaching",
+      enfoque: "filosofía de práctica",
+      formato: platform === "Instagram" ? "reel hablado" : "post conceptual",
+      emocion: "intellectual resonance",
+      percentage: 93
+    },
+    {
+      hook: `Mi cliente más transformado no fue el más talentoso. Fue el que dejó de esperar el momento perfecto.`,
+      angulo: "caso real sin nombre",
+      enfoque: "micro-historia con moraleja",
+      formato: "storytelling conversacional",
+      emocion: "hope + urgencia interna",
+      percentage: 94
+    },
+    {
+      hook: `El problema no es que ${audience} no sepa qué hacer. Es que no se creen capaces de hacerlo. Esa es la brecha real.`,
+      angulo: "raíz psicológica del problema",
+      enfoque: "empatía radical",
+      formato: "post educativo emocional",
+      emocion: "feeling seen + motivación",
+      percentage: 96
+    },
+
+    // --- EMPRENDEDORES ---
+    {
+      hook: `Tardé 2 años en entender que mi negocio no tenía problema de producto. Tenía problema de claridad.`,
+      angulo: "diagnóstico tardío de alto costo",
+      enfoque: "confesión estratégica",
+      formato: platform === "YouTube" ? "vlog reflexivo" : "post de texto largo",
+      emocion: "painful recognition + esperanza",
+      percentage: 95
+    },
+    {
+      hook: `El negocio que construyes en modo supervivencia nunca escala. Aquí lo que tienes que cambiar primero:`,
+      angulo: "trampa del emprendedor temprano",
+      enfoque: "advertencia + hoja de ruta",
+      formato: "carousel accionable",
+      emocion: "urgencia + claridad",
+      percentage: 91
+    },
+    {
+      hook: `Antes de hablar de ${topic}, pregúntate: ¿estás construyendo un negocio o comprándote un trabajo?`,
+      angulo: "pregunta que incomoda y reencuadra",
+      enfoque: "provocación filosófica",
+      formato: platform === "Threads" || platform === "X" ? "tweet de ruptura" : "reel directo",
+      emocion: "cognitive dissonance + despertar",
+      percentage: 92
+    },
+    {
+      hook: `Los emprendedores que conozco que realmente escalan tienen una cosa en común: dejaron de ser los más ocupados del equipo.`,
+      angulo: "paradoja de la productividad",
+      enfoque: "observación de patrón",
+      formato: "post reflexivo con datos",
+      emocion: "permission to let go",
+      percentage: 88
+    },
   ];
+
+  // Selecciona 4 estrategias variadas pseudo-aleatoriamente basadas en el input
+  const seed = (whoAreYou + whatToCommunicate).length % allStrategies.length;
+  const selected = [];
+  for (let i = 0; i < 4; i++) {
+    selected.push(allStrategies[(seed + i * 4) % allStrategies.length]);
+  }
+  return selected;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
