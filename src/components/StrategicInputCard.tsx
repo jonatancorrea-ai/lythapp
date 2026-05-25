@@ -42,7 +42,7 @@ export default function StrategicInputCard({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-[9px] font-bold text-zinc-500 tracking-wider font-mono select-none uppercase">
-            Elegir contexto de ejemplo
+            Elige un perfil de ejemplo
           </span>
           <span className="h-px bg-white/5 flex-grow ml-4 shrink hidden sm:block" />
         </div>
