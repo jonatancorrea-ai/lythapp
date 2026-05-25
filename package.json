@@ -2,21 +2,26 @@
   "name": "lythapp",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.ts",
   "scripts": {
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs"
+    "build": "vite build",
+    "dev": "vite"
   },
   "dependencies": {
-    "express": "^4.21.0",
-    "dotenv": "^16.4.5",
-    "@google/generative-ai": "^0.21.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vercel/node": "^3.0.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^6.2.3"
   },
   "devDependencies": {
-    "vite": "^6.4.2",
-    "@vitejs/plugin-react": "^4.3.4",
-    "@tailwindcss/vite": "^4.0.0",
-    "esbuild": "^0.24.0"
+    "typescript": "^5.0.0"
   }
 }
