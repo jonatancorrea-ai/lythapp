@@ -24,22 +24,28 @@ import LoginGate from './components/LoginGate';
 // Interactive Premium Creator Onboarding quick-templates definition
 const WORKSPACE_TEMPLATES: WorkspaceTemplate[] = [
   {
-    label: "Consultor de IA",
-    whoAreYou: "Consultor de IA para marcas personales",
-    whoAreYouTalkingTo: "Creadores de contenido, freelancers y negocios digitales",
-    whatToCommunicate: "Quiero hablar sobre cómo la IA está cambiando la velocidad de creación de productos digitales, pero demostrando que la verdadera ventaja a largo plazo nunca será la velocidad, sino el criterio con el que diseñas y el enfoque humano."
+    label: "Consultor IA",
+    whoAreYou: "Consultor de Inteligencia Artificial para negocios y marcas personales",
+    whoAreYouTalkingTo: "Dueños de negocio, marcas y profesionales que quieren implementar IA en su negocio",
+    whatToCommunicate: "La IA no va a reemplazar tu negocio. Va a reemplazar a los negocios que no sepan usarla. La diferencia entre los que escalan y los que desaparecen en 2026 no es el presupuesto, es el criterio con el que integran la tecnología."
   },
   {
-    label: "Indie Maker / Programador",
-    whoAreYou: "Indie Hacker e Ingeniero de Software independiente",
-    whoAreYouTalkingTo: "Fundadores técnicos de startups y solopreneurs",
-    whatToCommunicate: "La obsesión por 'lanzar rápido con interfaces feas' es destructiva. Diseñar una experiencia limpia y pulida con microinteracciones de lujo evita el 80% del churn de usuarios."
+    label: "Emprendedor Digital",
+    whoAreYou: "Emprendedor digital construyendo un negocio online desde cero",
+    whoAreYouTalkingTo: "Personas que quieren dejar su trabajo tradicional y vivir de internet",
+    whatToCommunicate: "Nadie te cuenta que los primeros 6 meses de un negocio digital son 80% aprender y 20% ganar. El problema no es el modelo de negocio. Es que la mayoría abandona justo antes de que las cosas empiezan a funcionar."
   },
   {
-    label: "E-Commerce Storyteller",
-    whoAreYou: "Especialista en Growth y Storytelling de marcas directas al consumidor",
-    whoAreYouTalkingTo: "E-commerce modernos y dueños de marcas digitales independientes",
-    whatToCommunicate: "Los anuncios de marketing tradicionales están muertos. El verdadero crecimiento hoy consiste en crear tensión narrativa en plataformas sociales, mostrando el caos real detrás de escena en la cadena de suministro."
+    label: "Marca Personal",
+    whoAreYou: "Profesional construyendo su marca personal en redes sociales",
+    whoAreYouTalkingTo: "Profesionales de 25 a 40 años que quieren posicionarse como referentes en su industria",
+    whatToCommunicate: "Tu marca personal no es tu logo ni tu paleta de colores. Es la respuesta a una pregunta muy simple: ¿por qué alguien debería escucharte a ti y no a los otros 500 que hablan del mismo tema?"
+  },
+  {
+    label: "Creador de Contenido",
+    whoAreYou: "Creador de contenido educativo y de valor en redes sociales",
+    whoAreYouTalkingTo: "Creadores en etapa de crecimiento que publican consistentemente pero no ven resultados proporcionales",
+    whatToCommunicate: "Publicar todos los días sin una estrategia de posicionamiento es el camino más rápido al burnout. El algoritmo no premia la cantidad. Premia la claridad de a quién le hablas y qué problema específico resuelves."
   }
 ];
 
