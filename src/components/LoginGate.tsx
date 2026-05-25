@@ -35,7 +35,6 @@ export default function LoginGate({
       setErrorMessage('Formato de correo inválido.');
       return;
     }
-    
     setErrorMessage('');
     setIsLoading(true);
     setTimeout(() => {
@@ -46,33 +45,16 @@ export default function LoginGate({
 
   return (
     <div className="min-h-screen w-full bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2997ff]/20 flex flex-col justify-center items-center p-5 relative overflow-hidden select-none">
-      {/* Cinematic ambient lighting blooms with slow drift */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          animate={{
-            scale: [1, 1.15, 0.9, 1],
-            x: [0, 20, -20, 0],
-            y: [0, -15, 20, 0],
-          }}
-          transition={{
-            duration: 16,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-[15%] left-[15%] w-[60%] h-[50%] bg-gradient-to-br from-[#2997ff]/[0.08] to-cyan-500/[0.04] blur-[150px] rounded-full" 
+        <motion.div
+          animate={{ scale: [1, 1.15, 0.9, 1], x: [0, 20, -20, 0], y: [0, -15, 20, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[15%] left-[15%] w-[60%] h-[50%] bg-gradient-to-br from-[#2997ff]/[0.08] to-cyan-500/[0.04] blur-[150px] rounded-full"
         />
-        <motion.div 
-          animate={{
-            scale: [1, 0.9, 1.1, 1],
-            x: [0, -30, 25, 0],
-            y: [0, 25, -15, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute bottom-[20%] right-[15%] w-[55%] h-[45%] bg-gradient-to-tr from-purple-600/[0.06] to-[#2997ff]/[0.03] blur-[130px] rounded-full" 
+        <motion.div
+          animate={{ scale: [1, 0.9, 1.1, 1], x: [0, -30, 25, 0], y: [0, 25, -15, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[20%] right-[15%] w-[55%] h-[45%] bg-gradient-to-tr from-purple-600/[0.06] to-[#2997ff]/[0.03] blur-[130px] rounded-full"
         />
       </div>
 
@@ -82,23 +64,21 @@ export default function LoginGate({
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-[420px] bg-[#0A0A0C]/80 border border-white/[0.08] backdrop-blur-3xl rounded-[36px] p-7 sm:p-10 space-y-8 relative z-10 shadow-[0_45px_100px_-20px_rgba(0,0,0,0.98),inset 0 1px 0 rgba(255,255,255,0.05)]"
       >
-        {/* Subtle top glare rim */}
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
 
         <div className="text-center flex flex-col items-center space-y-4">
           <LythLogo size="md" />
           <div className="space-y-1 pt-1">
             <p className="text-[9.5px] font-bold text-zinc-500 tracking-[0.3em] uppercase font-mono select-none">
-              CREATIVE OPERATING SYSTEM
+              Creado por Jonatan Correa
             </p>
             <p className="text-xs text-zinc-400 font-medium font-sans">
-              Calibra tus ideas con criterio cognitivo de alta fidelidad.
+              Plataforma ideal para marcas, creadores y negocios.
             </p>
           </div>
         </div>
 
         <div className="space-y-5">
-          {/* Google Button: Highly tactile, active animation, finger accessible (12 spacing/48px height) */}
           <motion.button
             whileHover={{ scale: 1.01, backgroundColor: "#fbfbfc" }}
             whileTap={{ scale: 0.97 }}
@@ -147,7 +127,7 @@ export default function LoginGate({
                     onClick={() => setEmailInput('jonatancorreaoficial@gmail.com')}
                     className="absolute right-3.5 top-3 text-[9px] font-bold text-[#2997ff] hover:text-white bg-[#2997ff]/15 hover:bg-[#2997ff]/25 px-2.5 py-1.5 rounded-lg transition-all font-mono cursor-pointer active:scale-95"
                   >
-                    Demos
+                    Demo
                   </button>
                 )}
               </div>
@@ -156,7 +136,6 @@ export default function LoginGate({
               )}
             </div>
 
-            {/* Submit Email Button: comfortable size, tap animations */}
             <motion.button
               whileHover={{ scale: 1.01, backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.2)" }}
               whileTap={{ scale: 0.98 }}
