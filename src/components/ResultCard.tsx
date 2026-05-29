@@ -1,169 +1,124 @@
-import { useState } from 'react';
-import { Copy, Check, Sparkles } from 'lucide-react';
-import { motion } from 'motion/react';
 import { StrategyRow } from '../types';
 
-interface ResultCardProps {
-  strategy: StrategyRow;
-  index: number;
-  platform: string;
-  onCopyHook: (text: string, index: number) => void;
-  onCopyRow: (row: StrategyRow, index: number) => void;
-  key?: any;
+const CARD_ACCENTS = ['#7C6FF7', '#9B8BF9', '#C084FC', '#818CF8'];
+const CARD_EMOJIS = ['🔥', '💡', '🎯', '✨', '⚡', '🚀', '💥', '🎪'];
+
+function getEmoji(hook: string): string {
+  const h = hook.toLowerCase();
+  if (h.includes('miedo') || h.includes('error') || h.includes('problema')) return '🔥';
+  if (h.includes('secreto') || h.includes('nadie') || h.includes('verdad')) return '💡';
+  if (h.includes('resultado') || h.includes('éxito') || h.includes('logr')) return '🎯';
+  if (h.includes('cambio') || h.includes('transform') || h.includes('mejor')) return '✨';
+  if (h.includes('rápido') || h.includes('segundos') || h.includes('inmediato')) return '⚡';
+  if (h.includes('crecer') || h.includes('escalar') || h.includes('negocio')) return '🚀';
+  return CARD_EMOJIS[Math.floor(Math.random() * CARD_EMOJIS.length)];
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 35, filter: "blur(12px)" },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    filter: "blur(0px)",
-    transition: { 
-      type: "spring", 
-      stiffness: 100, 
-      damping: 16 
-    } 
-  }
-};
+function getStopScore(percentage: number): number {
+  // Clamp between 80 and 95
+  return Math.min(95, Math.max(80, percentage));
+}
 
-export default function ResultCard({
-  strategy,
-  index,
-  platform,
-  onCopyHook,
-  onCopyRow
-}: ResultCardProps): any {
-  const [copiedHook, setCopiedHook] = useState(false);
-  const [copiedRow, setCopiedRow] = useState(false);
+interface ResultCardProps {
+  row: StrategyRow;
+  index: number;
+  onCopyHook: (text: string, index: number) => void;
+  onCopyRow: (row: StrategyRow, index: number) => void;
+}
 
-  const handleCopyHook = () => {
-    onCopyHook(strategy.hook, index);
-    setCopiedHook(true);
-    setTimeout(() => setCopiedHook(false), 2000);
-  };
-
-  const handleCopyRow = () => {
-    onCopyRow(strategy, index);
-    setCopiedRow(true);
-    setTimeout(() => setCopiedRow(false), 2000);
-  };
+export default function ResultCard({ row, index, onCopyHook, onCopyRow }: ResultCardProps) {
+  const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
+  const emoji = getEmoji(row.hook);
+  const stopScore = getStopScore(row.percentage || 88);
 
   return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ y: -4, borderColor: "rgba(255,255,255,0.18)", boxShadow: "0 25px 60px -10px rgba(0,0,0,0.95)" }}
-      className="group relative overflow-hidden rounded-[32px] border border-white/8 bg-gradient-to-b from-[#0C0C0F] to-[#040406] p-6 sm:p-8 transition-colors duration-500 flex flex-col gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+    <div
+      style={{
+        background: 'rgba(255,255,255,0.032)',
+        border: `0.5px solid rgba(124,111,247,0.2)`,
+        borderRadius: '14px',
+        padding: '13px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '9px',
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
+        animation: `cardIn 0.4s ease ${index * 0.07}s both`,
+      }}
+      className="hover:border-purple-500/40 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(124,111,247,0.12)] group"
     >
-      {/* Background Soft Accent Light Blooms for screenshot aesthetics */}
-      <div className="absolute top-0 right-0 w-36 h-36 bg-[#2997ff]/[0.05] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-all duration-700" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/[0.03] blur-3xl rounded-full pointer-events-none" />
+      {/* Acento lateral */}
+      <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '3px', background: accent, borderRadius: '14px 0 0 14px' }} />
 
-      {/* Card Header Info */}
-      <div className="flex items-center justify-between border-b border-white/5 pb-4.5 relative z-10 transition-all select-none">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono font-bold text-zinc-400 bg-white/5 px-2.5 py-1 rounded-lg border border-white/[0.04]">
-            #{String(index + 1).padStart(2, '0')}
-          </span>
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.18em] font-bold">
-            Idea para {platform}
-          </span>
+      {/* Glow hover */}
+      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 80% 20%, rgba(124,111,247,0.06) 0%, transparent 60%)`, borderRadius: '14px', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }}
+        className="group-hover:opacity-100" />
+
+      {/* Top: número + emoji */}
+      <div className="flex items-center justify-between">
+        <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '10px', color: 'rgba(124,111,247,0.4)', letterSpacing: '0.06em' }}>
+          CONTENIDO {String(index + 1).padStart(2, '0')}
+        </span>
+        <span style={{ fontSize: '22px', lineHeight: 1 }}>{emoji}</span>
+      </div>
+
+      {/* Stop Scrolling */}
+      <div className="flex items-center gap-2">
+        <div style={{ background: 'rgba(124,111,247,0.12)', border: '0.5px solid rgba(124,111,247,0.28)', borderRadius: '20px', padding: '3px 9px', display: 'inline-flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(168,155,249,0.7)' }}>Stop Scrolling</span>
+          <span style={{ fontSize: '12px', fontWeight: 700, color: '#A89BF9' }}>{stopScore}%</span>
         </div>
-
-        {/* Dynamic score block */}
-        <div className="flex items-center gap-1.5 bg-[#2997ff]/5 border border-[#2997ff]/20 px-3 py-1 rounded-full text-[11px] font-bold text-[#2997ff] font-mono shadow-[0_0_15px_rgba(41,151,255,0.08)]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff] animate-pulse" />
-          <span>{strategy.percentage}% <span className="text-[8.5px] text-[#2997ff]/60 font-semibold font-sans">TRACCIÓN PREVISTA</span></span>
+        <div style={{ flex: 1, height: '3px', background: 'rgba(124,111,247,0.12)', borderRadius: '2px', overflow: 'hidden' }}>
+          <div style={{ width: `${stopScore}%`, height: '100%', background: `linear-gradient(90deg, ${accent}, #A89BF9)`, borderRadius: '2px', transition: 'width 0.8s ease' }} />
         </div>
       </div>
 
-      {/* Card Hook: Dominant Visual Element */}
-      <div className="relative z-10 select-text">
-        <p className="text-white text-lg sm:text-xl font-sans font-medium tracking-tight leading-relaxed italic pr-2">
-          "{strategy.hook}"
-        </p>
+      {/* Hook */}
+      <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.88)', lineHeight: 1.55, borderLeft: `2px solid ${accent}`, paddingLeft: '9px' }}>
+        "{row.hook}"
       </div>
 
-      {/* Meta grid tags of details */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10 border-t border-white/5 pt-5.5 text-xs">
-        
-        {/* Angle */}
-        <div className="space-y-1.5">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase block tracking-widest select-none">
-            Ángulo estratégico
-          </span>
-          <span className="px-3 py-1 rounded-lg text-[10px] font-bold border border-[#2997ff]/15 bg-[#2997ff]/5 text-[#2997ff] inline-block capitalize font-sans leading-none select-none">
-            {strategy.angulo}
-          </span>
-        </div>
-
-        {/* Emotion */}
-        <div className="space-y-1.5">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase block tracking-widest select-none">
-            Emoción de tracción
-          </span>
-          <span className="px-3 py-1 rounded-lg text-[10px] font-bold border border-purple-500/15 bg-purple-500/5 text-purple-400 inline-block capitalize font-sans leading-none select-none">
-            {strategy.emocion}
-          </span>
-        </div>
-
-        {/* Focus */}
-        <div className="space-y-1.5">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase block tracking-widest select-none">
-            Enfoque
-          </span>
-          <span className="text-zinc-300 text-[11px] font-semibold font-sans capitalize select-none leading-none pt-0.5 block">
-            {strategy.enfoque}
-          </span>
-        </div>
-
-        {/* Recommended format */}
-        <div className="space-y-1.5">
-          <span className="text-[8px] font-mono text-zinc-500 uppercase block tracking-widest select-none">
-            Formato sugerido
-          </span>
-          <span className="text-zinc-400 text-[10px] font-mono break-all font-medium block pt-0.5 select-none uppercase tracking-wider">
-            {strategy.formato}
-          </span>
-        </div>
-
+      {/* Tabla */}
+      <div className="flex flex-col gap-1">
+        {[
+          { key: 'Ángulo', val: row.angulo },
+          { key: 'Formato', val: row.formato },
+          { key: 'Emoción', val: row.emocion },
+        ].map(({ key, val }) => (
+          <div key={key} className="flex gap-1.5 items-start">
+            <span style={{ fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.07em', color: 'rgba(255,255,255,0.22)', fontWeight: 500, minWidth: '52px', paddingTop: '1px', flexShrink: 0 }}>{key}</span>
+            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.4 }}>{val}</span>
+          </div>
+        ))}
       </div>
 
-      {/* Quick actionable tactile drawers at foot */}
-      <div className="grid grid-cols-2 gap-2.5 pt-2 relative z-10 border-t border-white/5 select-none font-sans">
-        
-        {/* Copy hook button */}
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "spring", stiffness: 450, damping: 25 }}
+      {/* Botones — blancos permanentes */}
+      <div className="flex gap-1.5 mt-0.5">
+        <button
           type="button"
-          onClick={handleCopyHook}
-          className={`h-11 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
-            copiedHook
-              ? 'bg-emerald-500 text-white shadow-md'
-              : 'bg-white/[0.015] hover:bg-white/[0.04] text-zinc-300 hover:text-white border border-white/8'
-          }`}
+          onClick={() => onCopyHook(row.hook, index)}
+          style={{ flex: 1, background: '#ffffff', border: 'none', borderRadius: '7px', padding: '6px 4px', fontSize: '10px', fontWeight: 500, color: '#1a0f3a', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', boxShadow: '0 1px 6px rgba(0,0,0,0.15)', transition: 'background 0.15s' }}
+          className="hover:bg-purple-50"
         >
-          {copiedHook ? <Check size={12} className="animate-bounce" /> : <Copy size={12} />}
-          <span>{copiedHook ? '¡Copiado!' : 'Copiar Gancho'}</span>
-        </motion.button>
-
-        {/* Copy full row / full strategy card details */}
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "spring", stiffness: 450, damping: 25 }}
+          📋 Copiar hook
+        </button>
+        <button
           type="button"
-          onClick={handleCopyRow}
-          className={`h-11 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer border ${
-            copiedRow
-              ? 'bg-emerald-600 text-white border-emerald-500 shadow-md'
-              : 'bg-zinc-950/80 hover:bg-zinc-900 border-white/8 text-zinc-400 hover:text-white font-semibold'
-          }`}
+          onClick={() => onCopyRow(row, index)}
+          style={{ flex: 1, background: '#ffffff', border: 'none', borderRadius: '7px', padding: '6px 4px', fontSize: '10px', fontWeight: 500, color: '#1a0f3a', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', boxShadow: '0 1px 6px rgba(0,0,0,0.15)', transition: 'background 0.15s' }}
+          className="hover:bg-purple-50"
         >
-          <Sparkles size={11} className="text-[#2997ff]" />
-          <span>{copiedRow ? '¡Copiado Todo!' : 'Fila Completa'}</span>
-        </motion.button>
-
+          ⭐ Guardar
+        </button>
       </div>
-    </motion.div>
+
+      <style>{`
+        @keyframes cardIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
   );
 }
