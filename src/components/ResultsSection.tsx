@@ -1,5 +1,3 @@
-import { Copy, Check, Download } from 'lucide-react';
-import { motion } from 'motion/react';
 import { StrategyRow } from '../types';
 import ResultCard from './ResultCard';
 
@@ -13,17 +11,6 @@ interface ResultsSectionProps {
   onCopyRow: (row: StrategyRow, index: number) => void;
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.15
-    }
-  }
-};
-
 export default function ResultsSection({
   strategies,
   platform,
@@ -31,77 +18,119 @@ export default function ResultsSection({
   onCopyAll,
   onDownloadPDF,
   onCopyHook,
-  onCopyRow
+  onCopyRow,
 }: ResultsSectionProps) {
-  if (strategies.length === 0) return null;
-
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55 }}
-      className="space-y-6 relative z-10 w-full"
-    >
-      {/* 1. Header Toolbar metadata & export tools */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
-        <div className="space-y-1 text-center sm:text-left select-none">
-          <h3 className="text-lg font-semibold font-sans tracking-tight text-white flex items-center justify-center sm:justify-start gap-2">
-            <span>Matriz Estratégica de Contenido</span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#2997ff]/10 text-[9.5px] font-mono font-bold tracking-normal text-[#2997ff] border border-[#2997ff]/15 uppercase">
-              {platform}
-            </span>
-          </h3>
-          <p className="text-xs text-zinc-500 font-medium font-sans">
-            Curación sofisticada calibrada por motores inteligentes. Calidad de nivel de autor.
+    <div className="flex flex-col gap-4 w-full">
+
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex flex-col gap-1">
+          <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 'clamp(15px, 4vw, 18px)', color: '#fff', letterSpacing: '-0.02em' }}>
+            {strategies.length} contenidos generados
+          </h2>
+          <p style={{ fontSize: '12px', color: 'rgba(168,155,249,0.5)' }}>
+            Canal: <span style={{ color: 'rgba(168,155,249,0.85)', fontWeight: 500 }}>{platform}</span>
           </p>
         </div>
 
-        {/* Action Toolbox export/action launchers */}
-        <div className="flex flex-wrap items-center justify-center gap-2 select-none">
-          {/* Copy complete Markdown matrix */}
-          <button
-            type="button"
-            onClick={onCopyAll}
-            className={`h-9 px-4 rounded-full text-xs font-semibold flex items-center gap-2 transition-all duration-300 cursor-pointer border ${
-              copiedAll 
-                ? 'bg-emerald-500 text-white border-emerald-400 shadow-md' 
-                : 'bg-white/[0.03] text-zinc-350 hover:bg-white/[0.05] hover:text-white border-white/10'
-            }`}
-          >
-            {copiedAll ? <Check size={12} className="animate-pulse" /> : <Copy size={12} />}
-            <span>{copiedAll ? '¡Copiado Todo!' : 'Copiar Matriz (Markdown)'}</span>
-          </button>
-
-          {/* Download high-end document export */}
-          <button
-            type="button"
-            onClick={onDownloadPDF}
-            className="h-9 px-4 rounded-full text-xs font-semibold bg-white/[0.03] text-zinc-350 hover:bg-white/[0.05] hover:text-white border border-white/10 flex items-center gap-2 transition-all duration-300 cursor-pointer"
-          >
-            <Download size={12} />
-            <span>Descargar PDF</span>
-          </button>
-        </div>
+        {/* Botón actualizar — blanco */}
+        <button
+          type="button"
+          onClick={onCopyAll}
+          style={{
+            background: '#ffffff',
+            border: 'none',
+            borderRadius: '9px',
+            padding: '7px 13px',
+            fontFamily: 'DM Sans, sans-serif',
+            fontSize: '12px',
+            fontWeight: 500,
+            color: '#1a0f3a',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+            position: 'relative',
+            whiteSpace: 'nowrap',
+          }}
+          className="hover:bg-purple-50"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a0f3a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          {copiedAll ? '¡Copiado!' : 'Copiar todo'}
+        </button>
       </div>
 
-      {/* 2. List Stack of premium, high-retention strategy cards */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="space-y-5"
-      >
-        {strategies.map((row, idx) => (
+      {/* Cards grid */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+        {strategies.map((row, i) => (
           <ResultCard
-            key={idx}
-            strategy={row}
-            index={idx}
-            platform={platform}
+            key={i}
+            row={row}
+            index={i}
             onCopyHook={onCopyHook}
             onCopyRow={onCopyRow}
           />
         ))}
-      </motion.div>
-    </motion.section>
+      </div>
+
+      {/* Bottom actions — blancos con blur púrpura */}
+      <div className="relative mt-1">
+        {/* Blur glow detrás */}
+        <div style={{
+          position: 'absolute', inset: '-8px',
+          background: 'rgba(124,111,247,0.1)',
+          filter: 'blur(16px)',
+          borderRadius: '20px',
+          pointerEvents: 'none',
+          animation: 'btnGlow 3s ease-in-out infinite alternate',
+        }} />
+
+        <div className="relative flex gap-2">
+          <button
+            type="button"
+            onClick={onDownloadPDF}
+            style={{ flex: 1, background: '#ffffff', border: 'none', borderRadius: '11px', padding: '12px 10px', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', fontWeight: 500, color: '#1a0f3a', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: '0 2px 12px rgba(0,0,0,0.18)', whiteSpace: 'nowrap', transition: 'background 0.15s' }}
+            className="hover:bg-purple-50"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3d2b8a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Exportar PDF
+          </button>
+
+          <button
+            type="button"
+            onClick={onCopyAll}
+            style={{ flex: 1, background: '#ffffff', border: 'none', borderRadius: '11px', padding: '12px 10px', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', fontWeight: 500, color: '#1a0f3a', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: '0 2px 12px rgba(0,0,0,0.18)', whiteSpace: 'nowrap', transition: 'background 0.15s' }}
+            className="hover:bg-purple-50"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3d2b8a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            Copiar .MD
+          </button>
+
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            style={{ flex: 1, background: '#ffffff', border: 'none', borderRadius: '11px', padding: '12px 10px', fontFamily: 'Syne, sans-serif', fontSize: '12px', fontWeight: 700, color: '#1a0f3a', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: '0 2px 12px rgba(0,0,0,0.18)', whiteSpace: 'nowrap', transition: 'background 0.15s' }}
+            className="hover:bg-purple-50"
+          >
+            Nueva idea
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3d2b8a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes btnGlow { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+      `}</style>
+    </div>
   );
 }
