@@ -1,5 +1,4 @@
-import { useRef, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
 import { WorkspaceTemplate } from '../types';
 
 interface StrategicInputCardProps {
@@ -13,6 +12,42 @@ interface StrategicInputCardProps {
   onTemplateSelect: (template: WorkspaceTemplate) => void;
 }
 
+const PERFILES = ['Consultor', 'Coach', 'Emprendedor', 'Creador', 'Freelancer', 'Fundador SaaS', 'Otro'];
+const CLIENTES = ['Emprendedores', 'Profesionales', 'Estudiantes', 'Marcas', 'Creadores', 'Freelancers', 'Otro'];
+const OBJETIVOS = ['Vender', 'Enseñar', 'Informar', 'Entretener', 'Inspirar', 'Otro'];
+
+const PLACEHOLDERS = [
+  'El miedo a invertir en mentoría...',
+  'Por qué la mayoría no cierra ventas en DMs...',
+  'Cómo pasé de 0 a 5k seguidores en 60 días...',
+  'El error más caro que cometen los freelancers...',
+];
+
+const dropdownStyle: React.CSSProperties = {
+  width: '100%',
+  background: 'rgba(255,255,255,0.04)',
+  border: '0.5px solid rgba(124,111,247,0.22)',
+  borderRadius: '9px',
+  padding: '9px 28px 9px 10px',
+  fontFamily: 'DM Sans, sans-serif',
+  fontSize: '13px',
+  color: 'rgba(255,255,255,0.85)',
+  outline: 'none',
+  cursor: 'pointer',
+  appearance: 'none',
+  WebkitAppearance: 'none',
+};
+
+const labelStyle: React.CSSProperties = {
+  fontSize: '9px',
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'rgba(255,255,255,0.28)',
+  fontWeight: 500,
+  marginBottom: '4px',
+  display: 'block',
+};
+
 export default function StrategicInputCard({
   whoAreYou,
   setWhoAreYou,
@@ -20,108 +55,121 @@ export default function StrategicInputCard({
   setWhoAreYouTalkingTo,
   whatToCommunicate,
   setWhatToCommunicate,
-  templates,
-  onTemplateSelect
 }: StrategicInputCardProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  const [objetivo, setObjetivo] = useState('Vender');
 
+  // Placeholder rotativo
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setPlaceholderIdx(i => (i + 1) % PLACEHOLDERS.length);
+    }, 3000);
+    return () => clearInterval(iv);
+  }, []);
+
+  // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.max(120, textareaRef.current.scrollHeight)}px`;
+      textareaRef.current.style.height = `${Math.max(100, textareaRef.current.scrollHeight)}px`;
     }
   }, [whatToCommunicate]);
 
   return (
-    <div className="glass-panel p-5 sm:p-7 relative overflow-hidden rounded-[28px] border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] space-y-6 sm:space-y-8">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
+    <div className="flex flex-col gap-3 w-full">
 
-      {/* Pills */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[9px] font-bold text-zinc-500 tracking-wider font-mono select-none uppercase">
-            Elige un perfil de ejemplo
-          </span>
-          <span className="h-px bg-white/5 flex-grow ml-4 shrink hidden sm:block" />
+      {/* Dropdowns 2x2 */}
+      <div className="grid grid-cols-2 gap-2">
+
+        {/* Tu perfil */}
+        <div style={{ position: 'relative' }}>
+          <label style={labelStyle}>Tu perfil</label>
+          <select
+            value={whoAreYou || PERFILES[0]}
+            onChange={e => setWhoAreYou(e.target.value)}
+            style={dropdownStyle}
+          >
+            {PERFILES.map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+          <svg style={{ position: 'absolute', right: '9px', bottom: '11px', pointerEvents: 'none', color: 'rgba(168,155,249,0.5)' }} width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          {templates.map((tpl, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => onTemplateSelect(tpl)}
-              className="px-4 py-3 rounded-2xl text-[11px] font-semibold bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.06] hover:border-white/20 text-zinc-400 hover:text-white active:scale-95 transition-all duration-200 cursor-pointer flex items-center gap-2 group"
-            >
-              <Sparkles size={10} className="text-[#2997ff] shrink-0 group-hover:text-white transition-colors duration-200" />
-              <span className="truncate">{tpl.label}</span>
-            </button>
-          ))}
+
+        {/* Tu cliente */}
+        <div style={{ position: 'relative' }}>
+          <label style={labelStyle}>Tu cliente</label>
+          <select
+            value={whoAreYouTalkingTo || CLIENTES[0]}
+            onChange={e => setWhoAreYouTalkingTo(e.target.value)}
+            style={dropdownStyle}
+          >
+            {CLIENTES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <svg style={{ position: 'absolute', right: '9px', bottom: '11px', pointerEvents: 'none', color: 'rgba(168,155,249,0.5)' }} width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        {/* Objetivo */}
+        <div style={{ position: 'relative' }}>
+          <label style={labelStyle}>Objetivo</label>
+          <select
+            value={objetivo}
+            onChange={e => setObjetivo(e.target.value)}
+            style={dropdownStyle}
+          >
+            {OBJETIVOS.map(o => <option key={o} value={o}>{o}</option>)}
+          </select>
+          <svg style={{ position: 'absolute', right: '9px', bottom: '11px', pointerEvents: 'none', color: 'rgba(168,155,249,0.5)' }} width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        {/* Plataforma — este campo ya lo maneja PlatformSelector, aquí dejamos espacio visual */}
+        <div style={{ position: 'relative' }}>
+          <label style={labelStyle}>Plataforma</label>
+          <div style={{ ...dropdownStyle, display: 'flex', alignItems: 'center', color: 'rgba(255,255,255,0.4)', fontSize: '12px', cursor: 'default' }}>
+            Selecciona abajo ↓
+          </div>
+        </div>
+
+      </div>
+
+      {/* Campo de idea — estilo chat */}
+      <div style={{ background: 'rgba(255,255,255,0.025)', border: '0.5px solid rgba(124,111,247,0.16)', borderRadius: '14px', overflow: 'hidden' }}>
+
+        <div style={{ padding: '14px 16px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+            <div style={{ width: '26px', height: '26px', background: 'rgba(124,111,247,0.15)', border: '0.5px solid rgba(124,111,247,0.3)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="13" height="13" viewBox="0 0 32 32" fill="none">
+                <path d="M18 3L7 18H15L13 29L25 14H17L18 3Z" fill="#A89BF9"/>
+              </svg>
+            </div>
+            <div style={{ background: 'rgba(124,111,247,0.08)', border: '0.5px solid rgba(124,111,247,0.18)', borderRadius: '0 12px 12px 12px', padding: '10px 12px', fontSize: '13px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6 }}>
+              Configura tu contexto arriba y cuéntame tu idea — te genero <strong style={{ color: '#A89BF9', fontWeight: 500 }}>4 contenidos</strong> listos para publicar.
+            </div>
+          </div>
+        </div>
+
+        {/* Input bar */}
+        <div style={{ borderTop: '0.5px solid rgba(124,111,247,0.12)', padding: '12px 14px', display: 'flex', gap: '8px', alignItems: 'flex-end', background: 'rgba(15,7,30,0.5)' }}>
+          <textarea
+            ref={textareaRef}
+            rows={1}
+            value={whatToCommunicate}
+            onChange={e => setWhatToCommunicate(e.target.value)}
+            placeholder={PLACEHOLDERS[placeholderIdx]}
+            style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(124,111,247,0.2)', borderRadius: '11px', padding: '10px 12px', fontFamily: 'DM Sans, sans-serif', fontSize: '13px', color: '#fff', outline: 'none', resize: 'none', lineHeight: 1.5, minHeight: '42px', maxHeight: '120px', transition: 'border-color 0.2s' }}
+          />
+        </div>
+
+        <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.12)', padding: '0 14px 8px', textAlign: 'center' }}>
+          Tu idea se mantiene privada
         </div>
       </div>
 
-      <div className="h-px bg-white/5" />
-
-      <div className="space-y-6 sm:space-y-7">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          <div className="space-y-2 relative group">
-            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
-              ¿Quién eres?
-            </label>
-            <input
-              type="text"
-              value={whoAreYou}
-              onChange={(e) => setWhoAreYou(e.target.value)}
-              placeholder="Ej. Consultor de IA para marcas"
-              className="w-full h-12 px-4 rounded-xl text-white glass-input focus:outline-none focus:ring-4 focus:ring-brand-accent/5 text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.012] border border-white/10 transition-all duration-300"
-            />
-          </div>
-
-          <div className="space-y-2 relative group">
-            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
-              ¿A quién le hablas?
-            </label>
-            <input
-              type="text"
-              value={whoAreYouTalkingTo}
-              onChange={(e) => setWhoAreYouTalkingTo(e.target.value)}
-              placeholder="Ej. Creadores y freelancers"
-              className="w-full h-12 px-4 rounded-xl text-white glass-input focus:outline-none focus:ring-4 focus:ring-brand-accent/5 text-xs sm:text-sm font-sans font-medium placeholder:text-zinc-700 bg-white/[0.012] border border-white/10 transition-all duration-300"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2.5 relative">
-          <div className="flex items-center justify-between">
-            <label className="block text-[9.5px] font-bold text-zinc-500 tracking-[0.15em] font-mono uppercase select-none">
-              ¿Qué quieres comunicar?
-            </label>
-            <span className="text-[9px] font-mono text-zinc-650 font-bold tracking-widest uppercase select-none">
-              {whatToCommunicate.length > 0 ? `${whatToCommunicate.length} caract.` : "Escribe tu idea"}
-            </span>
-          </div>
-          <div className="relative group">
-            <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-500/15 via-purple-500/10 to-brand-accent/15 rounded-[22px] blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-700 pointer-events-none" />
-            <textarea
-              ref={textareaRef}
-              rows={4}
-              value={whatToCommunicate}
-              onChange={(e) => setWhatToCommunicate(e.target.value)}
-              placeholder="Ej. Quiero hablar sobre cómo la IA es una tecnología excelente para optimizar tareas repetitivas, pero el criterio real y el alma humana definen el engagement a largo plazo..."
-              className="relative w-full p-5 rounded-2xl text-white glass-input focus:outline-none text-sm sm:text-base resize-none leading-relaxed font-sans font-medium placeholder:text-zinc-700 bg-white/[0.01] border border-white/10 focus:border-brand-accent/60 transition-all duration-300 min-h-[140px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]"
-            />
-          </div>
-          <div className="flex items-center justify-between text-[10px] text-zinc-550 pt-0.5 select-none font-sans">
-            <span className="italic">
-              * La plataforma da respuestas más eficientes con un contexto preciso.
-            </span>
-            {whatToCommunicate.length > 50 && (
-              <span className="text-emerald-500/80 font-semibold flex items-center gap-1 font-mono transition-all duration-300 animate-fade-in text-[9.5px] uppercase tracking-wider">
-                ● Criterio de entrada óptimo
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+      <style>{`
+        select option { background: #1a0f3a; color: #fff; }
+        textarea::placeholder { color: rgba(255,255,255,0.18); }
+        textarea:focus { border-color: rgba(124,111,247,0.45) !important; }
+        select:focus { border-color: rgba(124,111,247,0.5) !important; background: rgba(124,111,247,0.06) !important; }
+      `}</style>
     </div>
   );
 }
