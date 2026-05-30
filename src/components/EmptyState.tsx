@@ -1,22 +1,34 @@
 import { motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
 
 export default function EmptyState() {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 0.65, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="flex flex-col items-center justify-center p-12 text-center border border-white/[0.04] bg-[#0A0A0A]/20 backdrop-blur-md rounded-[32px] min-h-[220px]"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px 24px',
+        textAlign: 'center',
+        background: 'rgba(124,111,247,0.04)',
+        border: '0.5px solid rgba(124,111,247,0.12)',
+        borderRadius: '16px',
+        minHeight: '160px',
+      }}
     >
-      <div className="w-12 h-12 rounded-full bg-white/[0.02] border border-white/5 flex items-center justify-center text-[#2997ff] mb-4">
-        <Sparkles size={16} className="animate-pulse" />
+      <div style={{ width: '44px', height: '44px', borderRadius: '13px', background: 'rgba(124,111,247,0.1)', border: '0.5px solid rgba(124,111,247,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <path d="M18 3L7 18H15L13 29L25 14H17L18 3Z" fill="#A89BF9"/>
+        </svg>
       </div>
-      <h3 className="text-zinc-300 font-sans font-medium text-sm md:text-base tracking-tight">
-        Tu próximo gran ángulo estratégico comienza aquí.
-      </h3>
-      <p className="text-zinc-550 text-[11px] sm:text-xs font-mono mt-1.5 max-w-sm">
-        Ingresa tu mensaje en el hub cognitivo para calibrar la matriz social-first.
+      <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
+        Tu contenido ganador está a un clic
+      </p>
+      <p style={{ fontSize: '12px', color: 'rgba(168,155,249,0.4)', lineHeight: 1.6, maxWidth: '280px' }}>
+        Configura tu contexto, escribe tu idea y presiona generar.
       </p>
     </motion.div>
   );
