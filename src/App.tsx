@@ -364,11 +364,7 @@ export default function App() {
                 }}
               />
 
-              {/* Generation Action CTA */}
-              <GenerateButton
-                isAnalyzing={isAnalyzing}
-                onClick={triggerStrategyGeneration}
-              />
+             
 
               {/* Loader skeletal indicators during async analysis */}
               <AnimatePresence mode="wait">
