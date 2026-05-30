@@ -136,9 +136,9 @@ export default function App() {
         setIsFallback(!!data.isFallback);
         
         if (data.isFallback) {
-          addToast("Estrategia generada con éxito.", "success");
+          addToast("Contenido generado con éxito.", "success");
         } else {
-          addToast("Estrategia social generada con Gemini con éxito.", "success");
+          addToast("Contenido generado con Gemini con éxito.", "success");
         }
       } else {
         throw new Error("La respuesta del modelo no contiene un conjunto de estrategias compatible.");
