@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Sparkles, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 interface GenerateButtonProps {
   isAnalyzing: boolean;
@@ -7,34 +7,61 @@ interface GenerateButtonProps {
   disabled?: boolean;
 }
 
-export default function GenerateButton({
-  isAnalyzing,
-  onClick,
-  disabled = false
-}: GenerateButtonProps) {
+export default function GenerateButton({ isAnalyzing, onClick, disabled = false }: GenerateButtonProps) {
   return (
     <div className="pt-2 flex justify-center w-full">
       <motion.button
-        whileHover={{ scale: 1.01, boxShadow: "0 0 30px rgba(41,151,255,0.35)" }}
-        whileTap={{ scale: 0.96 }}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.97 }}
         onClick={onClick}
         disabled={isAnalyzing || disabled}
-        className="relative overflow-hidden w-full md:w-auto md:px-16 py-4 bg-gradient-to-r from-blue-500 via-[#2997ff] to-blue-600 text-white rounded-full text-xs font-bold tracking-[0.16em] uppercase flex items-center justify-center gap-2.5 transition-all duration-300 shadow-xl shadow-[#2997ff]/20 disabled:opacity-50 cursor-pointer text-center select-none"
+        style={{
+          width: '100%',
+          background: '#7C6FF7',
+          border: 'none',
+          borderRadius: '12px',
+          padding: '14px',
+          fontFamily: 'Syne, sans-serif',
+          fontWeight: 700,
+          fontSize: '14px',
+          color: '#ffffff',
+          cursor: isAnalyzing || disabled ? 'not-allowed' : 'pointer',
+          letterSpacing: '0.01em',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          boxShadow: '0 0 0 1px rgba(124,111,247,0.4), 0 4px 20px rgba(124,111,247,0.45), 0 0 40px rgba(124,111,247,0.2)',
+          opacity: disabled ? 0.6 : 1,
+          transition: 'background 0.2s',
+        }}
       >
-        {/* Shimmer light bar effect that periodically moves across the button representatively */}
-        <div className="absolute inset-x-0 top-0 h-full w-24 bg-gradient-to-r from-transparent via-white/18 to-transparent -skew-x-12 translate-x-[-150px] animate-[shimmer_4s_infinite_linear]" />
+        {/* Glow permanente detrás */}
+        <div style={{
+          position: 'absolute', inset: '-4px', borderRadius: '16px',
+          background: 'rgba(124,111,247,0.25)', filter: 'blur(10px)', zIndex: -1,
+          animation: 'btnGlow 3s ease-in-out infinite alternate',
+          pointerEvents: 'none',
+        }} />
 
         {isAnalyzing ? (
           <>
-            <RefreshCw size={14} className="animate-spin text-white" />
-            <span>Refinando Matriz Estratégica...</span>
+            <RefreshCw size={15} className="animate-spin" style={{ color: '#fff' }} />
+            <span>Generando contenidos...</span>
           </>
         ) : (
           <>
-            <Sparkles size={14} className="animate-pulse" />
-            <span>⚡ Generar ideas estratégicas</span>
+            <svg width="15" height="15" viewBox="0 0 32 32" fill="none">
+              <path d="M18 3L7 18H15L13 29L25 14H17L18 3Z" fill="#fff"/>
+            </svg>
+            <span>Generar contenidos</span>
           </>
         )}
+
+        <style>{`
+          @keyframes btnGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        `}</style>
       </motion.button>
     </div>
   );
