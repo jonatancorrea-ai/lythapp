@@ -343,15 +343,17 @@ export default function App() {
 
               {/* Tactile strategic card input controls */}
               <StrategicInputCard
-                whoAreYou={whoAreYou}
-                setWhoAreYou={setWhoAreYou}
-                whoAreYouTalkingTo={whoAreYouTalkingTo}
-                setWhoAreYouTalkingTo={setWhoAreYouTalkingTo}
-                whatToCommunicate={whatToCommunicate}
-                setWhatToCommunicate={setWhatToCommunicate}
-                templates={WORKSPACE_TEMPLATES}
-                onTemplateSelect={handleTemplateSelect}
-              />
+    whoAreYou={whoAreYou}
+    setWhoAreYou={setWhoAreYou}
+    whoAreYouTalkingTo={whoAreYouTalkingTo}
+    setWhoAreYouTalkingTo={setWhoAreYouTalkingTo}
+    whatToCommunicate={whatToCommunicate}
+    setWhatToCommunicate={setWhatToCommunicate}
+    templates={WORKSPACE_TEMPLATES}
+    onTemplateSelect={handleTemplateSelect}
+    onGenerate={triggerStrategyGeneration}
+    isAnalyzing={isAnalyzing}
+  />
 
               {/* Content publishing channel selects */}
               <PlatformSelector
