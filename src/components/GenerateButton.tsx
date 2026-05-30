@@ -9,7 +9,7 @@ interface GenerateButtonProps {
 
 export default function GenerateButton({ isAnalyzing, onClick, disabled = false }: GenerateButtonProps) {
   return (
-    <div className="pt-2 flex justify-center w-full">
+    <div className="flex justify-center w-full pt-1">
       <motion.button
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.97 }}
@@ -17,10 +17,11 @@ export default function GenerateButton({ isAnalyzing, onClick, disabled = false 
         disabled={isAnalyzing || disabled}
         style={{
           width: '100%',
+          maxWidth: '420px',
           background: '#7C6FF7',
           border: 'none',
           borderRadius: '12px',
-          padding: '14px',
+          padding: '13px 24px',
           fontFamily: 'Syne, sans-serif',
           fontWeight: 700,
           fontSize: '14px',
@@ -32,36 +33,26 @@ export default function GenerateButton({ isAnalyzing, onClick, disabled = false 
           alignItems: 'center',
           justifyContent: 'center',
           gap: '8px',
-          boxShadow: '0 0 0 1px rgba(124,111,247,0.4), 0 4px 20px rgba(124,111,247,0.45), 0 0 40px rgba(124,111,247,0.2)',
+          boxShadow: '0 0 0 1px rgba(124,111,247,0.4), 0 4px 20px rgba(124,111,247,0.4)',
           opacity: disabled ? 0.6 : 1,
           transition: 'background 0.2s',
         }}
       >
-        {/* Glow permanente detrás */}
-        <div style={{
-          position: 'absolute', inset: '-4px', borderRadius: '16px',
-          background: 'rgba(124,111,247,0.25)', filter: 'blur(10px)', zIndex: -1,
-          animation: 'btnGlow 3s ease-in-out infinite alternate',
-          pointerEvents: 'none',
-        }} />
-
+        <div style={{ position: 'absolute', inset: '-4px', borderRadius: '16px', background: 'rgba(124,111,247,0.2)', filter: 'blur(10px)', zIndex: -1, animation: 'btnGlow 3s ease-in-out infinite alternate', pointerEvents: 'none' }} />
         {isAnalyzing ? (
           <>
-            <RefreshCw size={15} className="animate-spin" style={{ color: '#fff' }} />
+            <RefreshCw size={14} className="animate-spin" style={{ color: '#fff' }} />
             <span>Generando contenidos...</span>
           </>
         ) : (
           <>
-            <svg width="15" height="15" viewBox="0 0 32 32" fill="none">
+            <svg width="14" height="14" viewBox="0 0 32 32" fill="none">
               <path d="M18 3L7 18H15L13 29L25 14H17L18 3Z" fill="#fff"/>
             </svg>
             <span>Generar contenidos</span>
           </>
         )}
-
-        <style>{`
-          @keyframes btnGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-        `}</style>
+        <style>{`@keyframes btnGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }`}</style>
       </motion.button>
     </div>
   );
